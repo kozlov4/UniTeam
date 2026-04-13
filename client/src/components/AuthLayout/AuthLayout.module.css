@@ -34,6 +34,7 @@
 .backLink {
   position: relative;
   top: 36px;
+  padding-left: 20px;
 }
 
 .content {
@@ -41,4 +42,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Планшет */
+@media (max-width: 1024px) {
+  .panel {
+    padding: 14px 14px;
+  }
+}
+/* Телефон */
+@media (max-width: 768px) {
+  .root {
+    flex-direction: column;
+    min-height: 100dvh;
+  }
+  .hero {
+    flex: none;
+    height: 240px;
+    border-radius: 0 0 20px 20px;
+  }
+  .panel {
+    padding: 20px 16px;
+  }
+  .content {
+    align-items: flex-start;
+    margin-top: 60px;
+  }
 }
