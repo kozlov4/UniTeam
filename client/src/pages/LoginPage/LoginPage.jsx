@@ -15,8 +15,8 @@ function LoginPage() {
         </div>
 
         <form className={styles.form}>
-          <Input type="email" placeholder="Email" autoComplete="email" />
-          <Input type="password" placeholder="Пароль" autoComplete="current-password" />
+          <Input type="email" placeholder="Email" />
+          <Input type="password" placeholder="Пароль" />
 
           <Button type="submit" fullWidth>
             Увійти

@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import LoginPage from "./pages/LoginPage/LoginPage.jsx";
-import RegisterPage from "./pages/LoginPage/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.jsx";
 import "./App.css";
 
 function App() {
