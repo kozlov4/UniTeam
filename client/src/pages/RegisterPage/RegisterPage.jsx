@@ -16,10 +16,9 @@ function RegisterPage() {
         </div>
 
         <form className={styles.form}>
-          <Input type="text" placeholder="Ім'я" />
           <Input type="email" placeholder="Email" />
           <Input type="password" placeholder="Пароль" />
-          <Checkbox label="Запам’ятати мене"/>
+          <Checkbox label="Запам’ятати мене" />
           <Button type="submit" fullWidth>
             Створити акаунт
           </Button>
