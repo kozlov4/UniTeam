@@ -4,6 +4,7 @@ import styles from "./Input.module.css";
 function Input({
   type = "text",
   value,
+  name,
   onChange,
   placeholder,
   error,
@@ -14,6 +15,7 @@ function Input({
       className={`${styles.input} ${error ? styles.error : ""}`}
       type={type}
       value={value}
+      name={name}
       onChange={onChange}
       placeholder={placeholder}
       {...props}

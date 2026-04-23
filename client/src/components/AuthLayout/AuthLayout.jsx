@@ -11,7 +11,7 @@ function AuthLayout({ children }) {
       </div>
 
       <div className={styles.panel}>
-        <BackLink className={styles.backLink}/>
+        <BackLink className={styles.backLink} />
 
         <div className={styles.content}>{children}</div>
       </div>
