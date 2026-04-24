@@ -1,0 +1,31 @@
+.input {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  min-height: 64px;
+  border: 1px solid #8692A6;
+  border-radius: 12px;
+  padding: 22px 20px;
+  color: #1f2937;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: #CACACA;
+}
+
+.input:focus {
+  border-color: #a9b4c9;
+}
+
+.error {
+  border-color: #dc2626;
+}
+
+.error:focus {
+  border-color: #dc2626;
+}

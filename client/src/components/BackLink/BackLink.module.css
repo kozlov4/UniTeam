@@ -1,0 +1,15 @@
+.backLink {
+  font-family: "Raleway", sans-serif;
+  font-size: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #323339;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.icon {
+  height: 20px;
+  display: block;
+}
