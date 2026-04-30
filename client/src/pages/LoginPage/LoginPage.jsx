@@ -81,7 +81,7 @@ function LoginPage() {
 
         <div className={styles.links}>
           <p>
-            Забули пароль ? <Link to="/reset-password">Змінити пароль</Link>
+            Забули пароль? <Link to="/forgot-password">Змінити пароль</Link>
           </p>
           <p>
             Не маєте акаунту? <Link to="/register">Зареєструватися</Link>
