@@ -11,19 +11,33 @@ if TYPE_CHECKING:
     from .users import User
 
 
+class ProjectCategory(Base):
+    __tablename__ = "project_categories"
+
+    name: Mapped[str] = mapped_column(String(100), unique=True)
+
 
 class ProjectMember(Base):
     __tablename__ = "project_members"
 
-    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    project_id: Mapped[int] = mapped_column(
+        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
+    )
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    )
 
 
 class ProjectTechnology(Base):
     __tablename__ = "project_technologies"
 
-    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True)
-    technology_id: Mapped[int] = mapped_column(ForeignKey("technologies.id", ondelete="CASCADE"), primary_key=True)
+    project_id: Mapped[int] = mapped_column(
+        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
+    )
+    technology_id: Mapped[int] = mapped_column(
+        ForeignKey("technologies.id", ondelete="CASCADE"), primary_key=True
+    )
 
 
 class Technology(Base):
@@ -35,8 +49,11 @@ class Technology(Base):
 class ProjectVacancy(Base):
     __tablename__ = "project_vacancies"
 
-    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"))
-    role_name: Mapped[str] = mapped_column(String(100))  # наприклад, "Android-розробник"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    project_id: Mapped[int] = mapped_column(
+        ForeignKey("projects.id", ondelete="CASCADE")
+    )
+    role_name: Mapped[str] = mapped_column(String(100))
 
     project: Mapped["Project"] = relationship(back_populates="vacancies")
 
@@ -51,10 +68,33 @@ class Project(Base):
     is_draft: Mapped[bool] = mapped_column(Boolean, default=True)
 
     leader_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+
+    category_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("project_categories.id", ondelete="SET NULL")
+    )
+
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
-    leader: Mapped["User"] = relationship()
-    members: Mapped[List["User"]] = relationship(secondary="project_members")
-    technologies: Mapped[List["Technology"]] = relationship(secondary="project_technologies")
+    @property
+    def category_name(self) -> Optional[str]:
+        return self.category.name if self.category else None
 
-    vacancies: Mapped[List["ProjectVacancy"]] = relationship(back_populates="project", cascade="all, delete-orphan")
+    @property
+    def participants_count(self) -> int:
+        return len(self.members)
+
+    @property
+    def avatars(self) -> List["User"]:
+        return self.members
+
+    leader: Mapped["User"] = relationship()
+
+    category: Mapped["ProjectCategory"] = relationship()
+
+    members: Mapped[List["User"]] = relationship(secondary="project_members")
+    technologies: Mapped[List["Technology"]] = relationship(
+        secondary="project_technologies"
+    )
+    vacancies: Mapped[List["ProjectVacancy"]] = relationship(
+        back_populates="project", cascade="all, delete-orphan"
+    )
