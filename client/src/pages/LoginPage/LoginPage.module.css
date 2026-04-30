@@ -1,0 +1,50 @@
+.card {
+  max-width: 430px;
+  width: 100%;
+}
+
+.header {
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 40px;
+  line-height: 100%;
+  font-weight: 700;
+  color: #323339;
+}
+
+.subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #323339;
+  line-height: 28px;
+  margin-top: 27px;
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+}
+
+.links {
+  margin-top: 34px;
+  text-align: center;
+  color: #696F79;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.links p {
+  margin-top: 12px;
+}
+
+.links a {
+  color: #758BFD;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+  .error {
+    color: red;
+  }
