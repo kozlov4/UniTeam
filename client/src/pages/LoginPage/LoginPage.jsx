@@ -28,7 +28,7 @@ function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Тут додати login запит
+      //TODO: Тут додати login запит
       console.log("Дані валідні, відправка:", formData);
     } catch (error) {
       console.error(error);

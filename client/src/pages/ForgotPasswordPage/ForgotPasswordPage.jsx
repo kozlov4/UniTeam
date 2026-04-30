@@ -15,7 +15,6 @@ function ForgotPasswordPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    // Fallback if validateEmail is not perfect
     const emailErr = validateEmail ? validateEmail(email) : (email ? '' : 'Email is required');
     
     if (emailErr) {
@@ -25,7 +24,7 @@ function ForgotPasswordPage() {
 
     setIsLoading(true);
     
-    // Імітація API запиту
+    //TODO: API запит
     setTimeout(() => {
       setIsLoading(false);
       navigate('/reset-password');

@@ -29,7 +29,7 @@ function ResetPasswordPage() {
 
     setIsLoading(true);
     
-    // Імітація API запиту
+    //TODO: API запиту
     setTimeout(() => {
       setIsLoading(false);
       navigate('/login');

@@ -30,7 +30,7 @@ function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // Тут додати register запит
+      //TODO: Тут додати register запит
       console.log("Дані валідні, відправка:", formData);
     } catch (error) {
       console.error(error);

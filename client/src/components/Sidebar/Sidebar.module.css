@@ -22,7 +22,7 @@
   font-weight: 700;
   color: var(--text-main);
   display: flex;
-  align-items: flex-start; /* Changed from baseline to top-aligned */
+  align-items: flex-start;
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -33,7 +33,7 @@
   background-color: var(--primary-orange);
   border-radius: 50%;
   margin-left: 2px;
-  margin-top: 4px; /* Slight offset to look balanced at the top */
+  margin-top: 4px;
 }
 
 .nav {
