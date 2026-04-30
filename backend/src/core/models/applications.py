@@ -13,7 +13,6 @@ if TYPE_CHECKING:
 class Application(Base):
     __tablename__ = "applications"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"))
     applicant_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 

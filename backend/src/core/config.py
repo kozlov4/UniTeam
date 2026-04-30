@@ -6,14 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
     database_url: str
-    cloudinary_url: str
 
     secret_key: str
     algorithm: str
-
-    google_client_id: str
-    google_client_secret: str
-    google_redirect_uri: str
 
     jwt_private_key: str
     jwt_public_key: str
