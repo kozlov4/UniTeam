@@ -48,3 +48,51 @@ def hash_password(password: str) -> bytes:
 
 def validate_password(password: str, hashed_password: bytes) -> bool:
     return bcrypt.checkpw(password=password.encode(), hashed_password=hashed_password)
+
+
+def transliterate_to_ukrainian(text: str) -> str:
+    rules = {
+        "shch": "щ",
+        "sh": "ш",
+        "ch": "ч",
+        "kh": "х",
+        "zh": "ж",
+        "ts": "ц",
+        "yu": "ю",
+        "ya": "я",
+        "ii": "ій",
+        "ye": "є",
+        "yi": "ї",
+        "a": "а",
+        "b": "б",
+        "v": "в",
+        "g": "г",
+        "d": "д",
+        "e": "е",
+        "i": "і",
+        "y": "и",
+        "j": "й",
+        "k": "к",
+        "l": "л",
+        "m": "м",
+        "n": "н",
+        "o": "о",
+        "p": "п",
+        "r": "р",
+        "s": "с",
+        "t": "т",
+        "u": "у",
+        "f": "ф",
+        "h": "г",
+        "z": "з",
+    }
+
+    res = text.lower()
+    for lat, cyr in rules.items():
+        if len(lat) > 1:
+            res = res.replace(lat, cyr)
+    for lat, cyr in rules.items():
+        if len(lat) == 1:
+            res = res.replace(lat, cyr)
+
+    return res.capitalize()
