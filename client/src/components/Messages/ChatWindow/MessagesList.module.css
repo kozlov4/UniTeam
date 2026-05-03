@@ -1,0 +1,19 @@
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  margin: 0 62px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dateDivider {
+  font-family: "Raleway", sans-serif;
+  color: #AFB8CF;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 32px 0;
+}

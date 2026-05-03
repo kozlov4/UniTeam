@@ -4,6 +4,7 @@ import styles from "./MessagesPage.module.css";
 
 import image_message1 from "../../assets/images/img_message.png";
 import image_message2 from "../../assets/images/img_message2.png";
+import ChatWindow from "../../components/Messages/ChatWindow/ChatWindow";
 const chats = [
   {
     id: 1,
@@ -71,7 +72,7 @@ const chats = [
 ];
 
 function MessagesPage() {
-  const [selectedChatId, setSelectedChatId] = useState(1);
+  const [selectedChatId, setSelectedChatId] = useState(null);
 
   return (
     <div>
@@ -83,6 +84,8 @@ function MessagesPage() {
           selectedChatId={selectedChatId}
           onSelectChat={setSelectedChatId}
         />
+
+        <ChatWindow selectedChat={selectedChatId} />
       </div>
     </div>
   );
