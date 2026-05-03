@@ -9,6 +9,7 @@ import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
 import "./App.css";
 
 import CreateProjectModal from "./components/CreateProjectModal/CreateProjectModal";
+import MessagesPage from "./pages/MessagesPage/MessagesPage";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
-
+      <Route path="/messages" element={<MessagesPage />} />
       <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
     </Routes>
   );

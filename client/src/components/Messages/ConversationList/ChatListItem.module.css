@@ -1,0 +1,105 @@
+.item {
+  width: 100%;
+
+  display: flex;
+  gap: 14px;
+
+  padding: 16px 0px;
+  padding-left: 24px;
+  padding-right: 8px;
+
+  border: none;
+  border-bottom: 0.25px solid #AFB8CF;
+
+  background: #ffffff;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+
+.active {
+  background: #fff3e6;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+
+  border-radius: 8px;
+
+  object-fit: cover;
+
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  font-family: "Raleway", sans-serif;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 8px 0px;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 500;
+
+  color: #000000;
+
+  margin: 0;
+}
+
+
+.bottomRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.message {
+  flex: 1;
+
+  margin: 4px 0;
+  margin-right: 38px;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+
+  color: #636363;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.star {
+  color: #d5d5d5;
+
+  flex-shrink: 0;
+}
+
+.favorite {
+  color: #fe8d0f;
+}
+
+.containerTime{
+    display: flex;
+    align-items: center;
+    padding: 9px 0;
+    gap:4px;
+}
+
+.time {
+    color: #AFB8CF;
+    font-size: 11px;
+}
