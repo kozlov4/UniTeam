@@ -1,0 +1,66 @@
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 500;
+    font-family: "Raleway", sans-serif;
+    color: #323339;
+}
+
+.subtitle {
+    font-size: 16px;
+    font-family: "Raleway", sans-serif;
+    color: #989898;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: 500;
+  color: #323339;
+  font-family: "Raleway", sans-serif;
+}
+
+.input,
+.textarea {
+  font-family: "Raleway", sans-serif;
+  padding: 15px 18px;
+  border: 1px solid #8692A6;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #323339;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #999;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #6b5be0;
+  box-shadow: 0 0 0 3px rgba(107, 91, 224, 0.1);
+}
+
+.textarea {
+  resize: none;
+  min-height: 360px;
+  height: 100%;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+}

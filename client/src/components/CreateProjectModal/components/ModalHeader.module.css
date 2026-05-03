@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 48px 63px 18px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #323339;
+  font-family: "Raleway", sans-serif;
+}
+
+.link {
+  cursor: pointer;
+  color: #323339;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #333;
+}
+
+.separator {
+  color: #999;
+}
+
+.current {
+  color: #333;
+  font-weight: 500;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+}
+
+.closeButton:hover {
+  opacity: 0.8;
+}

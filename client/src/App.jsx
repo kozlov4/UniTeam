@@ -8,6 +8,8 @@ import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
 
 import "./App.css";
 
+import CreateProjectModal from "./components/CreateProjectModal/CreateProjectModal";
+
 function App() {
   return (
     <Routes>
@@ -16,6 +18,8 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/notifications" element={<NotificationsPage />} />
+
+      <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
     </Routes>
   );
 }
