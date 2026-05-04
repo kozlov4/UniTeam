@@ -1,9 +1,14 @@
-import React from 'react';
-import styles from './ParticipantCard.module.css';
+import React from "react";
+import { motion } from "framer-motion";
+import styles from "./ParticipantCard.module.css";
 
 const ParticipantCard = ({ participant }) => {
   return (
-    <div className={styles.card}>
+    <motion.div
+      className={styles.card}
+      whileHover={{ y: -8, scale: 1.02 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
       <div className={styles.imageContainer}>
         <img src={participant.image} alt={participant.name} />
       </div>
@@ -13,7 +18,7 @@ const ParticipantCard = ({ participant }) => {
         <p className={styles.description}>{participant.description}</p>
         <button className={styles.messageBtn}>Написати</button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

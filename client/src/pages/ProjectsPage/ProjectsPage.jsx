@@ -1,10 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
 import styles from './ProjectsPage.module.css';
 
 const ProjectsPage = () => {
+  const navigate = useNavigate();
   const projects = Array(12).fill(0).map((_, i) => ({
     id: i,
     title: 'Lorem ipsum tincidunt porttitor magna in ac dignissim sit nec.',
@@ -37,7 +39,7 @@ const ProjectsPage = () => {
               <select className={styles.sortSelect}>
                 <option>Найновіші</option>
               </select>
-              <button className={styles.createBtn}>Створити проєкт +</button>
+              <button className={styles.createBtn} onClick={() => navigate("/create")}>Створити проєкт +</button>
             </div>
           </div>
 

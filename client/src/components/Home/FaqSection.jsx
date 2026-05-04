@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { faqQuestions } from "./homeData";
-import { fadeUp, staggerContainer } from "./animations";
+import { fadeUp, staggerContainer } from "../../utils/animations";
 
 export function FaqSection({ styles }) {
   return (

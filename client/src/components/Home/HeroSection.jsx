@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer } from "./animations";
+import { fadeUp, staggerContainer } from "../../utils/animations";
 
 export function HeroSection({ styles }) {
   return (

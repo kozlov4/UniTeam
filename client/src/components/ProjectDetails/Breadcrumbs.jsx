@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fadeUp } from "./animations";
+import { fadeUp } from "../../utils/animations";
 
 export function Breadcrumbs({ styles }) {
   return (

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { fadeUp } from "./animations";
+import { fadeUp } from "../../utils/animations";
+import Logo from "../Logo/Logo";
 
 export function HomeFooter({ styles }) {
   return (
@@ -11,10 +12,7 @@ export function HomeFooter({ styles }) {
       viewport={{ once: true, amount: 0.2 }}
     >
       <div>
-        <div className={styles.logo}>
-          Uniteam
-          <div className={styles.logoDot}></div>
-        </div>
+        <Logo />
         <small>© Uniteam 2026 — All rights reserved</small>
       </div>
 

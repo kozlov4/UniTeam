@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { fadeUp, staggerContainer } from "./animations";
+import { fadeUp, staggerContainer } from "../../utils/animations";
 
 export function HowItWorksSection({ styles }) {
   return (
     <motion.section
+      id="how"
       className={styles.how}
       variants={fadeUp}
       initial="hidden"

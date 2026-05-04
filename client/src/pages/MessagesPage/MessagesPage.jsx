@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import MainLayout from "../../components/MainLayout/MainLayout";
 import ConversationList from "../../components/Messages/ConversationList/ConversationList";
+import ChatWindow from "../../components/Messages/ChatWindow/ChatWindow";
 import styles from "./MessagesPage.module.css";
 
 import image_message1 from "../../assets/images/img_message.png";
 import image_message2 from "../../assets/images/img_message2.png";
-import ChatWindow from "../../components/Messages/ChatWindow/ChatWindow";
+
 const chats = [
   {
     id: 1,
@@ -75,19 +77,16 @@ function MessagesPage() {
   const [selectedChatId, setSelectedChatId] = useState(null);
 
   return (
-    <div>
+    <MainLayout>
       <div className={styles.page}>
-        {/* <SidebarNavigation /> тут додати sidevar який ви зробили */}
-
         <ConversationList
           chats={chats}
           selectedChatId={selectedChatId}
           onSelectChat={setSelectedChatId}
         />
-
         <ChatWindow selectedChat={selectedChatId} />
       </div>
-    </div>
+    </MainLayout>
   );
 }
 

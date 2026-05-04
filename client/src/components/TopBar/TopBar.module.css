@@ -50,6 +50,31 @@
   box-shadow: 0 4px 15px rgba(117, 139, 253, 0.08);
 }
 
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-right: 40px;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterBtn:hover {
+  background-color: #f0f0ff;
+  border-color: var(--primary-blue);
+}
+
 .userProfile {
   display: flex;
   align-items: center;

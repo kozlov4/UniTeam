@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { NotificationsList } from "./NotificationsList";
-import { fadeUp } from "./animations";
+import { fadeUp } from "../../utils/animations";
 
 export function NotificationsCard({
   styles,

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Star, Trash2 } from "lucide-react";
-import { fadeRight, stagger } from "./animations";
+import { fadeRight, stagger } from "../../utils/animations";
 
 export function NotificationsList({
   styles,

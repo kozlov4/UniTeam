@@ -1,7 +1,8 @@
-import React from 'react';
-import Sidebar from '../Sidebar/Sidebar';
-import TopBar from '../TopBar/TopBar';
-import styles from './MainLayout.module.css';
+import React from "react";
+import { motion } from "framer-motion";
+import Sidebar from "../Sidebar/Sidebar";
+import TopBar from "../TopBar/TopBar";
+import styles from "./MainLayout.module.css";
 
 const MainLayout = ({ children }) => {
   return (
@@ -9,9 +10,14 @@ const MainLayout = ({ children }) => {
       <Sidebar />
       <div className={styles.mainContent}>
         <TopBar />
-        <main className={styles.content}>
+        <motion.main
+          className={styles.content}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           {children}
-        </main>
+        </motion.main>
       </div>
     </div>
   );

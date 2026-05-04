@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { stats } from "./homeData";
-import { fadeUp, staggerContainer } from "./animations";
+import { fadeUp, staggerContainer } from "../../utils/animations";
 
 export function StatsSection({ styles }) {
   return (

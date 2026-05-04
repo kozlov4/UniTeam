@@ -43,7 +43,8 @@
   flex-grow: 1;
 }
 
-.navItem, .navItemBtn {
+.navItem,
+.navItemBtn {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -61,7 +62,8 @@
   font-family: inherit;
 }
 
-.navItem:hover, .navItemBtn:hover {
+.navItem:hover,
+.navItemBtn:hover {
   background-color: #f0f0ff;
   color: var(--text-main);
   transform: translateX(4px);
@@ -88,10 +90,10 @@
 }
 
 .logout {
-  color: #ff4d4d;
+  color: #ff4d4d !important;
 }
 
 .logout:hover {
-  background-color: #ffeaea;
-  color: #ff4d4d;
+  background-color: #ffeaea !important;
+  color: #ff4d4d !important;
 }

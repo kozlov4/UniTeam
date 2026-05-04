@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./CreateProjectModal.module.css";
 import ModalHeader from "./components/ModalHeader";
 import ProjectForm from "./components/ProjectForm";
@@ -7,9 +8,9 @@ import TechnologiesSection from "./components/TechnologiesSection";
 import TeamMembersSection from "./components/TeamMembersSection";
 import TeamLeaderSection from "./components/TeamLeaderSection";
 import TeamRequirementsSection from "./components/TeamRequirementsSection";
-import Button from "../Button/Button";
 
-function CreateProjectModal({ isOpen, onClose, onSubmit }) {
+function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     projectName: "",
     projectGoal: "",
@@ -29,11 +30,6 @@ function CreateProjectModal({ isOpen, onClose, onSubmit }) {
 
   const fetchTechnologies = async () => {
     try {
-      // TODO: Замінити на реальний API call
-      // const response = await fetch("/api/technologies");
-      // const data = await response.json();
-      // setTechnologies(data);
-
       setTechnologies([
         { id: 1, name: "React" },
         { id: 2, name: "Node.js" },
@@ -46,17 +42,30 @@ function CreateProjectModal({ isOpen, onClose, onSubmit }) {
     }
   };
 
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      navigate(-1);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    if (onSubmit) {
+      onSubmit(formData);
+    } else {
+      console.log("Project created:", formData);
+      navigate("/dashboard");
+    }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
+    <div className={styles.modalOverlay} onClick={handleClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <ModalHeader onClose={onClose} />
+        <ModalHeader onClose={handleClose} />
 
         <form onSubmit={handleSubmit} className={styles.formContainer}>
           <div className={styles.contentWrapper}>

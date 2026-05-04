@@ -1,28 +1,58 @@
-import React from 'react';
-import styles from './TopBar.module.css';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Search, CalendarDays, ChevronDown } from "lucide-react";
+import { fadeUp, stagger } from "../../utils/animations";
+import styles from "./TopBar.module.css";
 
 const TopBar = () => {
-  return (
-    <div className={styles.topBar}>
-      <div className={styles.searchContainer}>
-        <div className={styles.searchWrapper}>
-          <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-          <input type="text" placeholder="IoT" className={styles.searchInput} />
-        </div>
-      </div>
+  const location = useLocation();
+  const hideFilters = ["/dashboard", "/projects", "/participants"].includes(
+    location.pathname,
+  );
 
-      <div className={styles.userProfile}>
-        <div className={styles.avatar}>
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User Avatar" />
+  return (
+    <motion.header
+      className={styles.topBar}
+      variants={stagger}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div className={styles.searchContainer} variants={fadeUp}>
+        <div className={styles.searchWrapper}>
+          <Search className={styles.searchIcon} size={20} />
+          <input
+            type="text"
+            placeholder="Пошук"
+            className={styles.searchInput}
+          />
         </div>
+      </motion.div>
+
+      {!hideFilters && (
+        <div className={styles.filters}>
+          <motion.button className={styles.filterBtn} variants={fadeUp}>
+            <CalendarDays size={18} />
+            <span>Квітень</span>
+            <ChevronDown size={18} />
+          </motion.button>
+
+          <motion.button className={styles.filterBtn} variants={fadeUp}>
+            <span>Тип</span>
+            <ChevronDown size={18} />
+          </motion.button>
+        </div>
+      )}
+
+      <motion.div className={styles.userProfile} variants={fadeUp}>
         <div className={styles.userInfo}>
           <span className={styles.userName}>Павло Павленко</span>
         </div>
-      </div>
-    </div>
+        <div className={styles.avatar}>
+          <img src="/avatar1.jpg" alt="User Avatar" />
+        </div>
+      </motion.div>
+    </motion.header>
   );
 };
 

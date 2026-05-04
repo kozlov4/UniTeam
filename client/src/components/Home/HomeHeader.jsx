@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { fadeDown } from "./animations";
+import { fadeDown } from "../../utils/animations";
+import Logo from "../Logo/Logo";
 
 export function HomeHeader({ styles }) {
   const [langOpen, setLangOpen] = useState(false);
@@ -14,14 +15,11 @@ export function HomeHeader({ styles }) {
       initial="hidden"
       animate="visible"
     >
-      <Link to="/" className={styles.logo}>
-        Uniteam
-        <div className={styles.logoDot}></div>
-      </Link>
+      <Logo />
 
       <nav className={styles.nav}>
         <Link to="/">Головна</Link>
-        <Link to="/about">Про нас</Link>
+        <a href="#how">Про нас</a>
         <a href="#faq">Питання-відповіді</a>
         <a href="#reviews">Відгуки</a>
       </nav>

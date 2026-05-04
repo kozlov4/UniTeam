@@ -1,92 +1,78 @@
-import React from 'react';
-import { NavLink } from 'react-router';
-import styles from './Sidebar.module.css';
+import React from "react";
+import { NavLink } from "react-router";
+import { motion } from "framer-motion";
+import { menuItems, footerItems } from "../../router/navigation";
+import { fadeRight, stagger } from "../../utils/animations";
+import Logo from "../Logo/Logo";
+import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
-  const menuItems = [
-    { path: '/', label: 'Головна', icon: 'home' },
-    { path: '/projects', label: 'Проєкти', icon: 'projects' },
-    { path: '/participants', label: 'Учасники', icon: 'users' },
-    { path: '/notifications', label: 'Сповіщення', icon: 'bell' },
-    { path: '/messages', label: 'Повідомлення', icon: 'message' },
-  ];
-
   return (
-    <div className={styles.sidebar}>
+    <motion.aside
+      className={styles.sidebar}
+      initial={{ opacity: 0, x: -45 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className={styles.logoContainer}>
-        <div className={styles.logo}>
-          Uniteam<span className={styles.dot}></span>
-        </div>
+        <Logo />
       </div>
-      
-      <nav className={styles.nav}>
+
+      <motion.nav
+        className={styles.nav}
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
+      >
         {menuItems.map((item) => (
-          <NavLink 
-            key={item.path}
-            to={item.path} 
-            className={({ isActive }) => isActive ? `${styles.navItem} ${styles.active}` : styles.navItem}
-            end={item.path === '/'}
-          >
-            <Icon name={item.icon} className={styles.icon} />
-            {item.label}
-          </NavLink>
+          <motion.div key={item.path} variants={fadeRight} whileHover={{ x: 6 }}>
+            <NavLink
+              to={item.path}
+              className={({ isActive }) =>
+                isActive ? `${styles.navItem} ${styles.active}` : styles.navItem
+              }
+              end={item.path === "/dashboard"}
+            >
+              <item.icon size={22} className={styles.icon} />
+              {item.label}
+            </NavLink>
+          </motion.div>
         ))}
-      </nav>
+      </motion.nav>
 
       <div className={styles.footer}>
-        <button className={styles.navItemBtn}>
-          <Icon name="settings" className={styles.icon} />
-          Налаштування
-        </button>
-        <NavLink to="/login" className={`${styles.navItem} ${styles.logout}`}>
-          <Icon name="logout" className={styles.icon} />
-          Вихід
-        </NavLink>
+        {footerItems.map((item) => (
+          <motion.div key={item.path}>
+            {item.type === "button" ? (
+              <button
+                className={`${styles.navItemBtn} ${
+                  item.className ? styles[item.className] : ""
+                }`}
+              >
+                <item.icon size={22} className={styles.icon} />
+                {item.label}
+              </button>
+            ) : (
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navItem} ${styles.active} ${
+                        item.className ? styles[item.className] : ""
+                      }`
+                    : `${styles.navItem} ${
+                        item.className ? styles[item.className] : ""
+                      }`
+                }
+              >
+                <item.icon size={22} className={styles.icon} />
+                {item.label}
+              </NavLink>
+            )}
+          </motion.div>
+        ))}
       </div>
-    </div>
-  );
-};
-
-const Icon = ({ name, className }) => {
-  const icons = {
-    home: (
-      <>
-        <rect x="3" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="14" width="7" height="7" rx="1" />
-        <rect x="3" y="14" width="7" height="7" rx="1" />
-      </>
-    ),
-    projects: <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />,
-    users: (
-      <>
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-      </>
-    ),
-    bell: <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />,
-    message: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />,
-    settings: (
-      <>
-        <circle cx="12" cy="12" r="3" />
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-      </>
-    ),
-    logout: <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
-  };
-
-  return (
-    <svg 
-      className={className} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    >
-      {icons[name]}
-    </svg>
+    </motion.aside>
   );
 };
 
