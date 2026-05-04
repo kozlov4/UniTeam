@@ -1,0 +1,48 @@
+.wrapper {
+  font-family: "Raleway", sans-serif;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  max-width: 260px;
+  gap: 4px;
+}
+
+.other {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.own {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.bubble {
+  padding: 16px 24px;
+  border-radius: 32px;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.bubbleOther {
+  background: #F0F1FF;
+  border-bottom-left-radius: 4px;
+  color: #1A1A1B;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.bubbleOwn {
+  background: #758BFD;
+  border-bottom-right-radius: 4px;
+  color: #F8F9FD;
+}
+
+.text {
+  margin: 0;
+}
+
+.time {
+  font-size: 13px;
+  color: #AFB8CF;
+  padding: 0 4px;
+}
