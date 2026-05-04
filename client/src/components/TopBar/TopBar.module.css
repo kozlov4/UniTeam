@@ -1,0 +1,88 @@
+.topBar {
+  height: 88px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.searchContainer {
+  flex-grow: 1;
+  max-width: 800px;
+  margin-right: 40px;
+}
+
+.searchWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--text-secondary);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 14px 20px 14px 56px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  color: var(--text-main);
+  background-color: #f9f9ff;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  border-color: var(--primary-blue);
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(117, 139, 253, 0.08);
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.userProfile:hover {
+  background-color: #f4f4ff;
+}
+
+.userName {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 16px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f4f4ff;
+  border: 2px solid var(--primary-orange);
+  box-shadow: 0 2px 8px rgba(255, 134, 0, 0.2);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
