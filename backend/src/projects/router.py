@@ -5,11 +5,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from .schemas import ProjectCardResponse, SortByChoice
 from core.models.db_helper import db_helper
 from . import service
+from users.dependencies import get_current_user
 
-router = APIRouter(tags=["Projects"])
+router = APIRouter(prefix="/projects", tags=["Projects"])
 
 
-@router.get("/projects/", response_model=list[ProjectCardResponse])
+@router.get("/", response_model=list[ProjectCardResponse])
 async def get_projects(
     session: AsyncSession = Depends(db_helper.session_dependency),
     sort_by: SortByChoice = Query(default=SortByChoice.newest, description="Sort type"),
@@ -27,4 +28,17 @@ async def get_projects(
         tech_ids=tech_ids,
         min_members=min_members,
         max_members=max_members,
+    )
+
+
+@router.get("/my-specialty/", response_model=list[ProjectCardResponse])
+async def get_my_specialty_projects(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),  # Отримуємо того, хто залогінився
+):
+    """
+    Отримує проєкти, що повязані зі спеціальністю поточного студента
+    """
+    return await service.get_recommended_projects(
+        session=session, current_user_id=current_user_id
     )

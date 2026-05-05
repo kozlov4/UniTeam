@@ -10,8 +10,12 @@ from .base import Base
 class UserSkill(Base):
     __tablename__ = "user_skills"
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
-    skill_id: Mapped[int] = mapped_column(ForeignKey("skills.id", ondelete="CASCADE"), primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    )
+    skill_id: Mapped[int] = mapped_column(
+        ForeignKey("skills.id", ondelete="CASCADE"), primary_key=True
+    )
 
 
 class Faculty(Base):
@@ -26,7 +30,9 @@ class Specialty(Base):
     __tablename__ = "specialties"
 
     name: Mapped[str] = mapped_column(String(100))
-    faculty_id: Mapped[int] = mapped_column(ForeignKey("faculties.id", ondelete="CASCADE"))
+    faculty_id: Mapped[int] = mapped_column(
+        ForeignKey("faculties.id", ondelete="CASCADE")
+    )
 
     faculty: Mapped["Faculty"] = relationship(back_populates="specialties")
 
@@ -51,10 +57,27 @@ class User(Base):
     avatar_url: Mapped[Optional[str]] = mapped_column(String(255))
     bio_description: Mapped[Optional[str]] = mapped_column(Text)
     course_year: Mapped[Optional[int]] = mapped_column(Integer)
+    reset_code: Mapped[Optional[str]] = mapped_column(String(8))
+    reset_code_expire: Mapped[datetime] = mapped_column(nullable=True)
 
-    faculty_id: Mapped[Optional[int]] = mapped_column(ForeignKey("faculties.id", ondelete="SET NULL"))
-    specialty_id: Mapped[Optional[int]] = mapped_column(ForeignKey("specialties.id", ondelete="SET NULL"))
+    @property
+    def specialty_name(self) -> Optional[str]:
+        return self.specialty.name if self.specialty else None
+
+    @property
+    def skill_names(self) -> list[str]:
+        return [skill.name for skill in self.skills] if self.skills else []
+
+    faculty_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("faculties.id", ondelete="SET NULL")
+    )
+    specialty_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("specialties.id", ondelete="SET NULL")
+    )
 
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     skills: Mapped[List["Skill"]] = relationship(secondary="user_skills")
+
+    faculty: Mapped[Optional["Faculty"]] = relationship()
+    specialty: Mapped[Optional["Specialty"]] = relationship()
