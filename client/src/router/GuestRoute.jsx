@@ -1,7 +1,10 @@
 import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
-function GuestRoute() {
-  return <div></div>;
-}
+const GuestRoute = () => {
+  const isAuthenticated = !!localStorage.getItem("token");
+
+  return !isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
+};
 
 export default GuestRoute;

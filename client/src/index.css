@@ -1,6 +1,13 @@
 :root {
   --sans: 'Raleway', sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --bg-sidebar: #F4F4FF;
+  --bg-main: #FFFFFF;
+  --primary-orange: #FF8600;
+  --primary-blue: #758BFD;
+  --text-main: #323339;
+  --text-secondary: #7C7C7C;
+  --border-light: #E9E9FF;
+  --bg-card-warm: #FCF1E4;
 }
 
 *,
@@ -11,14 +18,28 @@
 
 * {
   margin: 0;
+  padding: 0;
 }
 
 html,
 body,
 #root {
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 body {
+  font-family: var(--sans);
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: var(--sans);
+}
+
+input, select, textarea {
   font-family: var(--sans);
 }

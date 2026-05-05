@@ -40,22 +40,27 @@ class ProjectTechnology(Base):
     )
 
 
+class ProjectVacancy(Base):
+    __tablename__ = "project_vacancies"
+
+    project_id: Mapped[int] = mapped_column(
+        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
+    )
+    vacancy_id: Mapped[int] = mapped_column(
+        ForeignKey("vacancies.id", ondelete="CASCADE"), primary_key=True
+    )
+
+
 class Technology(Base):
     __tablename__ = "technologies"
 
     name: Mapped[str] = mapped_column(String(50), unique=True)
 
 
-class ProjectVacancy(Base):
-    __tablename__ = "project_vacancies"
+class Vacancy(Base):
+    __tablename__ = "vacancies"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    project_id: Mapped[int] = mapped_column(
-        ForeignKey("projects.id", ondelete="CASCADE")
-    )
-    role_name: Mapped[str] = mapped_column(String(100))
-
-    project: Mapped["Project"] = relationship(back_populates="vacancies")
+    name: Mapped[str] = mapped_column(String(50), unique=True)
 
 
 class Project(Base):
@@ -95,6 +100,4 @@ class Project(Base):
     technologies: Mapped[List["Technology"]] = relationship(
         secondary="project_technologies"
     )
-    vacancies: Mapped[List["ProjectVacancy"]] = relationship(
-        back_populates="project", cascade="all, delete-orphan"
-    )
+    vacancies: Mapped[List["Vacancy"]] = relationship(secondary="project_vacancies")

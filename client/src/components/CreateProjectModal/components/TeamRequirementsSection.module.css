@@ -1,0 +1,103 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #323339;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+}
+
+.itemRow {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f3ff;
+  padding: 15px 24px;
+  border: 1px solid #d7f6d7;
+  border-radius: 12px;
+}
+
+.itemText {
+  font-size: 16px;
+  color: #333;
+  font-family: "Raleway", sans-serif;
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  height: 50px;
+  padding: 15px 24px;
+  border: 1px solid #8692A6;
+  border-radius: 12px;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder {
+  color: #999;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #8f83e9;
+  box-shadow: 0 0 0 3px rgba(107, 91, 224, 0.1);
+}
+
+.addButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #758BFD;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover {
+  background: #5a47c3;
+}
+
+.plus {
+  font-size: 32px;
+  color: #ffffff;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.removeButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #f93e3e;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: "Raleway", sans-serif;
+}
+
+.removeButton:hover {
+  background: #fff5f5;
+  border-color: #f93e3e;
+}

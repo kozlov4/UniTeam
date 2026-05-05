@@ -3,7 +3,7 @@ from typing import Optional, List
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
-from models import Project, ProjectMember, ProjectVacancy, Technology
+from models import Project, ProjectMember, ProjectVacancy, Technology, User
 from .schemas import SortByChoice
 
 
@@ -50,3 +50,22 @@ async def get_projects(
     result = await session.execute(stmt)
     projects = result.scalars().unique().all()
     return list(projects)
+
+
+async def get_recommended_projects(
+    session: AsyncSession,
+    current_user_id: int,
+    limit: int = 5,
+):
+    current_user: User = await session.get(User, current_user_id)
+    stmt = (
+        select(Project)
+        .options(joinedload(Project.category), selectinload(Project.members))
+        .join(User, Project.leader_id == User.id)
+        .where(User.specialty_id == current_user.specialty_id)
+        .order_by(Project.created_at.desc())
+        .limit(limit)
+    )
+
+    result = await session.execute(stmt)
+    return result.scalars().unique().all()

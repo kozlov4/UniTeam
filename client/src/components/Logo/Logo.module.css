@@ -1,0 +1,30 @@
+.logo {
+  font-size: 32px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+  color: #111827;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.logoDot {
+  width: 10px;
+  height: 10px;
+  background: #ff8a00;
+  border-radius: 50%;
+  margin-top: 6px;
+  transition: 0.25s ease;
+}
+
+.logo:hover .logoDot {
+  transform: scale(1.4);
+  box-shadow: 0 0 10px rgba(253, 135, 1, 0.6);
+}
