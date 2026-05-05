@@ -60,6 +60,14 @@ class User(Base):
     reset_code: Mapped[Optional[str]] = mapped_column(String(8))
     reset_code_expire: Mapped[datetime] = mapped_column(nullable=True)
 
+    @property
+    def specialty_name(self) -> Optional[str]:
+        return self.specialty.name if self.specialty else None
+
+    @property
+    def skill_names(self) -> list[str]:
+        return [skill.name for skill in self.skills] if self.skills else []
+
     faculty_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("faculties.id", ondelete="SET NULL")
     )
@@ -70,3 +78,6 @@ class User(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
     skills: Mapped[List["Skill"]] = relationship(secondary="user_skills")
+
+    faculty: Mapped[Optional["Faculty"]] = relationship()
+    specialty: Mapped[Optional["Specialty"]] = relationship()
