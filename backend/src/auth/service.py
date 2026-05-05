@@ -16,7 +16,7 @@ async def register_user(
     if not user_in.email.endswith("@nure.ua"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Регистрация доступна только для домена @nure.ua",
+            detail="Регістрація  тільки для доменів @nure.ua",
         )
     name_part = user_in.email.split("@")[0]
 

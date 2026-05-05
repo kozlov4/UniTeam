@@ -21,6 +21,7 @@ class ProjectCardResponse(BaseModel):
     image_url: Optional[str] = None
     category_name: Optional[str] = None
     participants_count: int
+    description: str
     avatars: List[ProjectMemberAvatar] = []
 
     model_config = ConfigDict(from_attributes=True)
