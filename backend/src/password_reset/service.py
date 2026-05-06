@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 from auth.utils import hash_password
 
-from models import User
+from core.models import User
 from .schemas import ForgotPasswordRequest, ResetPasswordRequest
 
 

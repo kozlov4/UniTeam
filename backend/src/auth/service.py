@@ -4,7 +4,7 @@ from .schemas import UserRegistration, UserLogin
 from .utils import validate_password, decode_jwt
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import User
+from core.models import User
 from .schemas import TokenInfo
 from .utils import hash_password, encode_jwt, transliterate_to_ukrainian
 

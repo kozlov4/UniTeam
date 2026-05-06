@@ -1,7 +1,5 @@
-from fastapi import APIRouter, BackgroundTasks, HTTPException, Depends
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
-from datetime import datetime, timedelta
-import random
+from fastapi import APIRouter, BackgroundTasks, Depends
+from fastapi_mail import FastMail, ConnectionConfig
 
 from sqlalchemy.ext.asyncio import AsyncSession
 

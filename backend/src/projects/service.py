@@ -3,7 +3,7 @@ from typing import Optional, List
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
-from models import Project, ProjectMember, ProjectVacancy, Technology, User
+from core.models import Project, ProjectMember, ProjectVacancy, Technology, User
 from .schemas import SortByChoice
 
 

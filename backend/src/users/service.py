@@ -2,7 +2,7 @@ from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from typing import Optional, List
-from models import User, UserSkill
+from core.models import User, UserSkill
 
 
 async def get_participants_list(
