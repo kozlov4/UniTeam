@@ -1,11 +1,12 @@
 from .base import Base
 from .applications import Application
 from .projects import (
-    ProjectMember,
-    ProjectTechnology,
+    project_members,
+    project_technologies,
+    project_vacancies,
     Technology,
-    ProjectVacancy,
     Project,
     ProjectCategory,
+    Vacancy,
 )
 from .users import UserSkill, Faculty, Specialty, Skill, User

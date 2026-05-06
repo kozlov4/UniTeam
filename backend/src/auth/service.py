@@ -4,7 +4,7 @@ from .schemas import UserRegistration, UserLogin
 from .utils import validate_password, decode_jwt
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import User
+from core.models import User
 from .schemas import TokenInfo
 from .utils import hash_password, encode_jwt, transliterate_to_ukrainian
 
@@ -13,6 +13,15 @@ async def register_user(
     session: AsyncSession,
     user_in: UserRegistration,
 ) -> User:
+
+    stmt = select(User).where(User.email == user_in.email).limit(1)
+    result = await session.execute(stmt)
+    user: User | None = result.scalar_one_or_none()
+
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email"
+        )
     if not user_in.email.endswith("@nure.ua"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

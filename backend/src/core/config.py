@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     mail_password: str
     mail_from: str
 
+    cloudinary_url: str
+
     secret_key: str
     algorithm: str
 

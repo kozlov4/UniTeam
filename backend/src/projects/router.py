@@ -2,7 +2,14 @@ from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from .schemas import ProjectCardResponse, SortByChoice
+from .schemas import (
+    ProjectCardResponse,
+    SortByChoice,
+    CreateProjectRequest,
+    CategoryCardResponse,
+    TechnologyCardResponse,
+    VacancyCardResponse,
+)
 from core.models.db_helper import db_helper
 from . import service
 from users.dependencies import get_current_user
@@ -41,4 +48,36 @@ async def get_my_specialty_projects(
     """
     return await service.get_recommended_projects(
         session=session, current_user_id=current_user_id
+    )
+
+
+@router.get("/categories/", response_model=list[CategoryCardResponse])
+async def get_properties(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.get_properties(session=session, type="category")
+
+
+@router.get("/technologies/", response_model=list[TechnologyCardResponse])
+async def get_properties(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.get_properties(session=session, type="technology")
+
+
+@router.get("/vacancies/", response_model=list[VacancyCardResponse])
+async def get_properties(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.get_properties(session=session, type="vacancy")
+
+
+@router.post("/", status_code=status.HTTP_201_CREATED)
+async def create_project(
+    project_in: CreateProjectRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
+):
+    return await service.create_project(
+        session=session, project_in=project_in, current_user_id=current_user_id
     )

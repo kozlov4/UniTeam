@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from datetime import datetime
 from typing import List, Optional
 
-from sqlalchemy import String, Text, Boolean, ForeignKey, func
+from sqlalchemy import String, Text, Boolean, ForeignKey, func, Table, Integer, Column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -17,38 +17,55 @@ class ProjectCategory(Base):
     name: Mapped[str] = mapped_column(String(100), unique=True)
 
 
-class ProjectMember(Base):
-    __tablename__ = "project_members"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    project_id: Mapped[int] = mapped_column(
-        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
-    )
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
-    )
-
-
-class ProjectTechnology(Base):
-    __tablename__ = "project_technologies"
-
-    project_id: Mapped[int] = mapped_column(
-        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
-    )
-    technology_id: Mapped[int] = mapped_column(
-        ForeignKey("technologies.id", ondelete="CASCADE"), primary_key=True
-    )
+project_members = Table(
+    "project_members",
+    Base.metadata,
+    Column(
+        "project_id",
+        Integer,
+        ForeignKey("projects.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "user_id", Integer, ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+    ),
+)
 
 
-class ProjectVacancy(Base):
-    __tablename__ = "project_vacancies"
+project_technologies = Table(
+    "project_technologies",
+    Base.metadata,
+    Column(
+        "project_id",
+        Integer,
+        ForeignKey("projects.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "technology_id",
+        Integer,
+        ForeignKey("technologies.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+)
 
-    project_id: Mapped[int] = mapped_column(
-        ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True
-    )
-    vacancy_id: Mapped[int] = mapped_column(
-        ForeignKey("vacancies.id", ondelete="CASCADE"), primary_key=True
-    )
+
+project_vacancies = Table(
+    "project_vacancies",
+    Base.metadata,
+    Column(
+        "project_id",
+        Integer,
+        ForeignKey("projects.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "vacancy_id",
+        Integer,
+        ForeignKey("vacancies.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+)
 
 
 class Technology(Base):
@@ -60,7 +77,7 @@ class Technology(Base):
 class Vacancy(Base):
     __tablename__ = "vacancies"
 
-    name: Mapped[str] = mapped_column(String(50), unique=True)
+    name: Mapped[str] = mapped_column(String(60), unique=True)
 
 
 class Project(Base):
@@ -70,7 +87,6 @@ class Project(Base):
     goal: Mapped[Optional[str]] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
     image_url: Mapped[Optional[str]] = mapped_column(String(255))
-    is_draft: Mapped[bool] = mapped_column(Boolean, default=True)
 
     leader_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 
