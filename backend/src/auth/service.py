@@ -13,6 +13,15 @@ async def register_user(
     session: AsyncSession,
     user_in: UserRegistration,
 ) -> User:
+
+    stmt = select(User).where(User.email == user_in.email).limit(1)
+    result = await session.execute(stmt)
+    user: User | None = result.scalar_one_or_none()
+
+    if user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email"
+        )
     if not user_in.email.endswith("@nure.ua"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
