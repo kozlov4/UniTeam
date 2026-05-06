@@ -21,7 +21,7 @@ class ProjectCardResponse(BaseModel):
     image_url: Optional[str] = None
     category_name: Optional[str] = None
     participants_count: int
-    description: str
+    goal: str
     avatars: List[ProjectMemberAvatar] = []
 
     model_config = ConfigDict(from_attributes=True)
@@ -58,3 +58,49 @@ class CreateProjectRequest(BaseModel):
     tech_ids: List[int] = []
     vacancy_ids: List[int] = []
     participant_ids: List[int] = []
+
+
+class CreateApplicationRequest(BaseModel):
+    cover_letter: str = Field(..., min_length=50, max_length=1500)
+    project_id: int
+
+
+class CategoryOut(CategoryCardResponse):
+    pass
+
+
+class TechnologyOut(BaseModel):
+    id: int
+    name: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class VacancyOut(BaseModel):
+    id: int
+    name: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserShortOut(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    avatar_url: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)
+
+
+class ProjectDetailOut(BaseModel):
+    id: int
+    title: str
+    goal: Optional[str]
+    description: str
+    image_url: Optional[str]
+
+    category: Optional[CategoryOut]
+    leader: UserShortOut
+
+    technologies: List[TechnologyOut]
+    vacancies: List[VacancyOut]
+    members: List[UserShortOut]
+
+    model_config = ConfigDict(from_attributes=True)

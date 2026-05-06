@@ -19,3 +19,14 @@ class UserCardResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserProfileResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    avatar_url: Optional[str] = None
+    email: str
+
+    class Config:
+        from_attributes = True

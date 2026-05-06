@@ -3,8 +3,20 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional, List
 from core.models.db_helper import db_helper
 from . import schemas, service
+from .dependencies import get_current_user
+from core.models import User
+from .schemas import UserProfileResponse
 
 router = APIRouter(prefix="/users", tags=["Users"])
+
+
+@router.get("/me/", response_model=UserProfileResponse)
+async def get_me(
+    current_user_id: User = Depends(get_current_user),
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    current_user: User = await session.get(User, current_user_id)
+    return current_user
 
 
 @router.get("/", response_model=List[schemas.UserCardResponse])
