@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from enum import Enum
 
 
@@ -25,3 +25,36 @@ class ProjectCardResponse(BaseModel):
     avatars: List[ProjectMemberAvatar] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class CategoryCardResponse(BaseModel):
+    id: int
+    name: str
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class TechnologyCardResponse(BaseModel):
+    id: int
+    name: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class VacancyCardResponse(BaseModel):
+    id: int
+    name: str
+    model_config = ConfigDict(from_attributes=True)
+
+
+class CreateProjectRequest(BaseModel):
+    title: str = Field(..., min_length=3, max_length=150)
+    goal: str
+    description: str = Field(..., max_length=1500)
+
+    image_url: Optional[str] = None
+
+    category_id: int
+
+    tech_ids: List[int] = []
+    vacancy_ids: List[int] = []
+    participant_ids: List[int] = []
