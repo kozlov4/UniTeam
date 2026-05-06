@@ -12,7 +12,7 @@ from .utils import hash_password, encode_jwt, transliterate_to_ukrainian
 async def register_user(
     session: AsyncSession,
     user_in: UserRegistration,
-) -> User:
+) -> TokenInfo:
 
     stmt = select(User).where(User.email == user_in.email).limit(1)
     result = await session.execute(stmt)
@@ -50,7 +50,19 @@ async def register_user(
     await session.commit()
     await session.refresh(new_user)
 
-    return new_user
+    access_token = encode_jwt(
+        payload={"sub": str(new_user.id), "type": "access"}, expire_minutes=15
+    )
+    refresh_token = encode_jwt(
+        payload={"sub": str(new_user.id), "type": "refresh"},
+        expire_minutes=60 * 24 * 30,
+    )
+
+    return TokenInfo(
+        access_token=access_token,
+        refresh_token=refresh_token,
+        token_type="Bearer",
+    )
 
 
 async def user_login(
