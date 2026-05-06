@@ -12,8 +12,46 @@ from core.models import (
     project_members,
     Vacancy,
     ProjectCategory,
+    Application,
 )
-from .schemas import SortByChoice, CreateProjectRequest
+from .schemas import SortByChoice, CreateProjectRequest, CreateApplicationRequest
+
+
+async def create_application(
+    session: AsyncSession,
+    application_in: CreateApplicationRequest,
+    current_user_id: int,
+):
+    new_application = Application(
+        project_id=application_in.project_id,
+        applicant_id=current_user_id,
+        cover_letter=application_in.cover_letter,
+    )
+    session.add(new_application)
+    await session.commit()
+
+    await session.refresh(new_application)
+
+    return new_application
+
+
+async def get_project_by_id(session: AsyncSession, project_id: int):
+    stmt = (
+        select(Project)
+        .where(Project.id == project_id)
+        .options(
+            joinedload(Project.category),
+            joinedload(Project.leader),
+            selectinload(Project.technologies),
+            selectinload(Project.vacancies),
+            selectinload(Project.members),
+        )
+    )
+
+    result = await session.execute(stmt)
+    project = result.scalar_one_or_none()
+
+    return project
 
 
 async def get_projects(

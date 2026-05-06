@@ -9,6 +9,8 @@ from .schemas import (
     CategoryCardResponse,
     TechnologyCardResponse,
     VacancyCardResponse,
+    ProjectDetailOut,
+    CreateApplicationRequest,
 )
 from core.models.db_helper import db_helper
 from . import service
@@ -36,6 +38,18 @@ async def get_projects(
         min_members=min_members,
         max_members=max_members,
     )
+
+
+@router.get("/{project_id}", response_model=ProjectDetailOut)
+async def get_project(
+    project_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
+):
+    project = await service.get_project_by_id(session, project_id)
+
+    if not project:
+        raise HTTPException(status_code=404, detail="Проєкт не знайдено")
+
+    return project
 
 
 @router.get("/my-specialty/", response_model=list[ProjectCardResponse])
@@ -80,4 +94,15 @@ async def create_project(
 ):
     return await service.create_project(
         session=session, project_in=project_in, current_user_id=current_user_id
+    )
+
+
+@router.post("/application/", status_code=status.HTTP_201_CREATED)
+async def create_application(
+    application_in: CreateApplicationRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
+):
+    return await service.create_application(
+        session=session, application_in=application_in, current_user_id=current_user_id
     )
