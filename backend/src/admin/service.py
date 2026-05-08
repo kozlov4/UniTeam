@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
 from core.models import User, Project, Technology
-from .schemas import MainInfo, ProjectResponse, UserResponse
+from .schemas import MainInfo, ProjectResponse, UserResponse, CreateTechnology
+from projects.schemas import TechnologyCardResponse
 
 
 async def get_main_info(session: AsyncSession) -> MainInfo:
@@ -59,3 +60,25 @@ async def get_users(
 
     result = await session.execute(stmt)
     return list(result.scalars().all())
+
+
+# async def get_technologies(
+#     session: AsyncSession,
+#     search_text: str | None = None,
+# ) -> list[TechnologyCardResponse]:
+#     stmt = select(Technology)
+#
+#     if search_text:
+#         search_pattern = f"%{search_text}%"
+#         stmt = stmt.where(
+#             or_(
+#                 Technology.name.ilike(search_pattern),
+#             )
+#         )
+#
+#     result = await session.execute(stmt)
+#     return list(result.scalars().all())
+#
+#
+# async def create_technology(session: AsyncSession, technology_in: CreateTechnology):
+#     new_technology = Technology(name=technology_in.name)

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class MainInfo(BaseModel):
@@ -27,3 +27,7 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class CreateTechnology(BaseModel):
+    name: str = Field(..., min_length=2, max_length=800)
