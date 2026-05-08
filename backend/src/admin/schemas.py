@@ -8,3 +8,13 @@ class MainInfo(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ProjectResponse(BaseModel):
+    title: str
+    description: str
+    participants_count: int
+    status: str
+
+    class Config:
+        from_attributes = True

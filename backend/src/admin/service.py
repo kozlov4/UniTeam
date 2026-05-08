@@ -1,9 +1,11 @@
 import jwt
 from fastapi import HTTPException, status
-from sqlalchemy import select, func
+from sqlalchemy import select, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload, joinedload
+
 from core.models import User, Project, Technology
-from .schemas import MainInfo
+from .schemas import MainInfo, ProjectResponse
 
 
 async def get_main_info(session: AsyncSession) -> MainInfo:
@@ -21,3 +23,21 @@ async def get_main_info(session: AsyncSession) -> MainInfo:
         projects_count=projects_count,
         technologies_count=technologies_count,
     )
+
+
+async def get_projects(
+    session: AsyncSession,
+    search_text: str | None = None,
+) -> list[ProjectResponse]:
+    stmt = select(Project).options(selectinload(Project.members))
+
+    if search_text:
+        search_pattern = f"%{search_text}%"
+        stmt = stmt.where(
+            or_(
+                Project.title.ilike(search_pattern),
+            )
+        )
+
+    result = await session.execute(stmt)
+    return list(result.scalars().all())
