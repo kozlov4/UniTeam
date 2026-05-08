@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -7,11 +7,15 @@ import styles from "./RegisterPage.module.css";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import { useState } from "react";
 import { validateEmail, validatePassword } from "../../utils/validators";
+import { register } from "../../services/auth.service";
 
 function RegisterPage() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,13 +31,14 @@ function RegisterPage() {
       return;
     }
 
+    setServerError("");
     setIsLoading(true);
 
     try {
-      //TODO: Тут додати register запит
-      console.log("Дані валідні, відправка:", formData);
+      await register(formData);
+      navigate("/login");
     } catch (error) {
-      console.error(error);
+      setServerError(error.response?.data?.message || "Помилка сервера");
     } finally {
       setIsLoading(false);
     }
@@ -41,10 +46,17 @@ function RegisterPage() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
+    }
+
+    if (serverError) {
+      setServerError("");
     }
   };
 
@@ -57,6 +69,7 @@ function RegisterPage() {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          {serverError && <p className={styles.error}>{serverError}</p>}
           <Input
             onChange={handleChange}
             value={formData.email}
