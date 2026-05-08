@@ -11,6 +11,7 @@ class MainInfo(BaseModel):
 
 
 class ProjectResponse(BaseModel):
+    id: int
     title: str
     description: str
     participants_count: int
@@ -21,6 +22,7 @@ class ProjectResponse(BaseModel):
 
 
 class UserResponse(BaseModel):
+    id: int
     email: EmailStr
     first_name: str
     is_blocked: bool
