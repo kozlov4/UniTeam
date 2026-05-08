@@ -1,12 +1,26 @@
 import jwt
 from typing import TypeVar, Type
 from fastapi import HTTPException, status
-from sqlalchemy import select, func, or_
+from sqlalchemy import select, func, or_, delete, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
-from core.models import User, Project, Technology, Base
-from .schemas import MainInfo, ProjectResponse, UserResponse, CreateTechnology
+from core.models import (
+    User,
+    Project,
+    Technology,
+    Base,
+    project_technologies,
+    project_members,
+    project_vacancies,
+)
+from .schemas import (
+    MainInfo,
+    ProjectResponse,
+    UserResponse,
+    CreateTechnology,
+    UpdateProjectRequest,
+)
 from projects.schemas import TechnologyCardResponse
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -121,3 +135,41 @@ async def delete_entity(
     await session.commit()
 
     return {"message": f"{entity_name} успішно видалена"}
+
+
+async def update_project(
+    session: AsyncSession,
+    project_id: int,
+    project_in: UpdateProjectRequest,
+):
+    project = await session.get(Project, project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Проект не найден")
+
+    update_data = project_in.model_dump(
+        exclude_unset=True,
+        exclude={"tech_ids", "vacancy_ids", "participant_ids"},
+    )
+
+    if update_data:
+        for key, value in update_data.items():
+            setattr(project, key, value)
+
+    async def update_m2m(table, id_column: str, new_ids: list[int] | None):
+        if new_ids is not None:
+            await session.execute(delete(table).where(table.c.project_id == project_id))
+            if new_ids:
+                values = [
+                    {"project_id": project_id, id_column: item_id}
+                    for item_id in new_ids
+                ]
+                await session.execute(insert(table).values(values))
+
+    await update_m2m(project_technologies, "technology_id", project_in.tech_ids)
+    await update_m2m(project_vacancies, "vacancy_id", project_in.vacancy_ids)
+    await update_m2m(project_members, "user_id", project_in.participant_ids)
+
+    await session.commit()
+    await session.refresh(project)
+
+    return project
