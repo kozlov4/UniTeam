@@ -21,8 +21,12 @@ apiAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const isLoginRequest = originalRequest.url.includes("/login");
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isLoginRequest
+    ) {
       originalRequest._retry = true;
 
       try {
@@ -36,11 +40,9 @@ apiAxios.interceptors.response.use(
           refresh_token: refreshToken,
         });
 
-        const {user, access_token, refresh_token } = response.data;
+        const { user, access_token, refresh_token } = response.data;
 
-        useUserStore
-          .getState()
-          .setAuth(user, access_token, refresh_token);
+        useUserStore.getState().setAuth(user, access_token, refresh_token);
 
         originalRequest.headers.Authorization = `Bearer ${access_token}`;
 

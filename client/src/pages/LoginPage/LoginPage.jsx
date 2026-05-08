@@ -40,7 +40,11 @@ function LoginPage() {
       setAuth(userData?.user, userData.access_token, userData.refresh_token);
       navigate("/dashboard");
     } catch (error) {
-      setServerError(error.response?.data?.message || "Помилка сервера");
+      if (error.response?.status == 401) {
+        setServerError("Невірний пароль або пошта");
+      } else {
+        setServerError(error.response?.data?.message || "Помилка сервера");
+      }
     } finally {
       setIsLoading(false);
     }
