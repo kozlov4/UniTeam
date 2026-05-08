@@ -2,6 +2,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models.db_helper import db_helper
+from core.models import Technology, User, Project
 from . import service
 from .schemas import MainInfo, ProjectResponse, UserResponse, CreateTechnology
 from projects.schemas import TechnologyCardResponse
@@ -59,11 +60,33 @@ async def create_technology(
 
 
 @router.delete("/technologies/{technology_id}")
-async def delete_technology(
+async def delete_technology_endpoint(
     technology_id: int,
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    return await service.delete_technology(
-        technology_id=technology_id,
+    return await service.delete_entity(
         session=session,
+        model=Technology,
+        entity_id=technology_id,
+        entity_name="Технологія",
+    )
+
+
+@router.delete("/projects/{project_id}")
+async def delete_project_endpoint(
+    project_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.delete_entity(
+        session=session, model=Project, entity_id=project_id, entity_name="Проєкт"
+    )
+
+
+@router.delete("/users/{user_id}")
+async def delete_user_endpoint(
+    user_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.delete_entity(
+        session=session, model=User, entity_id=user_id, entity_name="Користувач"
     )

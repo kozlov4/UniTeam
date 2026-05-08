@@ -1,12 +1,15 @@
 import jwt
+from typing import TypeVar, Type
 from fastapi import HTTPException, status
 from sqlalchemy import select, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
-from core.models import User, Project, Technology
+from core.models import User, Project, Technology, Base
 from .schemas import MainInfo, ProjectResponse, UserResponse, CreateTechnology
 from projects.schemas import TechnologyCardResponse
+
+ModelType = TypeVar("ModelType", bound=Base)
 
 
 async def get_main_info(session: AsyncSession) -> MainInfo:
@@ -103,12 +106,18 @@ async def create_technology(session: AsyncSession, technology_in: CreateTechnolo
     return new_technology
 
 
-async def delete_technology(session: AsyncSession, technology_id: int):
-    technology = await session.get(Technology, technology_id)
+async def delete_entity(
+    session: AsyncSession,
+    model: Type[ModelType],
+    entity_id: int,
+    entity_name: str = "Запис",
+):
+    entity = await session.get(model, entity_id)
 
-    if not technology:
-        raise HTTPException(status_code=404, detail="Технологія не знайдена")
+    if not entity:
+        raise HTTPException(status_code=404, detail=f"{entity_name} не знайдена")
 
-    await session.delete(technology)
+    await session.delete(entity)
     await session.commit()
-    return {"message": f"Технологія {technology.name} видалена"}
+
+    return {"message": f"{entity_name} успішно видалена"}
