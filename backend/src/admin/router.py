@@ -4,7 +4,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.models.db_helper import db_helper
 from core.models import Technology, User, Project
 from . import service
-from .schemas import MainInfo, ProjectResponse, UserResponse, CreateTechnology
+from .schemas import (
+    MainInfo,
+    ProjectResponse,
+    UserResponse,
+    CreateTechnology,
+    UpdateProjectRequest,
+)
 from projects.schemas import TechnologyCardResponse
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
@@ -89,4 +95,15 @@ async def delete_user_endpoint(
 ):
     return await service.delete_entity(
         session=session, model=User, entity_id=user_id, entity_name="Користувач"
+    )
+
+
+@router.put("/projects/{project_id}")
+async def update_project(
+    project_id: int,
+    project_in: UpdateProjectRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.update_project(
+        session=session, project_id=project_id, project_in=project_in
     )
