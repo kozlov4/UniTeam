@@ -47,12 +47,23 @@ async def get_technologies(
     )
 
 
-# @router.post("/technologies/")
-# async def create_technology(
-#     technology_in: CreateTechnology,
-#     session: AsyncSession = Depends(db_helper.session_dependency),
-# ):
-#     return await service.create_technology(
-#         session=session,
-#         technology_in=technology_in,
-#     )
+@router.post("/technologies/", status_code=status.HTTP_201_CREATED)
+async def create_technology(
+    technology_in: CreateTechnology,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.create_technology(
+        session=session,
+        technology_in=technology_in,
+    )
+
+
+@router.delete("/technologies/{technology_id}")
+async def delete_technology(
+    technology_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.delete_technology(
+        technology_id=technology_id,
+        session=session,
+    )

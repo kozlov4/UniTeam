@@ -62,23 +62,53 @@ async def get_users(
     return list(result.scalars().all())
 
 
-# async def get_technologies(
-#     session: AsyncSession,
-#     search_text: str | None = None,
-# ) -> list[TechnologyCardResponse]:
-#     stmt = select(Technology)
-#
-#     if search_text:
-#         search_pattern = f"%{search_text}%"
-#         stmt = stmt.where(
-#             or_(
-#                 Technology.name.ilike(search_pattern),
-#             )
-#         )
-#
-#     result = await session.execute(stmt)
-#     return list(result.scalars().all())
-#
-#
-# async def create_technology(session: AsyncSession, technology_in: CreateTechnology):
-#     new_technology = Technology(name=technology_in.name)
+async def get_technologies(
+    session: AsyncSession,
+    search_text: str | None = None,
+) -> list[TechnologyCardResponse]:
+    stmt = select(Technology)
+
+    if search_text:
+        search_pattern = f"%{search_text}%"
+        stmt = stmt.where(
+            or_(
+                Technology.name.ilike(search_pattern),
+            )
+        )
+
+    result = await session.execute(stmt)
+    return list(result.scalars().all())
+
+
+from sqlalchemy import select
+from fastapi import HTTPException, status
+
+
+async def create_technology(session: AsyncSession, technology_in: CreateTechnology):
+    stmt = select(Technology).where(Technology.name == technology_in.name)
+    result = await session.execute(stmt)
+    existing_tech = result.scalar_one_or_none()
+
+    if existing_tech:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Технологія '{technology_in.name}' вже існує.",
+        )
+
+    new_technology = Technology(name=technology_in.name)
+    session.add(new_technology)
+    await session.commit()
+    await session.refresh(new_technology)
+
+    return new_technology
+
+
+async def delete_technology(session: AsyncSession, technology_id: int):
+    technology = await session.get(Technology, technology_id)
+
+    if not technology:
+        raise HTTPException(status_code=404, detail="Технологія не знайдена")
+
+    await session.delete(technology)
+    await session.commit()
+    return {"message": f"Технологія {technology.name} видалена"}
