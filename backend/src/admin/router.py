@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models.db_helper import db_helper
 from . import service
-from .schemas import MainInfo, ProjectResponse
+from .schemas import MainInfo, ProjectResponse, UserResponse
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
@@ -19,6 +19,17 @@ async def get_projects(
     search_text: str | None = None,
 ):
     return await service.get_projects(
+        session=session,
+        search_text=search_text,
+    )
+
+
+@router.get("/users/", response_model=list[UserResponse])
+async def get_users(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    search_text: str | None = None,
+):
+    return await service.get_users(
         session=session,
         search_text=search_text,
     )

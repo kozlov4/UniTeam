@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
 from core.models import User, Project, Technology
-from .schemas import MainInfo, ProjectResponse
+from .schemas import MainInfo, ProjectResponse, UserResponse
 
 
 async def get_main_info(session: AsyncSession) -> MainInfo:
@@ -36,6 +36,24 @@ async def get_projects(
         stmt = stmt.where(
             or_(
                 Project.title.ilike(search_pattern),
+            )
+        )
+
+    result = await session.execute(stmt)
+    return list(result.scalars().all())
+
+
+async def get_users(
+    session: AsyncSession,
+    search_text: str | None = None,
+) -> list[UserResponse]:
+    stmt = select(User)
+
+    if search_text:
+        search_pattern = f"%{search_text}%"
+        stmt = stmt.where(
+            or_(
+                User.email.ilike(search_pattern),
             )
         )
 

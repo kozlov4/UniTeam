@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class MainInfo(BaseModel):
@@ -15,6 +15,15 @@ class ProjectResponse(BaseModel):
     description: str
     participants_count: int
     status: str
+
+    class Config:
+        from_attributes = True
+
+
+class UserResponse(BaseModel):
+    email: EmailStr
+    first_name: str
+    is_blocked: bool
 
     class Config:
         from_attributes = True
