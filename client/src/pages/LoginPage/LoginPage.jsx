@@ -5,12 +5,18 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import styles from "./LoginPage.module.css";
 import { validateEmail, validatePassword } from "../../utils/validators";
+import { login } from "../../services/auth.service";
+import { useUserStore } from "../../stores/userStore";
 
 function LoginPage() {
   const navigate = useNavigate();
+
+  const setAuth = useUserStore((state) => state.setAuth);
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,14 +32,19 @@ function LoginPage() {
       return;
     }
 
+    setServerError("");
     setIsLoading(true);
 
     try {
-      // Тимчасово: імітуємо успішний вхід для тестів UI
-      localStorage.setItem("token", "fake-jwt-token");
+      const userData = await login(formData);
+      setAuth(userData?.user, userData.access_token, userData.refresh_token);
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
+      if (error.response?.status == 401) {
+        setServerError("Невірний пароль або пошта");
+      } else {
+        setServerError(error.response?.data?.message || "Помилка сервера");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -41,10 +52,17 @@ function LoginPage() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
+    }
+
+    if (serverError) {
+      setServerError("");
     }
   };
 
@@ -57,6 +75,7 @@ function LoginPage() {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
+          {serverError && <p className={styles.error}>{serverError}</p>}
           <Input
             onChange={handleChange}
             value={formData.email}
