@@ -22,13 +22,13 @@ export function HeroSection({ styles }) {
           З нашою університетською платформою, яка допоможе знайти однодумців
         </motion.p>
 
-        <Link to="/register">
+        <Link to={localStorage.getItem("token") ? "/dashboard" : "/register"}>
           <motion.button
             variants={fadeUp}
             whileHover={{ y: -4, scale: 1.04 }}
             whileTap={{ scale: 0.94 }}
           >
-            Створити акаунт →
+            {localStorage.getItem("token") ? "Перейти в кабінет →" : "Створити акаунт →"}
           </motion.button>
         </Link>
       </motion.div>
