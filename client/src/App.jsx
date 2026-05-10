@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import ProjectDetailPage from "./pages/ProjectDetailPage/ProjectDetailPage";
 import NotificationsPage from "./pages/NotificationsPage/NotificationsPage";
@@ -33,7 +33,7 @@ function App() {
       {/* Protected routes */}
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<StudentHomePage />} />
-        <Route path="/about" element={<ProjectDetailPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/projects" element={<ProjectsPage />} />

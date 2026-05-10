@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
+import { getProjects } from '../../services/projects.service';
 import styles from './ProjectsPage.module.css';
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
-  const projects = Array(12).fill(0).map((_, i) => ({
-    id: i,
-    title: 'Lorem ipsum tincidunt porttitor magna in ac dignissim sit nec.',
-    description: 'Lorem ipsum proin lacus commodo tellus blandit porttitor.',
-    image: `https://picsum.photos/seed/${i + 20}/400/200`,
-  }));
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const data = await getProjects();
+        setProjects(Array.isArray(data) ? data : data?.items || []);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const filterSections = [
     {
@@ -44,7 +56,13 @@ const ProjectsPage = () => {
           </div>
 
           <div className={styles.grid}>
-            {projects.map(p => <ProjectCard key={p.id} project={p} />)}
+            {isLoading ? (
+              <p>Завантаження...</p>
+            ) : projects.length > 0 ? (
+              projects.map(p => <ProjectCard key={p.id} project={p} />)
+            ) : (
+              <p>Проєктів не знайдено</p>
+            )}
           </div>
         </div>
 

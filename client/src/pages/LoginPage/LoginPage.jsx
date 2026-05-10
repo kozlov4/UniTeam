@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -7,6 +7,7 @@ import styles from "./LoginPage.module.css";
 import { validateEmail, validatePassword } from "../../utils/validators";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +29,9 @@ function LoginPage() {
     setIsLoading(true);
 
     try {
-      //TODO: Тут додати login запит
-      console.log("Дані валідні, відправка:", formData);
+      // Тимчасово: імітуємо успішний вхід для тестів UI
+      localStorage.setItem("token", "fake-jwt-token");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     } finally {

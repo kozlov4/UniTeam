@@ -1,65 +1,96 @@
 import React, { useState } from "react";
 import styles from "./TeamRequirementsSection.module.css";
-import { Trash } from "lucide-react";
-import ic_plus from "../../../assets/icons/ic_plus.svg";
+import { ChevronDown, Trash, Search } from "lucide-react";
 
-function TeamRequirementsSection({ formData, setFormData }) {
-  const [requirementInput, setRequirementInput] = useState("");
+function TeamRequirementsSection({ formData, setFormData, isOpen, onToggle }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const specialties = [
+    "Прикладна математика",
+    "Інженерія програмного забезпечення",
+    "Комп’ютерні науки",
+    "Системний аналіз",
+    "Кібербезпека",
+    "Інформаційні системи та технології",
+    "Комп’ютерна інженерія"
+  ];
 
-  const handleAddRequirement = () => {
-    if (requirementInput.trim()) {
+  const handleSelect = (spec) => {
+    if (!formData.teamRequirements.includes(spec)) {
       setFormData({
         ...formData,
-        teamRequirements: [...formData.teamRequirements, requirementInput],
+        teamRequirements: [...formData.teamRequirements, spec]
       });
-      setRequirementInput("");
     }
+    onToggle(); // Close after select
   };
 
-  const handleRemoveRequirement = (index) => {
+  const handleRemove = (spec) => {
     setFormData({
       ...formData,
-      teamRequirements: formData.teamRequirements.filter((_, i) => i !== index),
+      teamRequirements: formData.teamRequirements.filter(s => s !== spec)
     });
   };
+
+  const filteredSpecs = specialties.filter(spec => 
+    spec.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.section}>
       <h3 className={styles.title}>Хто потрібен у команду</h3>
-
-      {formData.teamRequirements.map((requirement, index) => (
-        <div key={index} className={styles.itemRow}>
-          <span className={styles.itemText}>{requirement}</span>
-          <button
-            type="button"
-            className={styles.removeButton}
-            onClick={() => handleRemoveRequirement(index)}
-          >
-            <Trash />
-          </button>
-        </div>
-      ))}
-
-      <div className={styles.inputRow}>
-        <input
-          type="text"
-          className={styles.input}
-          placeholder="Введіть позицію"
-          value={requirementInput}
-          onChange={(e) => setRequirementInput(e.target.value)}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              handleAddRequirement();
-            }
-          }}
-        />
-        <button
-          type="button"
-          className={styles.addButton}
-          onClick={handleAddRequirement}
+      
+      <div className={styles.selectWrapper}>
+        <button 
+          type="button" 
+          className={styles.selectButton}
+          onClick={onToggle}
         >
-          <img src={ic_plus} alt="іконка додати" />
+          <span>Список спеціальностей</span>
+          <ChevronDown size={20} className={isOpen ? styles.rotate : ""} />
         </button>
+        
+        {isOpen && (
+          <div className={styles.dropdown}>
+            <div className={styles.searchBox}>
+              <Search size={16} className={styles.searchIcon} />
+              <input 
+                type="text" 
+                placeholder="Пошук..." 
+                className={styles.searchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                autoFocus
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+            <div className={styles.optionsList}>
+              {filteredSpecs.map(spec => (
+                <div 
+                  key={spec} 
+                  className={styles.dropdownItem}
+                  onClick={() => handleSelect(spec)}
+                >
+                  {spec}
+                </div>
+              ))}
+              {filteredSpecs.length === 0 && (
+                <div className={styles.noResults}>Нічого не знайдено</div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.tags}>
+        {formData.teamRequirements.map(spec => (
+          <div key={spec} className={styles.tag}>
+            {spec}
+            <button type="button" onClick={() => handleRemove(spec)}>
+              <Trash size={14} />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -23,8 +23,10 @@ apiAxios.interceptors.response.use(
   (error) => {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+        // Тимчасово вимкнено для тестів з фейковими токенами
+        // localStorage.removeItem("token");
+        // window.location.href = "/login";
+        console.warn("401 Unauthorized: Запит відхилено бекендом (можливо, фейковий токен)");
       }
     }
     return Promise.reject(error);

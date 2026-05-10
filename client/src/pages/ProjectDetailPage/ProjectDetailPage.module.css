@@ -19,41 +19,6 @@
   gap: 16px;
 }
 
-.logo {
-  font-size: 32px;
-  font-weight: 800;
-  display: flex;
-  align-items: flex-start;
-  line-height: 1;
-}
-
-.logoDot {
-  width: 8px;
-  height: 8px;
-  background-color: #ff8a00;
-  border-radius: 50%;
-  margin-left: 2px;
-  margin-top: 4px;
-}
-
-.breadcrumbs {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #6f707a;
-  font-size: 14px;
-}
-
-.breadcrumbs a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.2s;
-}
-
-.breadcrumbs a:hover {
-  color: #ff8a00;
-}
-
 .headerRight {
   display: flex;
   align-items: center;
@@ -295,5 +260,147 @@
   border-radius: 15px;
   text-align: center;
   font-size: 14px;
+  font-weight: 600;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(48, 49, 58, 0.4);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 40px;
+}
+
+.applyModal {
+  background: white;
+  padding: 60px;
+  border-radius: 60px;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modalCloseX {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ff5252;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalCloseX:hover {
+  background-color: #ff1744;
+  transform: scale(1.1);
+}
+
+.applyModalTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #30313a;
+  margin-bottom: 40px;
+  max-width: 90%;
+}
+
+.applyTextareaWrapper {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin-bottom: 40px;
+}
+
+.applyTextarea {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  border-radius: 30px;
+  border: 1.5px solid #d1d5db;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 18px;
+  resize: none;
+  outline: none;
+  transition: all 0.2s;
+  color: #30313a;
+}
+
+.applyTextarea:focus {
+  border-color: #7b8aff;
+  background-color: #f8f9ff;
+}
+
+.applyCharCount {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 16px;
+  color: #9ca3af;
+}
+
+.applyModalActions {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.applyCancelBtn {
+  padding: 18px 60px;
+  border-radius: 30px;
+  border: none;
+  background-color: #f4f4ff;
+  color: #30313a;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.applyCancelBtn:hover {
+  background-color: #e8e8ff;
+}
+
+.applySubmitBtn {
+  padding: 18px 60px;
+  border-radius: 30px;
+  border: none;
+  background-color: #ff8a00;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.applySubmitBtn:hover {
+  background-color: #e67c00;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255, 138, 0, 0.3);
+}
+
+.applySubmitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading, .error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
   font-weight: 600;
 }

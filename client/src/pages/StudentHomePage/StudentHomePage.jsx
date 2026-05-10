@@ -1,82 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import MainLayout from "../../components/MainLayout/MainLayout";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import { fadeUp, staggerContainer } from "../../utils/animations";
+import { getProjects, getSpecialtyProjects } from "../../services/projects.service";
 import styles from "./StudentHomePage.module.css";
 
 const StudentHomePage = () => {
   const navigate = useNavigate();
-  const newProjects = [
-    {
-      id: 1,
-      title: "Розробка програмної системи для перевезення вантажу",
-      description: "Розробка програмної системи для перевезення вантажу",
-      image:
-        "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400",
-    },
-    {
-      id: 2,
-      title: "Розробка програмної системи для перевезення вантажу",
-      description: "Розробка програмної системи для перевезення вантажу",
-      image:
-        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400",
-    },
-    {
-      id: 3,
-      title: "Розробка програмної системи для перевезення вантажу",
-      description: "Розробка програмної системи для перевезення вантажу",
-      image:
-        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400",
-    },
-    {
-      id: 4,
-      title: "Розробка програмної системи для перевезення вантажу",
-      description: "Розробка програмної системи для перевезення вантажу",
-      image:
-        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400",
-    },
-    {
-      id: 5,
-      title: "Розробка програмної системи для перевезення вантажу",
-      description: "Розробка програмної системи для перевезення вантажу",
-      image:
-        "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400",
-    },
-  ];
+  const [newProjects, setNewProjects] = useState([]);
+  const [suggestedProjects, setSuggestedProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const suggestedProjects = [
-    {
-      id: 6,
-      title:
-        "Lorem ipsum tincidunt porttitor magna in ac dignissim sit nec.",
-      description: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400",
-    },
-    {
-      id: 7,
-      title: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      description: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      image:
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400",
-    },
-    {
-      id: 8,
-      title: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      description: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      image:
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400",
-    },
-    {
-      id: 9,
-      title: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      description: "Lorem ipsum proin lacus commodo tellus blandit porttitor.",
-      image:
-        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400",
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Fetching dashboard data...");
+        const [recentData, recommendedData] = await Promise.all([
+          getProjects({ sort_by: "newest", limit: 5 }),
+          getSpecialtyProjects(),
+        ]);
+        
+        console.log("Recent projects response:", recentData);
+        console.log("Specialty projects response:", recommendedData);
+
+        const recent = Array.isArray(recentData) ? recentData : recentData?.items || [];
+        const specialty = Array.isArray(recommendedData) ? recommendedData : recommendedData?.items || [];
+        
+        setNewProjects(recent);
+        setSuggestedProjects(specialty);
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <MainLayout>
@@ -121,7 +83,13 @@ const StudentHomePage = () => {
           </div>
         </div>
         <div className={styles.projectsGrid}>
-          {newProjects.map(p => <ProjectCard key={p.id} project={p} />)}
+          {isLoading ? (
+            <p>Завантаження...</p>
+          ) : newProjects.length > 0 ? (
+            newProjects.map(p => <ProjectCard key={p.id} project={p} />)
+          ) : (
+            <p>Немає нових проєктів</p>
+          )}
         </div>
       </motion.section>
 
@@ -144,7 +112,13 @@ const StudentHomePage = () => {
           </div>
         </div>
         <div className={styles.projectsGrid}>
-          {suggestedProjects.map(p => <ProjectCard key={p.id} project={p} />)}
+          {isLoading ? (
+            <p>Завантаження...</p>
+          ) : suggestedProjects.length > 0 ? (
+            suggestedProjects.map(p => <ProjectCard key={p.id} project={p} />)
+          ) : (
+            <p>Рекомендацій немає</p>
+          )}
         </div>
       </motion.section>
     </MainLayout>

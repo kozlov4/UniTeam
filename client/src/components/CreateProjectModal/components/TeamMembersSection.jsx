@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TeamMembersSection.module.css";
 import { Trash } from "lucide-react";
+import { getUsers } from "../../../services/users.service";
 
 function TeamMembersSection({ formData, setFormData }) {
   const [searchInput, setSearchInput] = useState("");
@@ -8,14 +9,15 @@ function TeamMembersSection({ formData, setFormData }) {
   const [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    // TODO: Замінити на отримання користувачів
-    setAllUsers([
-      { id: 1, name: "Іван", surname: "Петренко" },
-      { id: 2, name: "Марія", surname: "Коваленко" },
-      { id: 3, name: "Петро", surname: "Сидоренко" },
-      { id: 4, name: "Анна", surname: "Українська" },
-      { id: 5, name: "Василь", surname: "Мазепа" },
-    ]);
+    const fetchUsers = async () => {
+      try {
+        const data = await getUsers({ limit: 100 });
+        setAllUsers(Array.isArray(data) ? data : data?.items || []);
+      } catch (error) {
+        console.error("Failed to fetch users for project creation:", error);
+      }
+    };
+    fetchUsers();
   }, []);
 
   const handleSearchChange = (e) => {
@@ -23,12 +25,13 @@ function TeamMembersSection({ formData, setFormData }) {
     setSearchInput(value);
 
     if (value.trim()) {
-      const results = allUsers.filter(
-        (user) =>
-          (user.name.toLowerCase().includes(value.toLowerCase()) ||
-            user.surname.toLowerCase().includes(value.toLowerCase())) &&
-          !formData.teamMembers.some((member) => member.id === user.id),
-      );
+      const results = allUsers.filter((user) => {
+        const fullName = `${user.first_name || ""} ${user.last_name || ""}`.toLowerCase();
+        return (
+          fullName.includes(value.toLowerCase()) &&
+          !formData.teamMembers.some((member) => member.id === user.id)
+        );
+      });
       setSearchResults(results);
     } else {
       setSearchResults([]);
@@ -55,22 +58,7 @@ function TeamMembersSection({ formData, setFormData }) {
 
   return (
     <div className={styles.section}>
-      <h3 className={styles.title}>Додати учасника</h3>
-
-      {formData.teamMembers.map((member) => (
-        <div key={member.id} className={styles.itemRow}>
-          <span className={styles.itemText}>
-            {member.name} {member.surname}
-          </span>
-          <button
-            type="button"
-            className={styles.removeButton}
-            onClick={() => handleRemoveMember(member.id)}
-          >
-            <Trash />
-          </button>
-        </div>
-      ))}
+      <h3 className={styles.title}>Додати учасників</h3>
 
       <div className={styles.searchWrapper}>
         <div className={styles.inputRow}>
@@ -92,11 +80,22 @@ function TeamMembersSection({ formData, setFormData }) {
                 className={styles.searchResultItem}
                 onClick={() => handleAddMember(user)}
               >
-                {user.name} {user.surname}
+                {user.first_name} {user.last_name}
               </button>
             ))}
           </div>
         )}
+      </div>
+
+      <div className={styles.tags}>
+        {formData.teamMembers.map((member) => (
+          <div key={member.id} className={styles.tag}>
+            {member.first_name} {member.last_name}
+            <button type="button" onClick={() => handleRemoveMember(member.id)}>
+              <Trash size={14} />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );

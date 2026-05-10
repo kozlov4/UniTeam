@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ProjectForm.module.css";
 
-function ProjectForm({ formData, setFormData }) {
+const ProjectForm = ({ formData, setFormData }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -12,7 +12,7 @@ function ProjectForm({ formData, setFormData }) {
 
   return (
     <div className={styles.formSection}>
-      <div>
+      <div className={styles.headerInfo}>
         <h2 className={styles.title}>Додати новий проєкт</h2>
         <p className={styles.subtitle}>
           Будь ласка, заповніть поля інформацією про Ваш проєкт
@@ -20,7 +20,7 @@ function ProjectForm({ formData, setFormData }) {
       </div>
 
       <div className={styles.fieldGroup}>
-        <label className={styles.label}>Назва проекту</label>
+        <label className={styles.label}>Назва проєкту</label>
         <input
           type="text"
           name="projectName"
@@ -32,7 +32,7 @@ function ProjectForm({ formData, setFormData }) {
       </div>
 
       <div className={styles.fieldGroup}>
-        <label className={styles.label}>Мета проекту</label>
+        <label className={styles.label}>Мета проєкту</label>
         <input
           type="text"
           name="projectGoal"
@@ -44,21 +44,22 @@ function ProjectForm({ formData, setFormData }) {
       </div>
 
       <div className={styles.fieldGroup}>
-        <label className={styles.label}>Опис проекту</label>
-        <textarea
-          name="projectDescription"
-          className={styles.textarea}
-          placeholder="Коротко опишіть сутність проєкту"
-          rows="6"
-          value={formData.projectDescription}
-          onChange={handleChange}
-        />
-        <span className={styles.charCount}>
-          {formData.projectDescription.length}/1500
-        </span>
+        <label className={styles.label}>Опис проєкту</label>
+        <div className={styles.textareaWrapper}>
+          <textarea
+            name="projectDescription"
+            className={styles.textarea}
+            placeholder="Коротко опишіть сутність проєкту."
+            value={formData.projectDescription}
+            onChange={handleChange}
+          />
+          <span className={styles.charCount}>
+            {formData.projectDescription.length}/1500
+          </span>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default ProjectForm;
