@@ -117,10 +117,10 @@ export default function ProjectDetailPage() {
       <main className={styles.mainContent}>
         <div className={styles.container}>
           <div className={styles.leftCol}>
-            <ProjectContent styles={styles} project={project} />
+            <ProjectContent styles={styles} project={project} currentUser={user} />
           </div>
           <div className={styles.rightCol}>
-            <ProjectSidebar styles={styles} project={project} currentUser={user} />
+            <ProjectSidebar styles={styles} project={project} />
           </div>
         </div>
       </main>
