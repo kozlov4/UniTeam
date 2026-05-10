@@ -15,6 +15,7 @@ const ParticipantsPage = () => {
         const data = await getUsers();
         setParticipants(Array.isArray(data) ? data : data?.items || []);
       } catch (error) {
+        
         console.error("Failed to fetch users:", error);
       } finally {
         setIsLoading(false);

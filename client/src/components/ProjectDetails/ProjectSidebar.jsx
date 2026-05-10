@@ -5,7 +5,7 @@ import { submitApplication } from "../../services/applications.service";
 import { X } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 
-export function ProjectSidebar({ styles, project }) {
+export function ProjectSidebar({ styles, project, currentUser }) {
   const { showToast } = useToast();
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
@@ -13,6 +13,11 @@ export function ProjectSidebar({ styles, project }) {
 
   const { members = [], vacancies = [], leader, id: projectId } = project;
   
+  // Check if current user is already in the team (either as member or leader)
+  const isAlreadyMember = 
+    members.some(m => m.id === currentUser?.id) || 
+    leader?.id === currentUser?.id;
+
   const handleApply = async (e) => {
     e.preventDefault();
     if (coverLetter.length < 50) {
@@ -30,7 +35,6 @@ export function ProjectSidebar({ styles, project }) {
       setShowApplyModal(false);
       setCoverLetter("");
     } catch (error) {
-      console.error("Failed to submit application:", error);
       showToast("Помилка при поданні заявки. Спробуйте пізніше.", "error");
     } finally {
       setIsSubmitting(false);
@@ -87,12 +91,15 @@ export function ProjectSidebar({ styles, project }) {
           </div>
         )}
 
-        <button
-          className={styles.applyBtn}
-          onClick={() => setShowApplyModal(true)}
-        >
-          Подати заявку
-        </button>
+        {/* Hide button if user is already a member */}
+        {!isAlreadyMember && (
+          <button
+            className={styles.applyBtn}
+            onClick={() => setShowApplyModal(true)}
+          >
+            Подати заявку
+          </button>
+        )}
       </div>
 
       {vacancies && vacancies.length > 0 && (

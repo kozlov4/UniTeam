@@ -14,7 +14,10 @@ function TeamMembersSection({ formData, setFormData }) {
         const data = await getUsers({ limit: 100 });
         setAllUsers(Array.isArray(data) ? data : data?.items || []);
       } catch (error) {
-        console.error("Failed to fetch users for project creation:", error);
+        showToast(
+          "Виникла помилка при завантаженні даних для форми.",
+          "error",
+        );
       }
     };
     fetchUsers();

@@ -4,3 +4,8 @@ export const getUsers = async (params = {}) => {
   const response = await apiAxios.get("/users/", { params });
   return response.data;
 };
+
+export const getCurrentUser = async () => {
+  const response = await apiAxios.get("/users/me/");
+  return response.data;
+};

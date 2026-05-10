@@ -7,7 +7,7 @@ import ProjectImageUpload from "./components/ProjectImageUpload";
 import TechnologiesSection from "./components/TechnologiesSection";
 import TeamMembersSection from "./components/TeamMembersSection";
 import TeamRequirementsSection from "./components/TeamRequirementsSection";
-import { createProject, getCategories, getTechnologies } from "../../services/projects.service";
+import { createProject, getCategories, getTechnologies, uploadImage } from "../../services/projects.service";
 import { ChevronDown, Search } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 
@@ -43,7 +43,10 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
         setTechnologies(Array.isArray(techs) ? techs : techs?.items || []);
         setCategories(Array.isArray(cats) ? cats : cats?.items || []);
       } catch (error) {
-        console.error("Error fetching form data:", error);
+        showToast(
+          "Виникла помилка при завантаженні даних для форми.",
+          "error",
+        );
       }
     };
     fetchData();
@@ -77,12 +80,26 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
 
     setIsSubmitting(true);
     try {
+      let imageUrl = "";
+      
+      // Upload image first if selected
+      if (formData.projectImage) {
+        try {
+          const uploadResponse = await uploadImage(formData.projectImage);
+          imageUrl = uploadResponse.url || uploadResponse.image_url || "";
+        } catch (uploadError) {
+          showToast("Не вдалося завантажити зображення, створюємо без нього.", "info");
+        }
+      }
+
       const projectData = {
         title: formData.projectName,
         goal: formData.projectGoal,
         description: formData.projectDescription,
         category_id: parseInt(formData.categoryId),
+        image_url: imageUrl,
         tech_ids: formData.technologies.map(t => typeof t === 'object' ? t.id : t),
+        participant_ids: formData.teamMembers.map(m => m.id),
       };
 
       if (onSubmit) {
@@ -93,7 +110,6 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Failed to create project:", error);
       showToast("Помилка при створенні проєкту.", "error");
     } finally {
       setIsSubmitting(false);

@@ -17,7 +17,7 @@ const ProjectsPage = () => {
         const data = await getProjects();
         setProjects(Array.isArray(data) ? data : data?.items || []);
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        showToast("Помилка при завантаженні даних проєктів.", "error");
       } finally {
         setIsLoading(false);
       }

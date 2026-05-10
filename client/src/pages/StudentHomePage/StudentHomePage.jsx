@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import MainLayout from "../../components/MainLayout/MainLayout";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import { fadeUp, staggerContainer } from "../../utils/animations";
-import { getProjects, getSpecialtyProjects } from "../../services/projects.service";
+import {
+  getProjects,
+  getSpecialtyProjects,
+} from "../../services/projects.service";
 import styles from "./StudentHomePage.module.css";
 
 const StudentHomePage = () => {
@@ -16,22 +19,22 @@ const StudentHomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Fetching dashboard data...");
         const [recentData, recommendedData] = await Promise.all([
           getProjects({ sort_by: "newest", limit: 5 }),
           getSpecialtyProjects(),
         ]);
-        
-        console.log("Recent projects response:", recentData);
-        console.log("Specialty projects response:", recommendedData);
 
-        const recent = Array.isArray(recentData) ? recentData : recentData?.items || [];
-        const specialty = Array.isArray(recommendedData) ? recommendedData : recommendedData?.items || [];
-        
+        const recent = Array.isArray(recentData)
+          ? recentData
+          : recentData?.items || [];
+        const specialty = Array.isArray(recommendedData)
+          ? recommendedData
+          : recommendedData?.items || [];
+
         setNewProjects(recent);
         setSuggestedProjects(specialty);
       } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
+        showToast("Помилка при завантаженні даних головної сторінки.", "error");
       } finally {
         setIsLoading(false);
       }
@@ -75,10 +78,24 @@ const StudentHomePage = () => {
           <h2 className={styles.sectionTitle}>Нові проєкти</h2>
           <div className={styles.sliderControls}>
             <button className={styles.controlBtn}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
             </button>
             <button className={`${styles.controlBtn} ${styles.activeBtn}`}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
             </button>
           </div>
         </div>
@@ -86,7 +103,7 @@ const StudentHomePage = () => {
           {isLoading ? (
             <p>Завантаження...</p>
           ) : newProjects.length > 0 ? (
-            newProjects.map(p => <ProjectCard key={p.id} project={p} />)
+            newProjects.map((p) => <ProjectCard key={p.id} project={p} />)
           ) : (
             <p>Немає нових проєктів</p>
           )}
@@ -101,13 +118,29 @@ const StudentHomePage = () => {
         viewport={{ once: true, amount: 0.1 }}
       >
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Проєкти пов'язані з Вашою спеціальністю/факультетом</h2>
+          <h2 className={styles.sectionTitle}>
+            Проєкти пов'язані з Вашою спеціальністю/факультетом
+          </h2>
           <div className={styles.sliderControls}>
             <button className={styles.controlBtn}>
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
             </button>
             <button className={`${styles.controlBtn} ${styles.activeBtn}`}>
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
             </button>
           </div>
         </div>
@@ -115,7 +148,7 @@ const StudentHomePage = () => {
           {isLoading ? (
             <p>Завантаження...</p>
           ) : suggestedProjects.length > 0 ? (
-            suggestedProjects.map(p => <ProjectCard key={p.id} project={p} />)
+            suggestedProjects.map((p) => <ProjectCard key={p.id} project={p} />)
           ) : (
             <p>Рекомендацій немає</p>
           )}
