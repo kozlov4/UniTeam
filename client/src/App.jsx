@@ -13,8 +13,12 @@ import MessagesPage from "./pages/MessagesPage/MessagesPage";
 import CreateProjectModal from "./components/CreateProjectModal/CreateProjectModal";
 import PrivateRoute from "./router/PrivateRoute";
 import GuestRoute from "./router/GuestRoute";
+import MainPage from "./pages/Admin/MainPage/MainPage.jsx";
+import ProjectsPageAdmin from "./pages/Admin/ProjectsPageAdmin/ProjectsPageAdmin.jsx";
 
 import "./App.css";
+import StudentsPage from "./pages/Admin/StudentsPage/StudentsPage.jsx";
+import TechnologiesPage from "./pages/Admin/TechnologiesPage/TechnologiesPage.jsx";
 
 function App() {
   return (
@@ -39,6 +43,11 @@ function App() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/participants" element={<ParticipantsPage />} />
         <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
+
+        <Route path="/admin/main" element={<MainPage />} />
+        <Route path="/admin/projects" element={<ProjectsPageAdmin />} />
+        <Route path="/admin/users" element={<StudentsPage />} />
+        <Route path="/admin/skills" element={<TechnologiesPage />} />
       </Route>
     </Routes>
   );

@@ -1,0 +1,60 @@
+.title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 35px;
+}
+.subtitle {
+    font-family: "Relawey", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #323339;
+    margin-bottom: 12px;
+}
+.createSection {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 22px;
+  max-width: 540px;
+}
+
+.createInput {
+  flex: 1;
+  padding: 15px 24px;
+  border: 1px solid #8692A6;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.createInput:focus {
+  border-color: #FF8600;
+}
+
+.addBtn {
+  background-color: #758BFD;
+  border: none;
+  border-radius: 15px;
+  width: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.addBtn:hover {
+  background-color: #45464d;
+  transform: scale(1.05);
+}
+
+.addBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar {
+  margin-bottom: 35px;
+  margin-right: 30px;
+}

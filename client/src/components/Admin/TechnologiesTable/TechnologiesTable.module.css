@@ -1,0 +1,53 @@
+.tableWrapper {
+  border: 1px solid #FFC482;
+  border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  max-width: 760px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.table th {
+  color: black;
+  background-color: #FFF3E6;
+  text-align: left;
+  padding: 19px;
+  font-weight: 500;
+  font-size: 20px;
+  border-right: 1px solid #FFC482;
+}
+
+.table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #FFC482;
+  border-right: 1px solid #FFC482;
+  font-size: 16px;
+}
+
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.editBtn, .deleteBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.editBtn { color: #FF8600; background: #FFF3E6; }
+
+.editBtn:hover {
+    color: #758BFD; background: #D9DEFF;
+}
+.deleteBtn { color: #F0F1FF; background: #323339; }
