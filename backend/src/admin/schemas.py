@@ -3,6 +3,14 @@ from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field
 
 
+class SpecialtiesResponse(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+
+
 class MainInfo(BaseModel):
     students_count: int
     projects_count: int

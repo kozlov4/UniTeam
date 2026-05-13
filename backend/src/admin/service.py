@@ -13,6 +13,7 @@ from core.models import (
     project_technologies,
     project_members,
     project_vacancies,
+    Specialty,
 )
 from .schemas import (
     MainInfo,
@@ -41,6 +42,12 @@ async def get_main_info(session: AsyncSession) -> MainInfo:
         projects_count=projects_count,
         technologies_count=technologies_count,
     )
+
+
+async def get_specialties_info(session: AsyncSession):
+    stmt = select(Specialty)
+    result = await session.execute(stmt)
+    return list(result.scalars().all())
 
 
 async def get_projects(
