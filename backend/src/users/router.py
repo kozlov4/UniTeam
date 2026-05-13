@@ -19,7 +19,11 @@ async def get_me(
     return current_user
 
 
-@router.get("/", response_model=List[schemas.UserCardResponse])
+@router.get(
+    "/",
+    response_model=List[schemas.UserCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_participants(
     limit: int = Query(20, ge=1, le=100, description="Кількість записів на сторінку"),
     offset: int = Query(0, ge=0, description="Зсув для пагінації"),
@@ -46,7 +50,11 @@ async def get_participants(
     return users
 
 
-@router.get("/{user_id}/profile/", response_model=UserProfileDetailResponse)
+@router.get(
+    "/{user_id}/profile/",
+    response_model=UserProfileDetailResponse,
+    dependencies=[Depends(get_current_user)],
+)
 async def get_user_profile(
     user_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
 ):
