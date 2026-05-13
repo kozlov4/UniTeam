@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import select, func, or_, delete, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
-
+from auth.utils import transliterate_to_ukrainian
 from core.models import (
     User,
     Project,
@@ -14,6 +14,7 @@ from core.models import (
     project_members,
     project_vacancies,
     Specialty,
+    user_technologies,
 )
 from .schemas import (
     MainInfo,
@@ -21,6 +22,7 @@ from .schemas import (
     UserResponse,
     CreateTechnology,
     UpdateProjectRequest,
+    UserUpdateRequest,
 )
 from projects.schemas import TechnologyCardResponse
 
@@ -180,3 +182,52 @@ async def update_project(
     await session.refresh(project)
 
     return project
+
+
+async def update_user(session: AsyncSession, user_id: int, user_in: UserUpdateRequest):
+    user = await session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Користувача не знайдено")
+
+    if user_in.email is not None and user_in.email != user.email:
+        if not user_in.email.endswith("@nure.ua"):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Дозволено використовувати лише домен @nure.ua",
+            )
+
+        stmt = select(User).where(User.email == user_in.email, User.id != user_id)
+        existing_user = await session.scalar(stmt)
+        if existing_user:
+            raise HTTPException(
+                status_code=400, detail="Цей email вже використовується"
+            )
+
+        name_part = user_in.email.split("@")[0]
+        if "." in name_part:
+            first_raw, last_raw = name_part.split(".", 1)
+        else:
+            first_raw, last_raw = name_part, ""
+
+        user.email = user_in.email
+        user.first_name = transliterate_to_ukrainian(first_raw)
+        user.last_name = transliterate_to_ukrainian(last_raw)
+
+    if user_in.specialty_id is not None:
+        user.specialty_id = user_in.specialty_id
+
+    if user_in.technology_ids is not None:
+        await session.execute(
+            delete(user_technologies).where(user_technologies.c.user_id == user_id)
+        )
+        if user_in.technology_ids:
+            values = [
+                {"user_id": user_id, "technology_id": tech_id}
+                for tech_id in set(user_in.technology_ids)
+            ]
+            await session.execute(insert(user_technologies).values(values))
+
+    await session.commit()
+    await session.refresh(user)
+
+    return user
