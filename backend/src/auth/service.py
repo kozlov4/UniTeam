@@ -86,7 +86,9 @@ async def user_login(
         )
 
     if user.is_blocked:
-        raise HTTPException(status_code=403, detail="Email is blocked")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Email is blocked"
+        )
 
     access_token = encode_jwt(
         payload={

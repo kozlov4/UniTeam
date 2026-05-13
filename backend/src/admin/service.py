@@ -23,6 +23,7 @@ from .schemas import (
     CreateTechnology,
     UpdateProjectRequest,
     UserUpdateRequest,
+    UserBanRequest,
 )
 from projects.schemas import TechnologyCardResponse
 
@@ -226,6 +227,21 @@ async def update_user(session: AsyncSession, user_id: int, user_in: UserUpdateRe
                 for tech_id in set(user_in.technology_ids)
             ]
             await session.execute(insert(user_technologies).values(values))
+
+    await session.commit()
+    await session.refresh(user)
+
+    return user
+
+
+async def update_user_block_status(
+    session: AsyncSession, user_id: int, user_in: UserBanRequest
+):
+    user = await session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Користувача не знайдено")
+
+    user.is_blocked = user_in.is_blocked
 
     await session.commit()
     await session.refresh(user)

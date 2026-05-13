@@ -12,6 +12,7 @@ from .schemas import (
     UpdateProjectRequest,
     SpecialtiesResponse,
     UserUpdateRequest,
+    UserBanRequest,
 )
 from projects.schemas import TechnologyCardResponse
 from .dependencies import get_admin_user
@@ -137,3 +138,17 @@ async def update_student_profile(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await service.update_user(session=session, user_id=user_id, user_in=user_in)
+
+
+@router.patch(
+    "/users/{user_id}/block/",
+    response_model=UserResponse,
+)
+async def toggle_user_block(
+    user_id: int,
+    user_in: UserBanRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.update_user_block_status(
+        session=session, user_id=user_id, user_in=user_in
+    )
