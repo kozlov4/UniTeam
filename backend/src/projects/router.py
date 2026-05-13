@@ -19,7 +19,11 @@ from users.dependencies import get_current_user
 router = APIRouter(prefix="/projects", tags=["Projects"])
 
 
-@router.get("/", response_model=list[ProjectCardResponse])
+@router.get(
+    "/",
+    response_model=list[ProjectCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_projects(
     session: AsyncSession = Depends(db_helper.session_dependency),
     sort_by: SortByChoice = Query(default=SortByChoice.newest, description="Sort type"),
