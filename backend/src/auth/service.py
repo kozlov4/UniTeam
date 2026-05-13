@@ -85,6 +85,9 @@ async def user_login(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or pass"
         )
 
+    if user.is_blocked:
+        raise HTTPException(status_code=403, detail="Email is blocked")
+
     access_token = encode_jwt(
         payload={
             "sub": str(user.id),
