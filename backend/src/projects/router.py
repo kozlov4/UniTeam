@@ -44,7 +44,11 @@ async def get_projects(
     )
 
 
-@router.get("/{project_id}", response_model=ProjectDetailOut)
+@router.get(
+    "/{project_id}",
+    response_model=ProjectDetailOut,
+    dependencies=[Depends(get_current_user)],
+)
 async def get_project(
     project_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
 ):
@@ -69,21 +73,33 @@ async def get_my_specialty_projects(
     )
 
 
-@router.get("/categories/", response_model=list[CategoryCardResponse])
+@router.get(
+    "/categories/",
+    response_model=list[CategoryCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_properties(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await service.get_properties(session=session, type="category")
 
 
-@router.get("/technologies/", response_model=list[TechnologyCardResponse])
+@router.get(
+    "/technologies/",
+    response_model=list[TechnologyCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_properties(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await service.get_properties(session=session, type="technology")
 
 
-@router.get("/vacancies/", response_model=list[VacancyCardResponse])
+@router.get(
+    "/vacancies/",
+    response_model=list[VacancyCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_properties(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
