@@ -93,7 +93,7 @@ class Project(Base):
     category_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("project_categories.id", ondelete="SET NULL")
     )
-
+    completed_at: Mapped[Optional[datetime]] = mapped_column(nullable=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     status: Mapped[str] = mapped_column(
         String(20), default="ACTIVE", server_default="ACTIVE"
