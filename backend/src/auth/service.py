@@ -8,6 +8,8 @@ from core.models import User
 from .schemas import TokenInfo
 from .utils import hash_password, encode_jwt, transliterate_to_ukrainian
 
+BASE_USER_AVATAR = "https://res.cloudinary.com/dhc7c978y/image/upload/v1778658366/uniteam_projects/etix3p7dsogs0cdfxogu.png"
+
 
 async def register_user(
     session: AsyncSession,
@@ -44,6 +46,7 @@ async def register_user(
         password_hash=hashed_pwd.decode("utf-8"),
         first_name=first_name,
         last_name=last_name,
+        avatar_url=BASE_USER_AVATAR,
     )
 
     session.add(new_user)

@@ -54,7 +54,6 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(50))
     avatar_url: Mapped[Optional[str]] = mapped_column(String(255))
     bio_description: Mapped[Optional[str]] = mapped_column(Text)
-    course_year: Mapped[Optional[int]] = mapped_column(Integer)
     reset_code: Mapped[Optional[str]] = mapped_column(String(8))
     reset_code_expire: Mapped[datetime] = mapped_column(nullable=True)
     role: Mapped[str] = mapped_column(

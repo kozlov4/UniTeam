@@ -10,8 +10,6 @@ async def get_participants_list(
     limit: int = 20,
     offset: int = 0,
     search: Optional[str] = None,
-    course_year: Optional[int] = None,
-    faculty_id: Optional[int] = None,
     specialty_id: Optional[int] = None,
     skill_ids: Optional[List[int]] = None,
 ):
@@ -26,12 +24,6 @@ async def get_participants_list(
                 User.last_name.ilike(f"%{search}%"),
             )
         )
-
-    if course_year is not None:
-        query = query.where(User.course_year == course_year)
-
-    if faculty_id is not None:
-        query = query.where(User.faculty_id == faculty_id)
 
     if specialty_id is not None:
         query = query.where(User.specialty_id == specialty_id)
