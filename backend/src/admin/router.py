@@ -12,8 +12,11 @@ from .schemas import (
     UpdateProjectRequest,
 )
 from projects.schemas import TechnologyCardResponse
+from .dependencies import get_admin_user
 
-router = APIRouter(prefix="/admin", tags=["Admin"])
+router = APIRouter(
+    prefix="/admin", tags=["Admin"], dependencies=[Depends(get_admin_user)]
+)
 
 
 @router.get("/main/", response_model=MainInfo)
@@ -21,7 +24,10 @@ async def get_main_info(session: AsyncSession = Depends(db_helper.session_depend
     return await service.get_main_info(session=session)
 
 
-@router.get("/projects/", response_model=list[ProjectResponse])
+@router.get(
+    "/projects/",
+    response_model=list[ProjectResponse],
+)
 async def get_projects(
     session: AsyncSession = Depends(db_helper.session_dependency),
     search_text: str | None = None,
@@ -43,7 +49,10 @@ async def get_users(
     )
 
 
-@router.get("/technologies/", response_model=list[TechnologyCardResponse])
+@router.get(
+    "/technologies/",
+    response_model=list[TechnologyCardResponse],
+)
 async def get_technologies(
     session: AsyncSession = Depends(db_helper.session_dependency),
     search_text: str | None = None,
@@ -54,7 +63,10 @@ async def get_technologies(
     )
 
 
-@router.post("/technologies/", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/technologies/",
+    status_code=status.HTTP_201_CREATED,
+)
 async def create_technology(
     technology_in: CreateTechnology,
     session: AsyncSession = Depends(db_helper.session_dependency),
