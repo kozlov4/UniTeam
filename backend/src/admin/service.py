@@ -185,7 +185,7 @@ async def update_project(
     return project
 
 
-async def update_user(session: AsyncSession, user_id: int, user_in: UserUpdateRequest):
+async def update_user(session: AsyncSession, user_id: int, user_in):
     user = await session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="Користувача не знайдено")

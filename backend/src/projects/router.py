@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 from .schemas import (
     ProjectCardResponse,
@@ -11,10 +11,13 @@ from .schemas import (
     VacancyCardResponse,
     ProjectDetailOut,
     CreateApplicationRequest,
+    ApplicationResponse,
+    ApplicationDecision,
 )
 from core.models.db_helper import db_helper
 from . import service
 from users.dependencies import get_current_user
+from password_reset.router import fm
 
 router = APIRouter(prefix="/projects", tags=["Projects"])
 
@@ -125,4 +128,47 @@ async def create_application(
 ):
     return await service.create_application(
         session=session, application_in=application_in, current_user_id=current_user_id
+    )
+
+
+@router.get("/{project_id}/applications/", response_model=list[ApplicationResponse])
+async def get_project_applications_endpoint(
+    project_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
+):
+    """Отримати всі активні заявки для кабінету лідера"""
+    return await service.get_project_applications(
+        session=session, project_id=project_id, user_id=current_user_id
+    )
+
+
+@router.post("/{project_id}/applications/{application_id}/respond/")
+async def respond_to_application_endpoint(
+    project_id: int,
+    application_id: int,
+    decision: ApplicationDecision,
+    background_tasks: BackgroundTasks,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
+):
+    return await service.process_application_decision(
+        session=session,
+        project_id=project_id,
+        application_id=application_id,
+        action=decision.action,
+        user_id=current_user_id,
+        background_tasks=background_tasks,
+        fm=fm,
+    )
+
+
+@router.patch("/{project_id}/complete/")
+async def complete_project_endpoint(
+    project_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
+):
+    return await service.complete_project(
+        session=session, project_id=project_id, user_id=current_user_id
     )
