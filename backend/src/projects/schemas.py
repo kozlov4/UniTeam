@@ -1,6 +1,9 @@
+from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel, ConfigDict, Field
 from enum import Enum
+
+from users.schemas import AvatarResponse
 
 
 class SortByChoice(str, Enum):
@@ -104,3 +107,42 @@ class ProjectDetailOut(BaseModel):
     members: List[UserShortOut]
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ActiveProjectCard(BaseModel):
+    id: int
+    title: str
+    description: str
+    image_url: Optional[str]
+    category_name: Optional[str]
+    participants_count: int
+    avatars: List[AvatarResponse]
+
+    class Config:
+        from_attributes = True
+
+
+class ApplicationApplicant(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: str
+    avatar_url: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+class ApplicationResponse(BaseModel):
+    id: int
+    cover_letter: str
+    status: str
+    created_at: datetime
+    applicant: ApplicationApplicant
+
+    class Config:
+        from_attributes = True
+
+
+class ApplicationDecision(BaseModel):
+    action: str

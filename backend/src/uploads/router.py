@@ -1,10 +1,11 @@
 import cloudinary.uploader
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from users.dependencies import get_current_user
 
 router = APIRouter(tags=["Uploads"])
 
 
-@router.post("/upload-image/")
+@router.post("/upload-image/", dependencies=[Depends(get_current_user)])
 def upload_image(file: UploadFile = File(...)):
     if file.content_type not in ["image/jpeg", "image/png", "image/webp"]:
         raise HTTPException(status_code=400, detail="Тільки JPEG, PNG або WEBP")

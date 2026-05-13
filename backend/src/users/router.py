@@ -5,27 +5,21 @@ from core.models.db_helper import db_helper
 from . import schemas, service
 from .dependencies import get_current_user
 from core.models import User
-from .schemas import UserProfileResponse, UserProfileDetailResponse
+from .schemas import UserProfileResponse, UserProfileDetailResponse, UserUpdateMeRequest
+from admin.service import update_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.get("/me/", response_model=UserProfileResponse)
-async def get_me(
-    current_user_id: User = Depends(get_current_user),
-    session: AsyncSession = Depends(db_helper.session_dependency),
-):
-    current_user: User = await session.get(User, current_user_id)
-    return current_user
-
-
-@router.get("/", response_model=List[schemas.UserCardResponse])
+@router.get(
+    "/",
+    response_model=List[schemas.UserCardResponse],
+    dependencies=[Depends(get_current_user)],
+)
 async def get_participants(
     limit: int = Query(20, ge=1, le=100, description="Кількість записів на сторінку"),
     offset: int = Query(0, ge=0, description="Зсув для пагінації"),
     search: Optional[str] = Query(None, description="Пошук за ім'ям або прізвищем"),
-    course_year: Optional[int] = Query(None, description="Курс (наприклад, 3)"),
-    faculty_id: Optional[int] = Query(None, description="ID факультету"),
     specialty_id: Optional[int] = Query(None, description="ID спеціальності"),
     skill_ids: Optional[List[int]] = Query(
         None, description="Список ID навичок для фільтрації"
@@ -37,8 +31,6 @@ async def get_participants(
         limit=limit,
         offset=offset,
         search=search,
-        course_year=course_year,
-        faculty_id=faculty_id,
         specialty_id=specialty_id,
         skill_ids=skill_ids,
     )
@@ -46,7 +38,11 @@ async def get_participants(
     return users
 
 
-@router.get("/{user_id}/profile/", response_model=UserProfileDetailResponse)
+@router.get(
+    "/{user_id}/",
+    response_model=UserProfileDetailResponse,
+    dependencies=[Depends(get_current_user)],
+)
 async def get_user_profile(
     user_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
 ):
@@ -55,6 +51,35 @@ async def get_user_profile(
     включаючи навички та завершені проєкти.
     """
     user = await service.get_user_profile_detail(session=session, user_id=user_id)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Користувача не знайдено")
+
+    return user
+
+
+@router.patch("/me/", response_model=UserProfileResponse)
+async def update_my_profile(
+    user_in: UserUpdateMeRequest,
+    current_user_id: int = Depends(get_current_user),
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await update_user(session=session, user_id=current_user_id, user_in=user_in)
+
+
+from .schemas import UserMyProfileDetailResponse
+
+
+@router.get(
+    "/me/profile/",
+    response_model=UserMyProfileDetailResponse,
+    dependencies=[Depends(get_current_user)],
+)
+async def get_my_full_profile(
+    current_user_id: int = Depends(get_current_user),
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    user = await service.get_my_profile_detail(session=session, user_id=current_user_id)
 
     if not user:
         raise HTTPException(status_code=404, detail="Користувача не знайдено")

@@ -10,10 +10,16 @@ from .schemas import (
     UserResponse,
     CreateTechnology,
     UpdateProjectRequest,
+    SpecialtiesResponse,
+    UserUpdateRequest,
+    UserBanRequest,
 )
 from projects.schemas import TechnologyCardResponse
+from .dependencies import get_admin_user
 
-router = APIRouter(prefix="/admin", tags=["Admin"])
+router = APIRouter(
+    prefix="/admin", tags=["Admin"], dependencies=[Depends(get_admin_user)]
+)
 
 
 @router.get("/main/", response_model=MainInfo)
@@ -21,7 +27,17 @@ async def get_main_info(session: AsyncSession = Depends(db_helper.session_depend
     return await service.get_main_info(session=session)
 
 
-@router.get("/projects/", response_model=list[ProjectResponse])
+@router.get("/specialties/", response_model=list[SpecialtiesResponse])
+async def get_specialties_info(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.get_specialties_info(session=session)
+
+
+@router.get(
+    "/projects/",
+    response_model=list[ProjectResponse],
+)
 async def get_projects(
     session: AsyncSession = Depends(db_helper.session_dependency),
     search_text: str | None = None,
@@ -43,7 +59,10 @@ async def get_users(
     )
 
 
-@router.get("/technologies/", response_model=list[TechnologyCardResponse])
+@router.get(
+    "/technologies/",
+    response_model=list[TechnologyCardResponse],
+)
 async def get_technologies(
     session: AsyncSession = Depends(db_helper.session_dependency),
     search_text: str | None = None,
@@ -54,7 +73,10 @@ async def get_technologies(
     )
 
 
-@router.post("/technologies/", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/technologies/",
+    status_code=status.HTTP_201_CREATED,
+)
 async def create_technology(
     technology_in: CreateTechnology,
     session: AsyncSession = Depends(db_helper.session_dependency),
@@ -106,4 +128,27 @@ async def update_project(
 ):
     return await service.update_project(
         session=session, project_id=project_id, project_in=project_in
+    )
+
+
+@router.patch("/users/{user_id}", response_model=UserResponse)
+async def update_student_profile(
+    user_id: int,
+    user_in: UserUpdateRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.update_user(session=session, user_id=user_id, user_in=user_in)
+
+
+@router.patch(
+    "/users/{user_id}/block/",
+    response_model=UserResponse,
+)
+async def toggle_user_block(
+    user_id: int,
+    user_in: UserBanRequest,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.update_user_block_status(
+        session=session, user_id=user_id, user_in=user_in
     )

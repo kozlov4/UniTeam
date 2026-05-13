@@ -3,6 +3,14 @@ from typing import Optional, List
 from pydantic import BaseModel, EmailStr, Field
 
 
+class SpecialtiesResponse(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
+
+
 class MainInfo(BaseModel):
     students_count: int
     projects_count: int
@@ -48,3 +56,13 @@ class UpdateProjectRequest(BaseModel):
     tech_ids: Optional[List[int]] = None
     vacancy_ids: Optional[List[int]] = None
     participant_ids: Optional[List[int]] = None
+
+
+class UserUpdateRequest(BaseModel):
+    email: Optional[EmailStr] = None
+    specialty_id: Optional[int] = None
+    technology_ids: Optional[List[int]] = None
+
+
+class UserBanRequest(BaseModel):
+    is_blocked: bool = False

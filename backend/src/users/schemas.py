@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional, List
 
 
@@ -65,6 +65,47 @@ class UserProfileDetailResponse(BaseModel):
     skill_names: List[str]
     completed_projects_count: int
     completed_projects: List[CompletedProjectCard]
+
+    class Config:
+        from_attributes = True
+
+
+class UserUpdateMeRequest(BaseModel):
+    email: Optional[EmailStr] = None
+    specialty_id: Optional[int] = None
+    technology_ids: Optional[List[int]] = None
+    avatar_url: Optional[str] = None
+
+
+class BaseProjectCard(BaseModel):
+    id: int
+    title: str
+    description: str
+    image_url: Optional[str]
+    category_name: Optional[str]
+    created_at: datetime
+    participants_count: int
+    avatars: List[AvatarResponse]
+
+    class Config:
+        from_attributes = True
+
+
+class UserMyProfileDetailResponse(BaseModel):
+    id: int
+    email: str
+    first_name: str
+    last_name: str
+    avatar_url: Optional[str]
+
+    specialty_id: Optional[int]
+    specialty_name: Optional[str]
+    skill_ids: List[int]
+    skill_names: List[str]
+
+    active_projects: List[BaseProjectCard]
+    completed_projects_count: int
+    completed_projects: List[BaseProjectCard]
 
     class Config:
         from_attributes = True
