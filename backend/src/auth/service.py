@@ -86,7 +86,12 @@ async def user_login(
         )
 
     access_token = encode_jwt(
-        payload={"sub": str(user.id), "type": "access"}, expire_minutes=15
+        payload={
+            "sub": str(user.id),
+            "type": "access",
+            "role": user.role,
+        },
+        expire_minutes=15,
     )
     refresh_token = encode_jwt(
         payload={"sub": str(user.id), "type": "refresh"}, expire_minutes=60 * 24 * 30
