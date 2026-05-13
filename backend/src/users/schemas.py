@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 from typing import Optional, List
 
@@ -27,6 +29,42 @@ class UserProfileResponse(BaseModel):
     last_name: str
     avatar_url: Optional[str] = None
     email: str
+
+    class Config:
+        from_attributes = True
+
+
+class AvatarResponse(BaseModel):
+    id: int
+    avatar_url: Optional[str]
+
+    class Config:
+        from_attributes = True
+
+
+class CompletedProjectCard(BaseModel):
+    id: int
+    title: str
+    description: str
+    image_url: Optional[str]
+    category_name: Optional[str]
+    created_at: datetime
+    participants_count: int
+    avatars: List[AvatarResponse]
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfileDetailResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    avatar_url: Optional[str]
+    specialty_name: Optional[str]
+    skill_names: List[str]
+    completed_projects_count: int
+    completed_projects: List[CompletedProjectCard]
 
     class Config:
         from_attributes = True

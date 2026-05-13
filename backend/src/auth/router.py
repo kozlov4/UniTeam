@@ -34,3 +34,13 @@ async def refresh_jwt_tokens(
     return await service.refresh_access_token(
         session=session, refresh_token=token_data.refresh_token
     )
+
+
+@router.post("/swagger-login/", response_model=TokenInfo, include_in_schema=False)
+async def swagger_login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    user_in = UserLogin(email=form_data.username, password=form_data.password)
+
+    return await service.user_login(session=session, user_in=user_in)

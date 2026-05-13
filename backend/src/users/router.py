@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional, List
 from core.models.db_helper import db_helper
 from . import schemas, service
 from .dependencies import get_current_user
 from core.models import User
-from .schemas import UserProfileResponse
+from .schemas import UserProfileResponse, UserProfileDetailResponse
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -44,3 +44,19 @@ async def get_participants(
     )
 
     return users
+
+
+@router.get("/{user_id}/profile/", response_model=UserProfileDetailResponse)
+async def get_user_profile(
+    user_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
+):
+    """
+    Отримує детальну інформацію про користувача для його сторінки профілю,
+    включаючи навички та завершені проєкти.
+    """
+    user = await service.get_user_profile_detail(session=session, user_id=user_id)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Користувача не знайдено")
+
+    return user

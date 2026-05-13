@@ -1,5 +1,4 @@
 import random
-from datetime import datetime, timedelta, timezone
 from datetime import datetime, timedelta
 from fastapi import BackgroundTasks, HTTPException
 from fastapi_mail import FastMail, MessageSchema, MessageType

@@ -9,4 +9,4 @@ from .projects import (
     ProjectCategory,
     Vacancy,
 )
-from .users import UserSkill, Faculty, Specialty, Skill, User
+from .users import Specialty, User, user_technologies

@@ -1,11 +1,15 @@
+from typing import TYPE_CHECKING
 from datetime import datetime
 from enum import Enum
 from typing import List, Optional
-from sqlalchemy import Enum as SqlEnum, Boolean
+from sqlalchemy import Enum as SqlEnum, Boolean, Table, Column
 from sqlalchemy import String, Integer, Text, ForeignKey, CheckConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+if TYPE_CHECKING:
+    from .projects import Technology
 
 
 class UserRole(str, Enum):
@@ -13,40 +17,28 @@ class UserRole(str, Enum):
     ADMIN = "admin"
 
 
-class UserSkill(Base):
-    __tablename__ = "user_skills"
-
-    user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
-    )
-    skill_id: Mapped[int] = mapped_column(
-        ForeignKey("skills.id", ondelete="CASCADE"), primary_key=True
-    )
-
-
-class Faculty(Base):
-    __tablename__ = "faculties"
-
-    name: Mapped[str] = mapped_column(String(100), unique=True)
-
-    specialties: Mapped[List["Specialty"]] = relationship(back_populates="faculty")
+user_technologies = Table(
+    "user_technologies",
+    Base.metadata,
+    Column(
+        "user_id",
+        Integer,
+        ForeignKey("users.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+    Column(
+        "technology_id",
+        Integer,
+        ForeignKey("technologies.id", ondelete="CASCADE"),
+        primary_key=True,
+    ),
+)
 
 
 class Specialty(Base):
     __tablename__ = "specialties"
 
     name: Mapped[str] = mapped_column(String(100))
-    faculty_id: Mapped[int] = mapped_column(
-        ForeignKey("faculties.id", ondelete="CASCADE")
-    )
-
-    faculty: Mapped["Faculty"] = relationship(back_populates="specialties")
-
-
-class Skill(Base):
-    __tablename__ = "skills"
-
-    name: Mapped[str] = mapped_column(String(50), unique=True)
 
 
 class User(Base):
@@ -62,7 +54,6 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(50))
     avatar_url: Mapped[Optional[str]] = mapped_column(String(255))
     bio_description: Mapped[Optional[str]] = mapped_column(Text)
-    course_year: Mapped[Optional[int]] = mapped_column(Integer)
     reset_code: Mapped[Optional[str]] = mapped_column(String(8))
     reset_code_expire: Mapped[datetime] = mapped_column(nullable=True)
     role: Mapped[str] = mapped_column(
@@ -78,18 +69,13 @@ class User(Base):
 
     @property
     def skill_names(self) -> list[str]:
-        return [skill.name for skill in self.skills] if self.skills else []
+        return [tech.name for tech in self.skills] if self.skills else []
 
-    faculty_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("faculties.id", ondelete="SET NULL")
-    )
     specialty_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("specialties.id", ondelete="SET NULL")
     )
 
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
-    skills: Mapped[List["Skill"]] = relationship(secondary="user_skills")
-
-    faculty: Mapped[Optional["Faculty"]] = relationship()
+    skills: Mapped[List["Technology"]] = relationship(secondary=user_technologies)
     specialty: Mapped[Optional["Specialty"]] = relationship()
