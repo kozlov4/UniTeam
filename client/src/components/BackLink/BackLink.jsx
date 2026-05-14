@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import arrowBackIcon from "../../assets/icons/arrowBack.svg";
 import styles from "./BackLink.module.css";
 

@@ -1,17 +1,41 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import AuthLayout from '../../components/AuthLayout/AuthLayout';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import styles from './ResetPasswordPage.module.css';
+import { resetPassword } from '../../services/resetPassword.service';
+import imageModal from "../../assets/images/image_modal_success.png";
+import NotificationModal from '../../components/NotificationModal/NotificationModal';
 
 function ResetPasswordPage() {
   const [formData, setFormData] = useState({ password: "", confirmPassword: "" });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [code, setCode] = useState(new Array(6).fill(""));
 
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const userEmail = localStorage.getItem("temp_email");
+  console.log(userEmail)
+
+  const inputRefs = useRef([]);
+
+  const handleCodeChange = (element, index) => {
+    if (isNaN(element.value)) return false;
+
+    const newCode = [...code];
+
+    newCode[index] = element.value;
+
+    setCode(newCode);
+
+    if (element.value !== "" && index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newErrors = {};
     
@@ -21,7 +45,7 @@ function ResetPasswordPage() {
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Паролі не співпадають";
     }
-
+    if (code.join("").length < 6) newErrors.code = "Введіть повний код";
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -29,11 +53,23 @@ function ResetPasswordPage() {
 
     setIsLoading(true);
     
-    //TODO: API запиту
-    setTimeout(() => {
+    try {
+
+      await resetPassword({
+        email: userEmail,
+        code: code.join(""),
+        new_password: formData.password,
+      });
+
+      setIsSuccessModalOpen(true);
+      localStorage.removeItem("temp_email")
+    } catch (error) {
+      setErrors({
+        server: error.response?.data?.message || "Помилка при зміні пароля",
+      });
+    } finally {
       setIsLoading(false);
-      navigate('/login');
-    }, 1000);
+    }
   };
 
   const handleChange = (event) => {
@@ -58,20 +94,27 @@ function ResetPasswordPage() {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          
+           {errors.server && (
+            <p className={styles.error}>{errors.server}</p>
+          )}
           <div className={styles.formGroup}>
             <label className={styles.label}>Код з листа</label>
             <div className={styles.codeGrid}>
-              {[...Array(6)].map((_, i) => (
-                <input 
-                  key={i} 
-                  type="text" 
-                  maxLength="1" 
-                  className={styles.codeInput}
+              {code.map((data, i) => (
+                <input
+                  key={i}
+                  type="text"
+                  maxLength="1"
+                  ref={(el) => (inputRefs.current[i] = el)}
+                  value={data}
+                  onChange={(e) => handleCodeChange(e.target, i)}
+                  onFocus={(e) => e.target.select()}
+                  className={`${styles.codeInput} ${errors.code ? styles.inputError : ""}`}
                   placeholder="0"
                 />
               ))}
             </div>
+            {errors.code && <p className={styles.error}>{errors.code}</p>}
           </div>
 
           <div className={styles.formGroup}>
@@ -116,6 +159,16 @@ function ResetPasswordPage() {
           </Link>
         </div>
       </section>
+
+      <NotificationModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => navigate("/login")}
+        image={imageModal}
+        title="Пароль успішно змінено"
+        description="Тепер ви можете увійти в систему з новим паролем."
+        buttonText="Увійти"
+        buttonPath="/login"
+      />
     </AuthLayout>
   );
 }

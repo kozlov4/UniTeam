@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  font-family: "Raleway", sans-serif;
+  background: white;
+  width: 90%;
+  max-width: 600px;
+  padding: 40px;
+  border-radius: 40px; 
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ff4d4d;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 32px;
+  max-width: 450px;
+}
+
+.btnContainer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btnDelete, .btnClose {
+  padding: 14px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  min-width: 160px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btnDelete {
+  background-color: #F93E3E; 
+  color: white;
+}
+
+.btnDelete:hover {
+  opacity: 0.9;
+}
+
+.btnDelete:active {
+  transform: scale(0.98);
+}
+
+.btnClose {
+  background-color: #E7E7E7; 
+  color: #646464;
+}
+
+.btnClose:hover {
+  background-color: #dadada;
+}

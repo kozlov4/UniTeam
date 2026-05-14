@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0f2ff;
+  padding: 6px 12px;
+  border-radius: 30px;
+  width: fit-content;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.name {
+  font-size: 14px;
+  color: #323339;
+  white-space: nowrap;
+}
+
+.removeBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #323339;
+  padding: 0;
+}

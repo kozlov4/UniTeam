@@ -14,6 +14,16 @@ function ProjectImageUpload({ formData, setFormData }) {
     }
   };
 
+  let imagePreview = null;
+
+  if (formData.projectImage) {
+    if (formData.projectImage instanceof File) {
+      imagePreview = URL.createObjectURL(formData.projectImage);
+    } else {
+      imagePreview = formData.projectImage;
+    }
+  }
+
   return (
     <div className={styles.uploadSection}>
       <div
@@ -21,16 +31,21 @@ function ProjectImageUpload({ formData, setFormData }) {
         onClick={() => fileInputRef.current?.click()}
       >
         <div className={styles.uploadContent}>
-          {formData.projectImage ? (
+          {imagePreview ? (
             <img
-              src={URL.createObjectURL(formData.projectImage)}
+              src={imagePreview}
               alt="preview"
               className={styles.previewImage}
+              // Важливо для об'єктів File: звільняємо пам'ять після завантаження картинки
+              onLoad={() => {
+                if (formData.projectImage instanceof File) {
+                  URL.revokeObjectURL(imagePreview);
+                }
+              }}
             />
           ) : (
             <>
               <img src={ic_addImage} alt="icon add image" />
-
               <p className={styles.uploadText}>
                 Оберіть та завантажте фото з комп'ютера
               </p>
@@ -43,6 +58,7 @@ function ProjectImageUpload({ formData, setFormData }) {
           accept="image/*"
           onChange={handleFileChange}
           className={styles.fileInput}
+          style={{ display: "none" }}
         />
       </div>
     </div>

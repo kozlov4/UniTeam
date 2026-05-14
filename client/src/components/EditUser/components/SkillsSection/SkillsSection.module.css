@@ -1,0 +1,19 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #323339;
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
