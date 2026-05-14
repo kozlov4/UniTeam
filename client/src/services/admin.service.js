@@ -32,6 +32,11 @@ export const getTechnologies = async (search_text) => {
   return response.data;
 };
 
+export const getSpecialties = async () => {
+  const response = await apiAxios.get("/admin/specialties/");
+  return response.data;
+};
+
 export const createTechnologies = async (name) => {
   const response = await apiAxios.post("/admin/technologies/", { name });
   return response.data;
@@ -54,5 +59,17 @@ export const deleteProject = async (id) => {
 
 export const updateAdminProject = async (projectId, payload) => {
   const response = await apiAxios.put(`/admin/projects/${projectId}`, payload);
+  return response.data;
+};
+
+export const updateStudentProfile = async (studentId, payload) => {
+  const response = await apiAxios.patch(`/admin/users/${studentId}`, payload);
+  return response.data;
+};
+
+export const toggleUserBlock = async (userId, isBlocked) => {
+  const response = await apiAxios.patch(`/admin/users/${userId}/block/`, {
+    is_blocked: isBlocked,
+  });
   return response.data;
 };

@@ -162,22 +162,6 @@ function EditProjectModal({ isOpen = true, onClose, projectId }) {
                 formData={formData}
                 setFormData={setFormData}
               />
-              {/* 
-              <TeamMembersSection
-                formData={formData}
-                setFormData={setFormData}
-              />
-
-              <TeamLeaderSection
-                formData={formData}
-                setFormData={setFormData}
-              />
-
-              <TeamRequirementsSection
-                formData={formData}
-                setFormData={setFormData}
-                vacancies={dictionaries.vacancies}
-              /> */}
             </div>
           </div>
 

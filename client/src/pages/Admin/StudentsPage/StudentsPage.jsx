@@ -6,6 +6,7 @@ import InputSearch from "../../../components/Admin/components/InputSearch/InputS
 import StudentsTable from "../../../components/Admin/Students/StudentsTable/StudentsTable";
 import Loader from "../../../components/Loader/Loader";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
+import EditUserModal from "../../../components/Admin/Modals/EditUserModal/EditUserModal";
 
 function StudentsPage() {
   const [users, setUsers] = useState([]);
@@ -14,6 +15,7 @@ function StudentsPage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
 
   const fetchUsers = async (search) => {
     setIsLoading(true);
@@ -36,7 +38,8 @@ function StudentsPage() {
   }, [searchTerm]);
 
   const handleEdit = (user) => {
-    console.log("Редагувати користувача:", user);
+    setSelectedStudent(user);
+    setIsModalEditOpen(true);
   };
 
   const openDeleteModal = (tech) => {
@@ -82,6 +85,15 @@ function StudentsPage() {
         onClose={() => setIsModalOpen(false)}
         onDelete={confirmDelete}
         title={`Ви впевнені, що хочете видалити студента "${selectedStudent?.email}"?`}
+      />
+      <EditUserModal
+        isOpen={isModalEditOpen}
+        userId={selectedStudent?.id}
+        onClose={() => {
+          setIsModalEditOpen(false);
+          fetchUsers(searchTerm);
+        }}
+        email={selectedStudent?.email}
       />
     </AdminLayout>
   );

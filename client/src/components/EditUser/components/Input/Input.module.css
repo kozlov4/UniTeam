@@ -1,0 +1,33 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: 500;
+  color: #323339;
+  font-family: "Raleway", sans-serif;
+}
+
+.input {
+  width: 100%;
+  padding: 16px 24px;
+  border: 1px solid #A5B0C4; 
+  border-radius: 16px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  color: #323339;
+}
+
+.input::placeholder {
+  color: #C2C7D0; 
+}
+
+.input:focus {
+  border-color: #75BDFF;
+}
