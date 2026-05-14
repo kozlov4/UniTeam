@@ -6,6 +6,6 @@ export const getUsers = async (params = {}) => {
 };
 
 export const getCurrentUser = async () => {
-  const response = await apiAxios.get("/users/me/");
+  const response = await apiAxios.get("/users/me/profile");
   return response.data;
 };
