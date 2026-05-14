@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styles from "./ProjectImageUpload.module.css";
-import ic_addImage from "../../../assets/icons/ic_addImage.svg";
+import ic_addImage from "../../../../../assets/icons/ic_addImage.svg";
 
 function ProjectImageUpload({ formData, setFormData }) {
   const fileInputRef = useRef(null);
@@ -36,7 +36,6 @@ function ProjectImageUpload({ formData, setFormData }) {
               src={imagePreview}
               alt="preview"
               className={styles.previewImage}
-              // Важливо для об'єктів File: звільняємо пам'ять після завантаження картинки
               onLoad={() => {
                 if (formData.projectImage instanceof File) {
                   URL.revokeObjectURL(imagePreview);

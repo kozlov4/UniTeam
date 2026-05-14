@@ -6,6 +6,7 @@ import InputSearch from "../../../components/Admin/components/InputSearch/InputS
 import ProjectsTable from "../../../components/Admin/Projects/ProjectsTable/ProjectsTable";
 import Loader from "../../../components/Loader/Loader";
 import DeleteModal from "../../../components/DeleteModal/DeleteModal";
+import EditProjectModal from "../../../components/Admin/Modals/EditProjectModal/EditProjectModal";
 
 function ProjectsPageAdmin() {
   const [projects, setProjects] = useState([]);
@@ -13,6 +14,7 @@ function ProjectsPageAdmin() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const fetchProjects = async (search) => {
@@ -36,8 +38,8 @@ function ProjectsPageAdmin() {
   }, [searchTerm]);
 
   const handleEdit = (project) => {
-    console.log("Редагувати:", project);
-    // Тут логіка відкриття модалки
+    setSelectedProject(project);
+    setIsModalEditOpen(true);
   };
 
   const openDeleteModal = (tech) => {
@@ -82,6 +84,12 @@ function ProjectsPageAdmin() {
         onClose={() => setIsModalOpen(false)}
         onDelete={confirmDelete}
         title={`Ви впевнені, що хочете видалити проект "${selectedProject?.title}"?`}
+      />
+
+      <EditProjectModal
+        isOpen={isModalEditOpen}
+        projectId={selectedProject?.id}
+        onClose={() => setIsModalEditOpen(false)}
       />
     </AdminLayout>
   );

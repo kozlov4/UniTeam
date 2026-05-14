@@ -23,16 +23,21 @@ const StudentsTable = ({ data, onEdit, onDelete }) => {
               <td>{user.email}</td>
               <td>{user.first_name}</td>
               <td>{user.is_blocked ? "Заблокований" : "Активний"}</td>
-              <td className={styles.actions}>
-                <button onClick={() => onEdit(user)} className={styles.editBtn}>
-                  <Pencil size={22} />
-                </button>
-                <button
-                  onClick={() => onDelete(user)}
-                  className={styles.deleteBtn}
-                >
-                  <Trash2 size={22} />
-                </button>
+              <td>
+                <div className={styles.dvActions}>
+                  <button
+                    onClick={() => onEdit(user)}
+                    className={styles.editBtn}
+                  >
+                    <Pencil size={22} />
+                  </button>
+                  <button
+                    onClick={() => onDelete(user)}
+                    className={styles.deleteBtn}
+                  >
+                    <Trash2 size={22} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

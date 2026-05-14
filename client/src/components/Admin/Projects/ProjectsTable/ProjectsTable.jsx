@@ -26,18 +26,20 @@ const ProjectsTable = ({ data, onEdit, onDelete }) => {
                 <span className={styles.statusBadge}>{project.status}</span>
               </td>
               <td className={styles.actions}>
-                <button
-                  onClick={() => onEdit(project)}
-                  className={styles.editBtn}
-                >
-                  <Pencil size={22} />
-                </button>
-                <button
-                  onClick={() => onDelete(project)}
-                  className={styles.deleteBtn}
-                >
-                  <Trash2 size={22} />
-                </button>
+                <div className={styles.dvActions}>
+                  <button
+                    onClick={() => onEdit(project)}
+                    className={styles.editBtn}
+                  >
+                    <Pencil size={22} />
+                  </button>
+                  <button
+                    onClick={() => onDelete(project)}
+                    className={styles.deleteBtn}
+                  >
+                    <Trash2 size={22} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

@@ -51,3 +51,8 @@ export const deleteProject = async (id) => {
   const response = await apiAxios.delete(`/admin/projects/${id}`);
   return response.data;
 };
+
+export const updateAdminProject = async (projectId, payload) => {
+  const response = await apiAxios.put(`/admin/projects/${projectId}`, payload);
+  return response.data;
+};

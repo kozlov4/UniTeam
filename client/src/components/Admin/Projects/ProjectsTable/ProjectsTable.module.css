@@ -19,6 +19,11 @@
   font-weight: 500;
   font-size: 20px;
   border-right: 1px solid #FFC482;
+  border-bottom: 1px solid #FFC482;
+}
+
+.table th:last-child {
+  border-right: none;
 }
 
 .table td {
@@ -28,8 +33,15 @@
   font-size: 16px;
 }
 
+.table td:last-child {
+  border-right: none;
+}
 
-.actions {
+.table td.actions {
+  border-bottom: 1px solid #FFC482;
+}
+
+.dvActions {
   display: flex;
   justify-content: center;
   gap: 10px;
