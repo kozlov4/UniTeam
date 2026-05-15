@@ -9,7 +9,20 @@ export function NotificationsCard({
   notifications,
   favoriteIds,
   toggleFavorite,
+  deleteNotification,
 }) {
+  const filteredNotifications = notifications.filter(item => {
+    if (activeTab === "favorites") return favoriteIds.includes(item.id);
+    if (activeTab === "new") return item.isNew;
+    return true; // "all"
+  });
+
+  const tabLabels = {
+    all: "Усі",
+    new: "Нові",
+    favorites: "Обрані"
+  };
+
   return (
     <motion.section className={styles.card}>
       <div className={styles.cardHeader}>
@@ -17,25 +30,28 @@ export function NotificationsCard({
       </div>
 
       <div className={styles.cardBody}>
-        <motion.h2 variants={fadeUp}>10 Сповіщень</motion.h2>
+        <motion.h2 variants={fadeUp}>
+          {notifications.length} сповіщень
+        </motion.h2>
 
         <div className={styles.tabs}>
-          {["all", "deleted", "favorites"].map((tab) => (
+          {Object.entries(tabLabels).map(([key, label]) => (
             <button
-              key={tab}
-              className={activeTab === tab ? styles.tabActive : ""}
-              onClick={() => setActiveTab(tab)}
+              key={key}
+              className={activeTab === key ? styles.tabActive : ""}
+              onClick={() => setActiveTab(key)}
             >
-              {tab}
+              {label}
             </button>
           ))}
         </div>
 
         <NotificationsList
           styles={styles}
-          notifications={notifications}
+          notifications={filteredNotifications}
           favoriteIds={favoriteIds}
           toggleFavorite={toggleFavorite}
+          deleteNotification={deleteNotification}
         />
       </div>
     </motion.section>

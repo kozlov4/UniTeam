@@ -6,6 +6,12 @@ export const getUsers = async (params = {}) => {
 };
 
 export const getCurrentUser = async () => {
-  const response = await apiAxios.get("/users/me/profile");
+  const response = await apiAxios.get("/users/me/profile/");
   return response.data;
 };
+
+export const getUserProfile = async (userId) => {
+  const response = await apiAxios.get(`/users/${userId}/`);
+  return response.data;
+};
+
