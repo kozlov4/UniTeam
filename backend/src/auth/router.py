@@ -17,12 +17,11 @@ async def user_registration(
     return await service.register_user(session=session, user_in=user_data)
 
 
-@router.post("/login/")
-async def login_for_swagger(
-    form_data: OAuth2PasswordRequestForm = Depends(),
+@router.post("/login/", response_model=TokenInfo)
+async def login(
+    user_data: UserLogin,
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    user_data = UserLogin(email=form_data.username, password=form_data.password)
     return await service.user_login(session=session, user_in=user_data)
 
 

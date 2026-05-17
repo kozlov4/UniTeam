@@ -90,6 +90,43 @@
   background-color: #f4f4ff;
 }
 
+.profileWrapper {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: 1px solid #eef0ff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 8px;
+  z-index: 110;
+  min-width: 160px;
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  color: #ff4d4d;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #fff1f0;
+}
+
 .userName {
   font-weight: 600;
   color: var(--text-main);
@@ -104,6 +141,16 @@
   background-color: #f4f4ff;
   border: 2px solid var(--primary-orange);
   box-shadow: 0 2px 8px rgba(255, 134, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarPlaceholder {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatar img {

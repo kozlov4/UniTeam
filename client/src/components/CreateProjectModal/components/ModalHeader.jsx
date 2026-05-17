@@ -1,16 +1,13 @@
 import React from "react";
 import styles from "./ModalHeader.module.css";
-import ic_close from "../../../assets/icons/ic_close.svg";
-import { NavLink } from "react-router";
+import { X } from "lucide-react";
 
 function ModalHeader({ onClose }) {
   return (
     <div className={styles.header}>
       <div className={styles.breadcrumbs}>
-        <NavLink to={"/projects"} className={styles.link}>
-          Проєкти
-        </NavLink>
-        <span className={styles.separator}>&gt;</span>
+        <span className={styles.link}>Проєкти</span>
+        <span className={styles.separator}>›</span>
         <span className={styles.current}>Створити проєкт</span>
       </div>
 
@@ -20,7 +17,7 @@ function ModalHeader({ onClose }) {
         onClick={onClose}
         aria-label="Close modal"
       >
-        <img src={ic_close} alt="close icon" />
+        <X size={24} />
       </button>
     </div>
   );

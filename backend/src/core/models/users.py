@@ -1,10 +1,16 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
-
+from sqlalchemy import Enum as SqlEnum, Boolean
 from sqlalchemy import String, Integer, Text, ForeignKey, CheckConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
+
+
+class UserRole(str, Enum):
+    USER = "user"
+    ADMIN = "admin"
 
 
 class UserSkill(Base):
@@ -59,6 +65,12 @@ class User(Base):
     course_year: Mapped[Optional[int]] = mapped_column(Integer)
     reset_code: Mapped[Optional[str]] = mapped_column(String(8))
     reset_code_expire: Mapped[datetime] = mapped_column(nullable=True)
+    role: Mapped[str] = mapped_column(
+        String(20), default=UserRole.USER, server_default=UserRole.USER.value
+    )
+    is_blocked: Mapped[bool] = mapped_column(
+        Boolean, default=False, server_default="false"
+    )
 
     @property
     def specialty_name(self) -> Optional[str]:

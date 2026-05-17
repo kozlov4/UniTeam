@@ -1,24 +1,25 @@
 .uploadSection {
   width: 100%;
+  margin-bottom: 24px;
 }
 
 .uploadArea {
-  border: 1px dashed #8692A6;
-  border-radius: 24px;
-  padding: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background-color: #F4F4FF;
-  min-height: 280px;
+  width: 100%;
+  height: 280px;
+  background-color: #f5f6ff;
+  border: 2px dashed #d9deff;
+  border-radius: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
 }
 
 .uploadArea:hover {
-  border-color: #6b5be0;
-  background-color: #f5f3ff;
+  background-color: #f0f1ff;
+  border-color: #7b8aff;
 }
 
 .uploadContent {
@@ -26,23 +27,28 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  text-align: center;
+  padding: 20px;
+}
+
+.uploadContent img {
+  width: 100px;
+  height: 100px;
+  opacity: 0.8;
 }
 
 .uploadText {
-  margin: 0;
   font-size: 16px;
-  color: #323339;
-  font-family: "Raleway", sans-serif;
+  color: #30313a;
+  font-weight: 500;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .fileInput {
   display: none;
-}
-
-
-.previewImage {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
 }

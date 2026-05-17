@@ -1,31 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
+import { getProjects, getCategories, getTechnologies } from '../../services/projects.service';
 import styles from './ProjectsPage.module.css';
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
-  const projects = Array(12).fill(0).map((_, i) => ({
-    id: i,
-    title: 'Lorem ipsum tincidunt porttitor magna in ac dignissim sit nec.',
-    description: 'Lorem ipsum proin lacus commodo tellus blandit porttitor.',
-    image: `https://picsum.photos/seed/${i + 20}/400/200`,
-  }));
+  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [technologies, setTechnologies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: [],
+    tech: []
+  });
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const [cats, techs] = await Promise.all([
+          getCategories(),
+          getTechnologies()
+        ]);
+        setCategories(cats);
+        setTechnologies(techs);
+      } catch (error) {
+        console.error("Failed to fetch filters:", error);
+      }
+    };
+    fetchInitialData();
+  }, []);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setIsLoading(true);
+      try {
+        const params = {};
+        if (selectedFilters.category.length > 0) {
+          params.category_id = selectedFilters.category[0]; // Assuming single category for now as per simple API
+        }
+        if (selectedFilters.tech.length > 0) {
+          params.skill_ids = selectedFilters.tech;
+        }
+        
+        const data = await getProjects(params);
+        setProjects(Array.isArray(data) ? data : data?.items || []);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, [selectedFilters]);
+
+  const handleFilterChange = (sectionId, values) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [sectionId]: values
+    }));
+  };
 
   const filterSections = [
     {
-      title: 'Факультети',
-      options: ['Комп’ютерні науки', 'Комп’ютерна інженерія та інформаційні технології', 'Автоматизація, комп’ютерно-інтегрованих технологій та систем', 'Інформаційно-аналітичні технології та менеджмент']
+      id: 'category',
+      title: 'Категорії',
+      options: categories.map(c => ({ id: c.id, name: c.name }))
     },
     {
-      title: 'Спеціальності',
-      options: ['Прикладна математика', 'Інженерія програмного забезпечення', 'Комп’ютерні науки', 'Системний аналіз та науки про дані', 'Кібербезпека та захист інформації']
-    },
-    {
-      title: 'Навички',
-      options: ['Python', 'UI / UX Design', 'JavaScript', 'Data Science', 'IoT']
+      id: 'tech',
+      title: 'Технології',
+      options: technologies.map(t => ({ id: t.id, name: t.name }))
     }
   ];
 
@@ -44,11 +92,21 @@ const ProjectsPage = () => {
           </div>
 
           <div className={styles.grid}>
-            {projects.map(p => <ProjectCard key={p.id} project={p} />)}
+            {isLoading ? (
+              <p>Завантаження...</p>
+            ) : projects.length > 0 ? (
+              projects.map(p => <ProjectCard key={p.id} project={p} />)
+            ) : (
+              <p>Проєктів не знайдено</p>
+            )}
           </div>
         </div>
 
-        <FilterPanel sections={filterSections} />
+        <FilterPanel 
+          sections={filterSections} 
+          selectedFilters={selectedFilters}
+          onFilterChange={handleFilterChange}
+        />
       </div>
     </MainLayout>
   );

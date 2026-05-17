@@ -71,8 +71,11 @@ export function HomeHeader({ styles }) {
           )}
         </div>
 
-        <Link to="/login" className={styles.login}>
-          Увійти
+        <Link
+          to={localStorage.getItem("token") ? "/dashboard" : "/login"}
+          className={styles.login}
+        >
+          {localStorage.getItem("token") ? "Увійти" : "Увійти"}
         </Link>
       </div>
     </motion.header>

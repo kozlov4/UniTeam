@@ -1,10 +1,12 @@
 from pydantic import BaseModel, EmailStr, Field
+from users.schemas import UserProfileResponse
 
 
 class TokenInfo(BaseModel):
     access_token: str
     refresh_token: str | None = None
     token_type: str = "Bearer"
+    user: UserProfileResponse
 
 
 class RefreshTokenRequest(BaseModel):

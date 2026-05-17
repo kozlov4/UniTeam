@@ -62,6 +62,7 @@ async def register_user(
         access_token=access_token,
         refresh_token=refresh_token,
         token_type="Bearer",
+        user=new_user,
     )
 
 
@@ -92,6 +93,7 @@ async def user_login(
         access_token=access_token,
         refresh_token=refresh_token,
         token_type="Bearer",
+        user=user,
     )
 
 
@@ -136,4 +138,5 @@ async def refresh_access_token(session: AsyncSession, refresh_token: str) -> Tok
         access_token=new_access_token,
         refresh_token=new_refresh_token,
         token_type="Bearer",
+        user=user,
     )

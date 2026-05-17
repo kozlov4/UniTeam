@@ -2,10 +2,11 @@ import { useState } from "react";
 import styles from "./NotificationsPage.module.css";
 import MainLayout from "../../components/MainLayout/MainLayout";
 import { NotificationsCard } from "../../components/Notifications/NotificationsCard";
-import { notifications } from "../../components/Notifications/notificationsData";
+import { notifications as initialNotifications } from "../../components/Notifications/notificationsData";
 
 export default function NotificationsPage() {
   const [activeTab, setActiveTab] = useState("all");
+  const [notifications, setNotifications] = useState(initialNotifications);
   const [favoriteIds, setFavoriteIds] = useState([]);
 
   const toggleFavorite = (id) => {
@@ -14,6 +15,10 @@ export default function NotificationsPage() {
         ? prev.filter((item) => item !== id)
         : [...prev, id]
     );
+  };
+
+  const deleteNotification = (id) => {
+    setNotifications((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
@@ -26,6 +31,7 @@ export default function NotificationsPage() {
           notifications={notifications}
           favoriteIds={favoriteIds}
           toggleFavorite={toggleFavorite}
+          deleteNotification={deleteNotification}
         />
       </div>
     </MainLayout>

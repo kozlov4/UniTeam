@@ -95,6 +95,9 @@ class Project(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    status: Mapped[str] = mapped_column(
+        String(20), default="ACTIVE", server_default="ACTIVE"
+    )
 
     @property
     def category_name(self) -> Optional[str]:
