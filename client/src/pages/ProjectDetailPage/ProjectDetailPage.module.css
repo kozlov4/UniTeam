@@ -225,6 +225,21 @@
   margin-top: 20px;
 }
 
+.goToApplBtn {
+  width: fit-content;
+  padding: 20px 80px;
+  background-color: #FF8600;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
 .mainApplyBtn:hover {
   background-color: #111111;
   transform: translateY(-4px);

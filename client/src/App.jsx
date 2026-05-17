@@ -20,6 +20,8 @@ import ProjectsPageAdmin from "./pages/Admin/ProjectsPageAdmin/ProjectsPageAdmin
 import "./App.css";
 import StudentsPage from "./pages/Admin/StudentsPage/StudentsPage.jsx";
 import TechnologiesPage from "./pages/Admin/TechnologiesPage/TechnologiesPage.jsx";
+import MyProfile from "./pages/MyProfile/MyProfile.jsx";
+import LeaderCabinet from "./pages/LeaderCabinet/LeaderCabinet.jsx";
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
         <Route path="/participants" element={<ParticipantsPage />} />
         <Route path="/participants/:id" element={<ParticipantProfilePage />} />
         <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
+        <Route path="/applications/:projectId" element={<LeaderCabinet />} />
+        <Route path="/my-profile" element={<MyProfile />} />
 
         <Route path="/admin/main" element={<MainPage />} />
         <Route path="/admin/projects" element={<ProjectsPageAdmin />} />

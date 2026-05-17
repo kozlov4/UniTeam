@@ -19,3 +19,8 @@ export const getUserProfile = async (userId) => {
   const response = await apiAxios.get(`/users/${userId}/`);
   return response.data;
 };
+
+export const updateMyProfile = async (payload) => {
+  const response = await apiAxios.patch(`/users/me/`, payload);
+  return response.data;
+};

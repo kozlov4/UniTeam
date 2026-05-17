@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { submitApplication } from "../../services/applications.service";
 import { useToast } from "../../context/ToastContext";
 import { fadeUp, stagger } from "../../utils/animations";
+import { NavLink } from "react-router-dom";
 
 export function ProjectContent({ styles, project, currentUser }) {
   const { showToast } = useToast();
@@ -15,6 +16,8 @@ export function ProjectContent({ styles, project, currentUser }) {
   const isAlreadyMember = 
     members.some(m => m.id === currentUser?.id) || 
     leader?.id === currentUser?.id;
+
+  const isLeader = leader?.id === currentUser?.id;
 
   const handleApply = async (e) => {
     e.preventDefault();
@@ -41,7 +44,12 @@ export function ProjectContent({ styles, project, currentUser }) {
   };
 
   return (
-    <motion.section variants={stagger} initial="hidden" animate="visible" className={styles.leftContent}>
+    <motion.section
+      variants={stagger}
+      initial="hidden"
+      animate="visible"
+      className={styles.leftContent}
+    >
       <h1 className={styles.projectTitle}>{title}</h1>
       <span className={styles.projectCategoryTag}>
         {project.category?.name || "Web-розробка"}
@@ -70,23 +78,38 @@ export function ProjectContent({ styles, project, currentUser }) {
         </div>
       )}
 
-      {!isAlreadyMember && (
-        <button 
-          className={styles.mainApplyBtn}
-          onClick={() => setShowApplyModal(true)}
+      {isLeader ? (
+        <NavLink
+          to={`/applications/${projectId}`}
+          className={styles.goToApplBtn}
         >
-          Подати заявку
-        </button>
+          Перейти до заявок
+        </NavLink>
+      ) : (
+        !isAlreadyMember && (
+          <button
+            className={styles.mainApplyBtn}
+            onClick={() => setShowApplyModal(true)}
+          >
+            Подати заявку
+          </button>
+        )
       )}
 
       {/* Application Modal integrated here as it's triggered from left column now */}
       {showApplyModal && (
-        <div className={styles.modalOverlay} onClick={() => setShowApplyModal(false)}>
-          <div className={styles.applyModal} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowApplyModal(false)}
+        >
+          <div
+            className={styles.applyModal}
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3 className={styles.applyModalTitle}>
               Напишіть короткий супроводжувальний лист, чому Вас мають обрати
             </h3>
-            
+
             <div className={styles.applyTextareaWrapper}>
               <textarea
                 className={styles.applyTextarea}
@@ -99,16 +122,16 @@ export function ProjectContent({ styles, project, currentUser }) {
                 {coverLetter.length}/1500
               </span>
             </div>
-            
+
             <div className={styles.applyModalActions}>
-              <button 
+              <button
                 type="button"
                 className={styles.applyCancelBtn}
                 onClick={() => setShowApplyModal(false)}
               >
                 Скасувати
               </button>
-              <button 
+              <button
                 type="button"
                 className={styles.applySubmitBtn}
                 onClick={handleApply}
