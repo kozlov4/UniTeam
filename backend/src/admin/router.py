@@ -10,11 +10,11 @@ from .schemas import (
     UserResponse,
     CreateTechnology,
     UpdateProjectRequest,
-    UserUpdateRequest,
     UserBanRequest,
 )
 from projects.schemas import TechnologyCardResponse
 from .dependencies import get_admin_user
+from users.schemas import UserUpdateMeRequest
 
 router = APIRouter(
     prefix="/admin", tags=["Admin"], dependencies=[Depends(get_admin_user)]
@@ -126,7 +126,7 @@ async def update_project(
 @router.patch("/users/{user_id}", response_model=UserResponse)
 async def update_student_profile(
     user_id: int,
-    user_in: UserUpdateRequest,
+    user_in: UserUpdateMeRequest,
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     return await service.update_user(session=session, user_id=user_id, user_in=user_in)

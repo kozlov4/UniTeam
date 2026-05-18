@@ -22,7 +22,6 @@ from .schemas import (
     UserResponse,
     CreateTechnology,
     UpdateProjectRequest,
-    UserUpdateRequest,
     UserBanRequest,
 )
 from projects.schemas import TechnologyCardResponse

@@ -50,11 +50,5 @@ class UpdateProjectRequest(BaseModel):
     participant_ids: Optional[List[int]] = None
 
 
-class UserUpdateRequest(BaseModel):
-    email: Optional[EmailStr] = None
-    specialty_id: Optional[int] = None
-    technology_ids: Optional[List[int]] = None
-
-
 class UserBanRequest(BaseModel):
     is_blocked: bool = False
