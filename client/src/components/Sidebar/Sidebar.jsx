@@ -5,12 +5,13 @@ import { menuItems, footerItems } from "../../router/navigation";
 import { fadeRight, stagger } from "../../utils/animations";
 import Logo from "../Logo/Logo";
 import styles from "./Sidebar.module.css";
+import { useUserStore } from "../../stores/userStore";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-
+  const clearAuth = useUserStore((state) => state.clearAuth);
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    clearAuth();
     navigate("/");
   };
 
@@ -32,7 +33,11 @@ const Sidebar = () => {
         animate="visible"
       >
         {menuItems.map((item) => (
-          <motion.div key={item.path} variants={fadeRight} whileHover={{ x: 6 }}>
+          <motion.div
+            key={item.path}
+            variants={fadeRight}
+            whileHover={{ x: 6 }}
+          >
             <NavLink
               to={item.path}
               className={({ isActive }) =>

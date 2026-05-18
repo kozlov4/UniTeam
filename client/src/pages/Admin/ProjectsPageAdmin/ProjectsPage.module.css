@@ -1,0 +1,11 @@
+.title {
+    font-weight: 500;
+    font-size: 48px;
+    color: black;
+    margin-bottom: 28px;
+}
+
+.toolbar {
+  margin-bottom: 37px;
+  margin-right: 30px;
+}
