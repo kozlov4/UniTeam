@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 63px 18px;
+  padding: 40px 60px 20px;
 }
 
 .breadcrumbs {
@@ -10,40 +10,37 @@
   align-items: center;
   gap: 8px;
   font-size: 16px;
-  color: #323339;
-  font-family: "Raleway", sans-serif;
+  color: #6f707a;
 }
 
 .link {
-  cursor: pointer;
-  color: #323339;
-  text-decoration: none;
-}
-
-.link:hover {
-  color: #333;
+  color: inherit;
 }
 
 .separator {
-  color: #999;
+  color: #6f707a;
 }
 
 .current {
-  color: #333;
+  color: #30313a;
   font-weight: 500;
 }
 
 .closeButton {
-  background: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: none;
-  cursor: pointer;
-  padding: 0;
+  background-color: #ff5252;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s ease;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .closeButton:hover {
-  opacity: 0.8;
+  background-color: #ff1744;
+  transform: scale(1.1);
 }

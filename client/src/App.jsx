@@ -10,6 +10,7 @@ import ParticipantsPage from "./pages/ParticipantsPage/ParticipantsPage.jsx";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage.jsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage/ResetPasswordPage.jsx";
 import MessagesPage from "./pages/MessagesPage/MessagesPage";
+import ParticipantProfilePage from "./pages/ParticipantProfilePage/ParticipantProfilePage";
 import CreateProjectModal from "./components/CreateProjectModal/CreateProjectModal";
 import PrivateRoute from "./router/PrivateRoute";
 import GuestRoute from "./router/GuestRoute";
@@ -33,11 +34,12 @@ function App() {
       {/* Protected routes */}
       <Route element={<PrivateRoute />}>
         <Route path="/dashboard" element={<StudentHomePage />} />
-        <Route path="/about" element={<ProjectDetailPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/participants" element={<ParticipantsPage />} />
+        <Route path="/participants/:id" element={<ParticipantProfilePage />} />
         <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
       </Route>
     </Routes>

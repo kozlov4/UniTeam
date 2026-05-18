@@ -2,51 +2,65 @@ import React from "react";
 import { motion } from "framer-motion";
 import { fadeUp } from "../../utils/animations";
 
-export function ProjectSidebar({ styles }) {
-  const teamMembers = Array(5).fill({
-    name: "Анастасія Мельник",
-    role: "Frontend developer",
-    avatar: "/avatar4.jpg",
-  });
+export function ProjectSidebar({ styles, project }) {
+  const { members = [], leader, technologies = [], image_url, title } = project;
 
   return (
-    <motion.aside
-      initial="hidden"
-      animate="visible"
-      variants={fadeUp}
-    >
-      <div className={styles.sidebarCard}>
-        <h3 className={styles.sidebarTitle}>Команда (5)</h3>
-        <div className={styles.teamList}>
-          {teamMembers.map((member, i) => (
-            <div key={i} className={styles.memberItem}>
-              <img src={member.avatar} alt={member.name} className={styles.memberAvatar} />
-              <div>
-                <div className={styles.memberName}>{member.name}</div>
-                <div className={styles.memberRole}>{member.role}</div>
-              </div>
+    <motion.aside initial="hidden" animate="visible" variants={fadeUp} className={styles.rightContent}>
+      <div className={styles.heroImageWrapper}>
+        <img 
+          src={image_url || "/subj4.jpg"} 
+          alt={title} 
+          className={styles.projectHeroImage} 
+        />
+      </div>
+
+      {technologies.length > 0 && (
+        <div className={styles.rightSectionBlock}>
+          <h3 className={styles.rightSectionTitle}>Основні технології</h3>
+          <div className={styles.techTagsGrid}>
+            {technologies.map((tech) => (
+              <span key={tech.id} className={styles.techTagItem}>
+                {tech.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className={styles.rightSectionBlock}>
+        <h3 className={styles.rightSectionTitle}>Учасники</h3>
+        <div className={styles.membersGrid}>
+          {members.map((member) => (
+            <div key={member.id} className={styles.memberSmallItem}>
+              <img
+                src={member.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.id}`}
+                alt={member.first_name}
+                className={styles.memberSmallAvatar}
+              />
+              <span className={styles.memberSmallName}>
+                {member.first_name} {member.last_name}
+              </span>
             </div>
           ))}
         </div>
+      </div>
 
-        <div className={styles.leaderSection}>
-          <h3 className={styles.sidebarTitle}>Лідер команди</h3>
-          <div className={styles.memberItem}>
-            <img src="/avatar4.jpg" alt="Leader" className={styles.memberAvatar} />
-            <div className={styles.memberName}>Анастасія Мельник</div>
+      {leader && (
+        <div className={styles.rightSectionBlock}>
+          <h3 className={styles.rightSectionTitle}>Лідер команди</h3>
+          <div className={styles.memberSmallItem}>
+            <img
+              src={leader.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${leader.id}`}
+              alt="Leader"
+              className={styles.memberSmallAvatar}
+            />
+            <span className={styles.memberSmallName}>
+              {leader.first_name} {leader.last_name}
+            </span>
           </div>
         </div>
-
-        <button className={styles.applyBtn}>Подати заявку</button>
-      </div>
-
-      <div className={styles.searchSection}>
-        <h3 className={styles.sidebarTitle}>Шукаємо в команду</h3>
-        <div className={styles.searchTags}>
-          <div className={styles.searchTag}>Android-розробника</div>
-          <div className={styles.searchTag}>Android-розробника</div>
-        </div>
-      </div>
+      )}
     </motion.aside>
   );
 }

@@ -1,66 +1,79 @@
 .formSection {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
+  width: 100%;
+}
+
+.headerInfo {
+  margin-bottom: 8px;
 }
 
 .title {
-    font-size: 24px;
-    font-weight: 500;
-    font-family: "Raleway", sans-serif;
-    color: #323339;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-main, #30313a);
+  margin-bottom: 8px;
 }
 
 .subtitle {
-    font-size: 16px;
-    font-family: "Raleway", sans-serif;
-    color: #989898;
+  font-size: 16px;
+  color: var(--text-secondary, #6f707a);
 }
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .label {
   font-size: 20px;
-  font-weight: 500;
-  color: #323339;
-  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+  color: var(--text-main, #30313a);
 }
 
 .input,
 .textarea {
-  font-family: "Raleway", sans-serif;
-  padding: 15px 18px;
-  border: 1px solid #8692A6;
-  border-radius: 12px;
+  width: 100%;
+  padding: 16px 24px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 20px;
   font-size: 16px;
-  color: #323339;
-  transition: all 0.2s ease;
-}
-
-.input::placeholder,
-.textarea::placeholder {
-  color: #999;
+  font-family: var(--sans, inherit);
+  transition: all 0.2s;
+  color: var(--text-main, #30313a);
+  background-color: #ffffff;
 }
 
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: #6b5be0;
-  box-shadow: 0 0 0 3px rgba(107, 91, 224, 0.1);
+  border-color: var(--primary-blue, #7b8aff);
+  background-color: #f8f9ff;
+}
+
+.textareaWrapper {
+  position: relative;
+  width: 100%;
 }
 
 .textarea {
+  height: 380px;
   resize: none;
-  min-height: 360px;
-  height: 100%;
+  padding-right: 24px;
+  display: block;
 }
 
 .charCount {
-  font-size: 12px;
-  color: #999;
-  text-align: right;
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: #9ca3af;
 }

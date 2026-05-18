@@ -1,41 +1,49 @@
 import React from 'react';
 import styles from './FilterPanel.module.css';
 
-const FilterPanel = ({ title, sections, variant = 'default' }) => {
+const FilterPanel = ({ title, sections, selectedFilters = {}, onFilterChange, variant = 'default' }) => {
+  const handleCheckboxChange = (sectionId, optionValue) => {
+    const currentSectionFilters = selectedFilters[sectionId] || [];
+    const isSelected = currentSectionFilters.includes(optionValue);
+    
+    let newSectionFilters;
+    if (isSelected) {
+      newSectionFilters = currentSectionFilters.filter(val => val !== optionValue);
+    } else {
+      newSectionFilters = [...currentSectionFilters, optionValue];
+    }
+    
+    onFilterChange(sectionId, newSectionFilters);
+  };
+
   return (
     <div className={`${styles.panel} ${styles[variant]}`}>
       <h2 className={styles.title}>{title || 'Фільтр'}</h2>
       
-      {sections.map((section, idx) => (
-        <div key={idx} className={styles.section}>
+      {sections.map((section) => (
+        <div key={section.id} className={styles.section}>
           <h3 className={styles.sectionTitle}>{section.title}</h3>
           <div className={styles.options}>
-            {section.options.map((opt, oIdx) => (
-              <label key={oIdx} className={styles.checkboxLabel}>
+            {section.options.map((opt) => (
+              <label key={opt.id} className={styles.checkboxLabel}>
                 <div className={styles.checkboxWrapper}>
-                  <input type="checkbox" className={styles.checkbox} />
+                  <input 
+                    type="checkbox" 
+                    className={styles.checkbox}
+                    checked={(selectedFilters[section.id] || []).includes(opt.id)}
+                    onChange={() => handleCheckboxChange(section.id, opt.id)}
+                  />
                   <span className={styles.checkmark}></span>
                 </div>
-                <span className={styles.optionText}>{opt}</span>
+                <span className={styles.optionText}>{opt.name}</span>
               </label>
             ))}
           </div>
-          <button className={styles.showMore}>Show more</button>
+          {section.options.length > 5 && (
+            <button className={styles.showMore}>Показати більше</button>
+          )}
         </div>
       ))}
-
-      {title === 'Фільтр' && (
-        <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Кількість учасників</h3>
-          <div className={styles.rangeContainer}>
-             <input type="range" className={styles.range} min="1" max="100" defaultValue="50" />
-             <div className={styles.rangeLabels}>
-               <span>1</span>
-               <span>100+</span>
-             </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

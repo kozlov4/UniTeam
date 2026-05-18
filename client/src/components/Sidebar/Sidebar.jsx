@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { menuItems, footerItems } from "../../router/navigation";
 import { fadeRight, stagger } from "../../utils/animations";
@@ -7,6 +7,13 @@ import Logo from "../Logo/Logo";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <motion.aside
       className={styles.sidebar}
@@ -43,7 +50,15 @@ const Sidebar = () => {
       <div className={styles.footer}>
         {footerItems.map((item) => (
           <motion.div key={item.path}>
-            {item.type === "button" ? (
+            {item.path === "/login" || item.className === "logout" ? (
+              <button
+                className={`${styles.navItemBtn} ${styles.logout}`}
+                onClick={handleLogout}
+              >
+                <item.icon size={22} className={styles.icon} />
+                {item.label}
+              </button>
+            ) : item.type === "button" ? (
               <button
                 className={`${styles.navItemBtn} ${
                   item.className ? styles[item.className] : ""
