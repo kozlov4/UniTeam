@@ -5,7 +5,12 @@ from core.models.db_helper import db_helper
 from . import schemas, service
 from .dependencies import get_current_user
 from core.models import User
-from .schemas import UserProfileResponse, UserProfileDetailResponse, UserUpdateMeRequest
+from .schemas import (
+    UserProfileResponse,
+    UserProfileDetailResponse,
+    UserUpdateMeRequest,
+    SpecialtiesResponse,
+)
 from admin.service import update_user
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -36,6 +41,17 @@ async def get_participants(
     )
 
     return users
+
+
+@router.get(
+    "/specialties/",
+    response_model=list[SpecialtiesResponse],
+    dependencies=[Depends(get_current_user)],
+)
+async def get_specialties_info(
+    session: AsyncSession = Depends(db_helper.session_dependency),
+):
+    return await service.get_specialties_info(session=session)
 
 
 @router.get(

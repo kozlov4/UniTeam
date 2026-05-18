@@ -47,12 +47,6 @@ async def get_main_info(session: AsyncSession) -> MainInfo:
     )
 
 
-async def get_specialties_info(session: AsyncSession):
-    stmt = select(Specialty)
-    result = await session.execute(stmt)
-    return list(result.scalars().all())
-
-
 async def get_projects(
     session: AsyncSession,
     search_text: str | None = None,

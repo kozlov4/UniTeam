@@ -4,7 +4,7 @@ from sqlalchemy import select, or_, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from typing import Optional, List
-from core.models import User, Project, project_members, user_technologies, Application
+from core.models import User, Project, project_members, user_technologies, Specialty
 
 
 async def get_participants_list(
@@ -107,3 +107,9 @@ async def get_my_profile_detail(session: AsyncSession, user_id: int):
     setattr(user, "completed_projects_count", len(completed_projects))
 
     return user
+
+
+async def get_specialties_info(session: AsyncSession):
+    stmt = select(Specialty)
+    result = await session.execute(stmt)
+    return list(result.scalars().all())

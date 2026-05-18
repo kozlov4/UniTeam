@@ -10,7 +10,6 @@ from .schemas import (
     UserResponse,
     CreateTechnology,
     UpdateProjectRequest,
-    SpecialtiesResponse,
     UserUpdateRequest,
     UserBanRequest,
 )
@@ -25,13 +24,6 @@ router = APIRouter(
 @router.get("/main/", response_model=MainInfo)
 async def get_main_info(session: AsyncSession = Depends(db_helper.session_dependency)):
     return await service.get_main_info(session=session)
-
-
-@router.get("/specialties/", response_model=list[SpecialtiesResponse])
-async def get_specialties_info(
-    session: AsyncSession = Depends(db_helper.session_dependency),
-):
-    return await service.get_specialties_info(session=session)
 
 
 @router.get(
