@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "../../components/MainLayout/MainLayout";
 import styles from "./MyProfile.module.css";
 import { useToast } from "../../context/ToastContext";
-import { getCurrentUser, updateMyProfile } from "../../services/users.service";
+import {
+  getCurrentUser,
+  getSpecialties,
+  updateMyProfile,
+} from "../../services/users.service";
 import { getTechnologies } from "../../services/project.service";
-import { getSpecialties } from "../../services/admin.service";
 import Loader from "../../components/Loader/Loader";
 import PhotoSection from "../../components/MyProfile/PhotoSection/PhotoSection";
 import EditUserForm from "../../components/EditUser/components/EditUserForm/EditUserForm";
@@ -42,7 +45,7 @@ function MyProfile() {
       const [user, techs, specs] = await Promise.all([
         getCurrentUser(),
         getTechnologies(),
-        // getSpecialties(),
+        getSpecialties(),
       ]);
 
       setDictionaries({ technologies: techs, specialties: specs });
