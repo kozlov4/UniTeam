@@ -1,4 +1,3 @@
-from fastapi import HTTPException, BackgroundTasks
 from fastapi_mail import FastMail, MessageType, MessageSchema
 from sqlalchemy import select, or_, insert
 from sqlalchemy.ext.asyncio import AsyncSession
