@@ -15,8 +15,10 @@ async def get_participants_list(
     specialty_id: Optional[int] = None,
     skill_ids: Optional[List[int]] = None,
 ):
-    query = select(User).options(
-        selectinload(User.specialty), selectinload(User.skills)
+    query = (
+        select(User)
+        .where(User.role == "user")
+        .options(selectinload(User.specialty), selectinload(User.skills))
     )
 
     if search:
