@@ -204,8 +204,12 @@ async def update_user(session: AsyncSession, user_id: int, user_in):
             first_raw, last_raw = name_part, ""
 
         user.email = user_in.email
+
         user.first_name = transliterate_to_ukrainian(first_raw)
         user.last_name = transliterate_to_ukrainian(last_raw)
+
+    if user_in.avatar_url is not None:
+        user.avatar_url = user_in.avatar_url
 
     if user_in.specialty_id is not None:
         user.specialty_id = user_in.specialty_id
