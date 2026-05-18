@@ -1,0 +1,67 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin-top: 24px;
+  font-family: "Raleway", sans-serif;
+}
+
+.mainTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+}
+
+.cardsGrid {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 0;
+  padding-left: 16px;
+  width: 165px;
+  height: 105px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.iconWrapper {
+  background: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.cardTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+}
+
+.blue {
+  background-color: #E2F1FF;
+  border-color: #4BABFF;
+}
+
+.yellow {
+  background-color: #FFFBEB;
+  border-color: #F5C430;
+}
+
+.green {
+  background-color: #ECFDF5;
+  border-color: #69CB5A;
+}

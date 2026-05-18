@@ -1,0 +1,329 @@
+.container {
+  padding: 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: "Raleway", sans-serif;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.breadcrumbs {
+  font-size: 14px;
+  color: #727272;
+  margin-bottom: 12px;
+}
+
+.breadcrumbs span {
+  margin-right: 6px;
+}
+
+.breadcrumbs .current {
+  color: #323339;
+  font-weight: 500;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #323339;
+  margin-top: 40px;
+}
+
+.pageSubtitle {
+  font-size: 16px;
+  color: #8692A6;
+  margin: 0;
+}
+
+.completeBtn {
+  background-color: #E6F7ED;
+  color: #17BB46;
+  border: 1px solid #17BB46;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.completeBtn:hover {
+  background-color: #27AE60;
+  color: white;
+}
+
+.projectMainTitle {
+  font-size: 36px;
+  font-weight: 700;
+  color: #323339;
+  margin: 20px 0 30px 0;
+}
+
+/* Колонки */
+.mainGrid {
+  display: flex;
+  gap: 40px;
+}
+
+.leftColumn {
+  flex: 2;
+}
+
+.rightColumn {
+  flex: 1;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #323339;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Картки заявок */
+.applicationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.appCard {
+  background: #FFFFFF;
+  border: 1px solid #EAECEF;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.appCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #323339;
+  margin: 0 0 4px 0;
+}
+
+.userEmail {
+  font-size: 14px;
+  color: #9A9FA5;
+}
+
+/* Кнопки дій */
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.rejectBtn {
+  background-color: #FFF0F2;
+  color: #FF4D67;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.acceptBtn {
+  background-color: #E6F7ED;
+  color: #27AE60;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.rejectBtn:hover, .acceptBtn:hover {
+  opacity: 0.85;
+}
+
+/* Блок цитати та Акордеона */
+.letterWrapper {
+  background-color: #F8F9FA;
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+
+.letterToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.letterQuote {
+  font-size: 15px;
+  font-style: italic;
+  color: #4B4D52;
+  line-height: 1.5;
+  padding-right: 15px;
+}
+
+.chevron {
+  color: #727272;
+  font-size: 20px;
+}
+
+.expandedContent {
+  overflow: hidden;
+}
+
+.divider {
+  height: 1px;
+  background-color: #EAECEF;
+  margin: 16px 0;
+}
+
+.viewProfileLink {
+  background: none;
+  border: none;
+  color: #4A90E2;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  display: inline-block;
+}
+
+.viewProfileLink:hover {
+  text-decoration: underline;
+}
+
+/* Блок команди */
+.teamCard {
+  background: #FFFFFF;
+  border: 1px solid #EAECEF;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.teamTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #323339;
+  margin: 0 0 20px 0;
+}
+
+.teamList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.teamMember {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.miniAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.memberName {
+  font-size: 15px;
+  font-weight: 500;
+  color: #323339;
+}
+
+.emptyState {
+  color: #9A9FA5;
+  font-style: italic;
+  background: #F8F9FA;
+  padding: 30px;
+  text-align: center;
+  border-radius: 16px;
+}
+
+.letterQuote {
+  font-size: 15px;
+  font-style: italic;
+  color: #4B4D52;
+  line-height: 1.5;
+  padding-right: 15px;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 550px; /* Обмежує довжину рядка перед обрізанням трикрапкою */
+}
+
+.fullLetterText {
+  font-size: 15px;
+  color: #323339;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap; /* Зберігає переноси рядків від користувача */
+}
+
+/* Нижній блок з кнопкою, що є завжди видимим */
+.letterFooter {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.viewProfileLink {
+  background: none;
+  border: none;
+  color: #4A90E2;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.viewProfileLink:hover {
+  color: #2a6cb8;
+  text-decoration: underline;
+}
+
+.noMembers {
+  color: #9A9FA5;
+  font-size: 14px;
+  font-style: italic;
+}

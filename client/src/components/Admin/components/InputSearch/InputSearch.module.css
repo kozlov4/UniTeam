@@ -1,0 +1,21 @@
+.searchContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid #CECECE;
+  border-radius: 25px;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.input {
+  border: none;
+  outline: none;
+  width: 100%;
+  margin-left: 16px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.icon {
+    color: #636363;
+}

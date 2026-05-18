@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, CalendarDays, ChevronDown, User, LogOut } from "lucide-react";
 import { fadeUp, stagger } from "../../utils/animations";
@@ -11,7 +11,7 @@ const TopBar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const hideFilters = ["/dashboard", "/projects", "/participants"].includes(
     location.pathname,
   );
@@ -33,7 +33,9 @@ const TopBar = () => {
     fetchUser();
   }, []);
 
-  const fullName = user ? `${user.first_name || ""} ${user.last_name || ""}`.trim() : "Завантаження...";
+  const fullName = user
+    ? `${user.first_name || ""} ${user.last_name || ""}`.trim()
+    : "Завантаження...";
 
   return (
     <motion.header
@@ -69,8 +71,8 @@ const TopBar = () => {
       )}
 
       <div className={styles.profileWrapper}>
-        <motion.div 
-          className={styles.userProfile} 
+        <motion.div
+          className={styles.userProfile}
           variants={fadeUp}
           onClick={() => setShowMenu(!showMenu)}
         >
@@ -90,12 +92,15 @@ const TopBar = () => {
 
         <AnimatePresence>
           {showMenu && (
-            <motion.div 
+            <motion.div
               className={styles.dropdownMenu}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
             >
+              <NavLink to={"/my-profile"} className={styles.profile}>
+                Профіль
+              </NavLink>
               <button className={styles.logoutBtn} onClick={handleLogout}>
                 <LogOut size={18} />
                 Вихід
