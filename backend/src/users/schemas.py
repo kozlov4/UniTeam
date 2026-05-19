@@ -27,6 +27,7 @@ class UserProfileResponse(BaseModel):
     id: int
     first_name: str
     last_name: str
+    bio_description: Optional[str] = None
     avatar_url: Optional[str] = None
     email: str
 
@@ -63,6 +64,7 @@ class UserProfileDetailResponse(BaseModel):
     avatar_url: Optional[str]
     specialty_name: Optional[str]
     skill_names: List[str]
+    bio_description: Optional[str] = None
     completed_projects_count: int
     completed_projects: List[CompletedProjectCard]
 
@@ -73,6 +75,7 @@ class UserProfileDetailResponse(BaseModel):
 class UserUpdateMeRequest(BaseModel):
     email: Optional[EmailStr] = None
     specialty_id: Optional[int] = None
+    bio_description: Optional[str] = None
     technology_ids: Optional[List[int]] = None
     avatar_url: Optional[str] = None
 
@@ -97,6 +100,7 @@ class UserMyProfileDetailResponse(BaseModel):
     first_name: str
     last_name: str
     avatar_url: Optional[str]
+    bio_description: Optional[str] = None
 
     specialty_id: Optional[int]
     specialty_name: Optional[str]

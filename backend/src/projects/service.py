@@ -88,6 +88,7 @@ async def get_projects(
         .where(
             Project.leader_id != current_user_id,
             project_members.c.user_id != current_user_id,
+            Project.status != "COMPLETED",
         )
         .options(joinedload(Project.category), selectinload(Project.members))
     )
@@ -146,6 +147,7 @@ async def get_recommended_projects(
             User.specialty_id == current_user.specialty_id,
             Project.leader_id != current_user_id,
             project_members.c.user_id != current_user_id,
+            Project.status != "COMPLETED",
         )
         .order_by(Project.created_at.desc())
         .limit(limit)
