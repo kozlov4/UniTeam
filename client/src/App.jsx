@@ -22,6 +22,7 @@ import StudentsPage from "./pages/Admin/StudentsPage/StudentsPage.jsx";
 import TechnologiesPage from "./pages/Admin/TechnologiesPage/TechnologiesPage.jsx";
 import MyProfile from "./pages/MyProfile/MyProfile.jsx";
 import LeaderCabinet from "./pages/LeaderCabinet/LeaderCabinet.jsx";
+import AdminRoute from "./router/AdminRoute.jsx";
 
 function App() {
   return (
@@ -49,7 +50,9 @@ function App() {
         <Route path="/create" element={<CreateProjectModal isOpen={true} />} />
         <Route path="/applications/:projectId" element={<LeaderCabinet />} />
         <Route path="/my-profile" element={<MyProfile />} />
+      </Route>
 
+      <Route element={<AdminRoute />}>
         <Route path="/admin/main" element={<MainPage />} />
         <Route path="/admin/projects" element={<ProjectsPageAdmin />} />
         <Route path="/admin/users" element={<StudentsPage />} />
