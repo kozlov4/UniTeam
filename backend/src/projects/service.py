@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from fastapi import HTTPException, BackgroundTasks
 from fastapi_mail import MessageType, MessageSchema, FastMail
-from sqlalchemy import select, func, insert, Result
+from sqlalchemy import select, func, insert, Result, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload, selectinload
 from core.models import (
@@ -59,15 +59,26 @@ async def get_project_by_id(session: AsyncSession, project_id: int):
 async def get_projects(
     session: AsyncSession,
     sort_by: SortByChoice,
+    search: Optional[str] = None,
     category_id: Optional[int] = None,
     roles: Optional[List[str]] = None,
     tech_ids: Optional[List[int]] = None,
     min_members: Optional[int] = None,
     max_members: Optional[int] = None,
+    get_current_user_id: Optional[int] = None,
 ):
-    stmt = select(Project).options(
-        joinedload(Project.category), selectinload(Project.members)
+    stmt = (
+        select(Project)
+        .where(Project.leader_id != get_current_user_id)
+        .options(joinedload(Project.category), selectinload(Project.members))
     )
+
+    if search:
+        stmt = stmt.where(
+            or_(
+                Project.title.ilike(f"%{search}%"),
+            )
+        )
 
     if sort_by == "highest":
         stmt = stmt.order_by(Project.created_at.desc())
