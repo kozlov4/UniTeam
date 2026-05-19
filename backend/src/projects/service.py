@@ -24,14 +24,29 @@ async def create_application(
     application_in: CreateApplicationRequest,
     current_user_id: int,
 ):
+    stmt = select(Application).where(
+        Application.project_id == application_in.project_id,
+        Application.applicant_id == current_user_id,
+    )
+
+    result = await session.execute(stmt)
+    application = result.scalar_one_or_none()
+
+    if application:
+        raise HTTPException(
+            status_code=409,
+            detail="Ви вже відправляли заявку в цей проект",
+        )
+
     new_application = Application(
         project_id=application_in.project_id,
         applicant_id=current_user_id,
         cover_letter=application_in.cover_letter,
     )
-    session.add(new_application)
-    await session.commit()
 
+    session.add(new_application)
+
+    await session.commit()
     await session.refresh(new_application)
 
     return new_application
