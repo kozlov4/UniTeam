@@ -141,10 +141,20 @@ async def refresh_access_token(session: AsyncSession, refresh_token: str) -> Tok
         )
 
     new_access_token = encode_jwt(
-        payload={"sub": str(user.id), "type": "access"}, expire_minutes=15
+        payload={
+            "sub": str(user.id),
+            "type": "access",
+            "role": user.role,
+        },
+        expire_minutes=15,
     )
+
     new_refresh_token = encode_jwt(
-        payload={"sub": str(user.id), "type": "refresh"}, expire_minutes=60 * 24 * 30
+        payload={
+            "sub": str(user.id),
+            "type": "refresh",
+        },
+        expire_minutes=60 * 24 * 30,
     )
 
     return TokenInfo(
