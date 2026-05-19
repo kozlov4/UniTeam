@@ -122,7 +122,10 @@ async def get_recommended_projects(
         select(Project)
         .options(joinedload(Project.category), selectinload(Project.members))
         .join(User, Project.leader_id == User.id)
-        .where(User.specialty_id == current_user.specialty_id)
+        .where(
+            User.specialty_id == current_user.specialty_id,
+            Project.leader_id != current_user_id,
+        )
         .order_by(Project.created_at.desc())
         .limit(limit)
     )
