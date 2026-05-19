@@ -65,11 +65,15 @@ async def get_projects(
     tech_ids: Optional[List[int]] = None,
     min_members: Optional[int] = None,
     max_members: Optional[int] = None,
-    get_current_user_id: Optional[int] = None,
+    current_user_id: Optional[int] = None,
 ):
     stmt = (
         select(Project)
-        .where(Project.leader_id != get_current_user_id)
+        .join(project_members, Project.id == project_members.c.project_id)
+        .where(
+            Project.leader_id != current_user_id,
+            project_members.c.user_id != current_user_id,
+        )
         .options(joinedload(Project.category), selectinload(Project.members))
     )
 
@@ -120,11 +124,13 @@ async def get_recommended_projects(
     current_user: User = await session.get(User, current_user_id)
     stmt = (
         select(Project)
+        .join(project_members, Project.id == project_members.c.project_id)
         .options(joinedload(Project.category), selectinload(Project.members))
         .join(User, Project.leader_id == User.id)
         .where(
             User.specialty_id == current_user.specialty_id,
             Project.leader_id != current_user_id,
+            project_members.c.user_id != current_user_id,
         )
         .order_by(Project.created_at.desc())
         .limit(limit)

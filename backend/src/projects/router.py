@@ -35,7 +35,7 @@ async def get_projects(
     min_members: Optional[int] = None,
     max_members: Optional[int] = None,
     search: Optional[str] = Query(None, description="Пошук за назвою проекту"),
-    get_current_user_id: int = Depends(get_current_user),
+    current_user_id: int = Depends(get_current_user),
 ):
     return await service.get_projects(
         session=session,
@@ -46,7 +46,7 @@ async def get_projects(
         min_members=min_members,
         max_members=max_members,
         search=search,
-        get_current_user_id=get_current_user_id,
+        current_user_id=current_user_id,
     )
 
 
