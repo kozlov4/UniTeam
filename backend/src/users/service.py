@@ -12,7 +12,7 @@ async def get_participants_list(
     offset: int = 0,
     current_user_id: int = None,
     search: Optional[str] = None,
-    specialty_id: Optional[int] = None,
+    specialty_ids: Optional[list[int]] = None,
     skill_ids: Optional[List[int]] = None,
 ):
     query = (
@@ -29,8 +29,8 @@ async def get_participants_list(
             )
         )
 
-    if specialty_id is not None:
-        query = query.where(User.specialty_id == specialty_id)
+    if specialty_ids is not None:
+        query = query.where(User.specialty_id.in_(specialty_ids))
 
     if skill_ids:
         query = query.join(user_technologies).where(

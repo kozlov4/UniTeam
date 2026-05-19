@@ -25,7 +25,7 @@ async def get_participants(
     limit: int = Query(20, ge=1, le=100, description="Кількість записів на сторінку"),
     offset: int = Query(0, ge=0, description="Зсув для пагінації"),
     search: Optional[str] = Query(None, description="Пошук за ім'ям або прізвищем"),
-    specialty_id: Optional[int] = Query(None, description="ID спеціальності"),
+    specialty_ids: Optional[list[int]] = Query(None, description="ID спеціальностей"),
     skill_ids: Optional[List[int]] = Query(
         None, description="Список ID навичок для фільтрації"
     ),
@@ -37,7 +37,7 @@ async def get_participants(
         limit=limit,
         offset=offset,
         search=search,
-        specialty_id=specialty_id,
+        specialty_ids=specialty_ids,
         skill_ids=skill_ids,
         current_user_id=current_user_id,
     )

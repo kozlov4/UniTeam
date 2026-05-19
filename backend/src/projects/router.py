@@ -29,8 +29,8 @@ router = APIRouter(prefix="/projects", tags=["Projects"])
 async def get_projects(
     session: AsyncSession = Depends(db_helper.session_dependency),
     sort_by: SortByChoice = Query(default=SortByChoice.newest, description="Sort type"),
-    category_id: Optional[int] = None,
-    roles: Optional[List[str]] = Query(None),
+    category_ids: Optional[List[int]] = Query(None),
+    roles: Optional[List[int]] = Query(None),
     tech_ids: Optional[List[int]] = Query(None),
     min_members: Optional[int] = None,
     max_members: Optional[int] = None,
@@ -40,7 +40,7 @@ async def get_projects(
     return await service.get_projects(
         session=session,
         sort_by=sort_by,
-        category_id=category_id,
+        category_ids=category_ids,
         roles=roles,
         tech_ids=tech_ids,
         min_members=min_members,

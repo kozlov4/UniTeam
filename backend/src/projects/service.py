@@ -75,8 +75,8 @@ async def get_projects(
     session: AsyncSession,
     sort_by: SortByChoice,
     search: Optional[str] = None,
-    category_id: Optional[int] = None,
-    roles: Optional[List[str]] = None,
+    category_ids: Optional[List[int]] = None,
+    roles: Optional[List[int]] = None,
     tech_ids: Optional[List[int]] = None,
     min_members: Optional[int] = None,
     max_members: Optional[int] = None,
@@ -105,11 +105,11 @@ async def get_projects(
     elif sort_by == "lowest":
         stmt = stmt.order_by(Project.created_at.asc())
 
-    if category_id:
-        stmt = stmt.where(Project.category_id == category_id)
+    if category_ids:
+        stmt = stmt.where(Project.category_id.in_(category_ids))
 
     if roles:
-        stmt = stmt.where(Project.vacancies.any(Vacancy.name.in_(roles)))
+        stmt = stmt.where(Project.vacancies.any(Vacancy.id.in_(roles)))
 
     if tech_ids:
         stmt = stmt.where(Project.technologies.any(Technology.id.in_(tech_ids)))
