@@ -30,6 +30,7 @@ async def get_participants(
         None, description="Список ID навичок для фільтрації"
     ),
     session: AsyncSession = Depends(db_helper.session_dependency),
+    current_user_id: int = Depends(get_current_user),
 ):
     users = await service.get_participants_list(
         session=session,
@@ -38,6 +39,7 @@ async def get_participants(
         search=search,
         specialty_id=specialty_id,
         skill_ids=skill_ids,
+        current_user_id=current_user_id,
     )
 
     return users

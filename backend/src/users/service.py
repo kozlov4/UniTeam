@@ -10,13 +10,14 @@ async def get_participants_list(
     session: AsyncSession,
     limit: int = 20,
     offset: int = 0,
+    current_user_id: int = None,
     search: Optional[str] = None,
     specialty_id: Optional[int] = None,
     skill_ids: Optional[List[int]] = None,
 ):
     query = (
         select(User)
-        .where(User.role == "user")
+        .where(User.role == "user", User.id != current_user_id)
         .options(selectinload(User.specialty), selectinload(User.skills))
     )
 
