@@ -57,7 +57,7 @@ const ProjectsPage = () => {
           params.tech_ids = selectedFilters.tech;
         }
         if (selectedFilters.vacancy.length > 0) {
-          params.vacancy_ids = selectedFilters.vacancy;
+          params.roles = selectedFilters.vacancy;
         }
         
         const data = await getProjects(params);

@@ -5,6 +5,9 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 const apiAxios = axios.create({
   baseURL: BASE_URL,
+  paramsSerializer: {
+    indexes: null, // This ensures arrays are serialized as 'key=1&key=2'
+  },
 });
 
 apiAxios.interceptors.request.use((config) => {
