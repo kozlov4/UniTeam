@@ -7,7 +7,7 @@ import {
   getSpecialties,
   updateMyProfile,
 } from "../../services/users.service";
-import { getTechnologies } from "../../services/project.service";
+import { getTechnologies } from "../../services/projects.service";
 import Loader from "../../components/Loader/Loader";
 import PhotoSection from "../../components/MyProfile/PhotoSection/PhotoSection";
 import EditUserForm from "../../components/EditUser/components/EditUserForm/EditUserForm";
@@ -26,6 +26,7 @@ function MyProfile() {
     email: "",
     specialty_id: "",
     avatar_url: "",
+    bio_description: "",
     displaySkills: [],
   });
 
@@ -66,6 +67,7 @@ function MyProfile() {
         email: user.email || "",
         specialty_id: user.specialty_id || "",
         avatar_url: user.avatar_url || "",
+        bio_description: user.bio_description || "",
         displaySkills: displaySkills,
       });
     } catch (error) {
@@ -93,11 +95,10 @@ function MyProfile() {
       specialty_id: formData.specialty_id
         ? Number(formData.specialty_id)
         : null,
+      bio_description: formData.bio_description,
       technology_ids: formData.displaySkills.map((s) => s.id),
       avatar_url: formData.avatar_url,
     };
-
-    console.log(payload);
 
     try {
       await updateMyProfile(payload);

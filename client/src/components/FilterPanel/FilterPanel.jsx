@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './FilterPanel.module.css';
+import { ChevronDown } from 'lucide-react';
 
 const FilterPanel = ({ title, sections, selectedFilters = {}, onFilterChange, variant = 'default' }) => {
+  const [openSections, setOpenSections] = useState(
+    sections.reduce((acc, section) => ({ ...acc, [section.id]: true }), {})
+  );
+
+  const toggleSection = (sectionId) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
+  };
+
   const handleCheckboxChange = (sectionId, optionValue) => {
     const currentSectionFilters = selectedFilters[sectionId] || [];
     const isSelected = currentSectionFilters.includes(optionValue);
@@ -22,25 +34,37 @@ const FilterPanel = ({ title, sections, selectedFilters = {}, onFilterChange, va
       
       {sections.map((section) => (
         <div key={section.id} className={styles.section}>
-          <h3 className={styles.sectionTitle}>{section.title}</h3>
-          <div className={styles.options}>
-            {section.options.map((opt) => (
-              <label key={opt.id} className={styles.checkboxLabel}>
-                <div className={styles.checkboxWrapper}>
-                  <input 
-                    type="checkbox" 
-                    className={styles.checkbox}
-                    checked={(selectedFilters[section.id] || []).includes(opt.id)}
-                    onChange={() => handleCheckboxChange(section.id, opt.id)}
-                  />
-                  <span className={styles.checkmark}></span>
-                </div>
-                <span className={styles.optionText}>{opt.name}</span>
-              </label>
-            ))}
+          <div 
+            className={styles.sectionHeader} 
+            onClick={() => toggleSection(section.id)}
+          >
+            <h3 className={styles.sectionTitle}>{section.title}</h3>
+            <ChevronDown 
+              size={18} 
+              className={`${styles.chevron} ${openSections[section.id] ? styles.rotate : ""}`} 
+            />
           </div>
-          {section.options.length > 5 && (
-            <button className={styles.showMore}>Показати більше</button>
+
+          {openSections[section.id] && (
+            <div className={styles.options}>
+              {section.options.map((opt) => (
+                <label key={opt.id} className={styles.checkboxLabel}>
+                  <div className={styles.checkboxWrapper}>
+                    <input 
+                      type="checkbox" 
+                      className={styles.checkbox}
+                      checked={(selectedFilters[section.id] || []).includes(opt.id)}
+                      onChange={() => handleCheckboxChange(section.id, opt.id)}
+                    />
+                    <span className={styles.checkmark}></span>
+                  </div>
+                  <span className={styles.optionText}>{opt.name}</span>
+                </label>
+              ))}
+              {section.options.length > 5 && (
+                <button className={styles.showMore}>Показати більше</button>
+              )}
+            </div>
           )}
         </div>
       ))}

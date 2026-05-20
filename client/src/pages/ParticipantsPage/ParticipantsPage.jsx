@@ -2,24 +2,31 @@ import React, { useEffect, useState } from 'react';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import ParticipantCard from '../../components/ParticipantCard/ParticipantCard';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
-import { getUsers } from '../../services/users.service';
+import { getUsers, getSpecialties } from '../../services/users.service';
 import { getTechnologies } from '../../services/projects.service';
 import styles from './ParticipantsPage.module.css';
 
 const ParticipantsPage = () => {
   const [participants, setParticipants] = useState([]);
   const [technologies, setTechnologies] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilters, setSelectedFilters] = useState({
     tech: [],
-    course: []
+    specialty: []
   });
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const techs = await getTechnologies();
-        setTechnologies(techs);
+        const [techs, specs] = await Promise.all([
+          getTechnologies(),
+          getSpecialties()
+        ]);
+        setTechnologies(Array.isArray(techs) ? techs : techs?.items || []);
+        setSpecialties(Array.isArray(specs) ? specs : specs?.items || []);
       } catch (error) {
         console.error("Failed to fetch user filters:", error);
       }
@@ -31,12 +38,15 @@ const ParticipantsPage = () => {
     const fetchUsers = async () => {
       setIsLoading(true);
       try {
-        const params = {};
+        const params = {
+          search: searchQuery || undefined
+        };
+        
         if (selectedFilters.tech.length > 0) {
           params.skill_ids = selectedFilters.tech;
         }
-        if (selectedFilters.course.length > 0) {
-          params.course_year = selectedFilters.course[0];
+        if (selectedFilters.specialty.length > 0) {
+          params.specialty_ids = selectedFilters.specialty;
         }
 
         const data = await getUsers(params);
@@ -48,8 +58,12 @@ const ParticipantsPage = () => {
       }
     };
 
-    fetchUsers();
-  }, [selectedFilters]);
+    const timer = setTimeout(() => {
+      fetchUsers();
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [selectedFilters, searchQuery]);
 
   const handleFilterChange = (sectionId, values) => {
     setSelectedFilters(prev => ({
@@ -60,26 +74,22 @@ const ParticipantsPage = () => {
 
   const filterSections = [
     {
+      id: 'specialty',
+      title: 'Спеціальності',
+      options: specialties.map(s => ({ id: s.id, name: s.name }))
+    },
+    {
       id: 'tech',
       title: 'Навички',
       options: technologies.map(t => ({ id: t.id, name: t.name }))
-    },
-    {
-      id: 'course',
-      title: 'Курс',
-      options: [
-        { id: 1, name: '1 курс' },
-        { id: 2, name: '2 курс' },
-        { id: 3, name: '3 курс' },
-        { id: 4, name: '4 курс' },
-        { id: 5, name: '5 курс' },
-        { id: 6, name: '6 курс' }
-      ]
     }
   ];
 
   return (
-    <MainLayout>
+    <MainLayout 
+      searchQuery={searchQuery} 
+      onSearchChange={setSearchQuery}
+    >
       <div className={styles.container}>
         <div className={styles.main}>
           <div className={styles.header}>

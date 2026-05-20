@@ -36,10 +36,7 @@ export function ReviewsSection({ styles }) {
               </div>
             </div>
 
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
-            </p>
+            <p>{review.text}</p>
 
             <span>{review.date}</span>
           </motion.article>

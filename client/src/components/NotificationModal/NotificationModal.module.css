@@ -4,23 +4,23 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(48, 49, 58, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
 }
 
 .modal {
   font-family: "Raleway", sans-serif;
   background: white;
   width: 90%;
-  max-width: 600px;
-  padding: 40px;
-  border-radius: 40px; 
+  max-width: 640px;
+  padding: 60px 40px;
+  border-radius: 60px; 
   position: relative;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,67 +29,73 @@
 
 .closeBtn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #ff4d4d;
+  top: 30px;
+  right: 30px;
+  background: #ff5252;
   border: none;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .closeBtn:hover {
   transform: scale(1.1);
+  background-color: #ff1744;
 }
 
 .iconContainer {
-  margin-top: 35px;
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 
 .mainIcon {
-  width: 120px;
-  height: 120px;
-  color: #4caf50; 
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: 500;
-  color: #1a1a1a;
+  font-size: 32px;
+  font-weight: 800;
+  color: #30313a;
   margin-bottom: 16px;
 }
 
 .description {
-  font-size: 16px;
-  color: #666;
+  font-size: 18px;
+  color: #6f707a;
+  margin-bottom: 40px;
+  line-height: 1.5;
 }
 
 .btnContainer {
-  margin: 0 auto;
-  background-color: #323339;
-  max-width: 210px;
-  padding: 10px;
-  border-radius: 24px;
+  width: 100%;
+  max-width: 240px;
+  background-color: #30313a;
+  padding: 18px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.btnContainer:hover {
+  background-color: #111111;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .linkBtn {
   color: #FFFFFF;
   text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  transition: opacity 0.2s;
-}
-
-.linkBtn:hover {
-  opacity: 0.7;
+  font-size: 18px;
+  font-weight: 700;
+  width: 100%;
 }

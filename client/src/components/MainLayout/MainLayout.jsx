@@ -4,12 +4,21 @@ import Sidebar from "../Sidebar/Sidebar";
 import TopBar from "../TopBar/TopBar";
 import styles from "./MainLayout.module.css";
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ 
+  children, 
+  searchQuery, 
+  onSearchChange, 
+  showSearch = true 
+}) => {
   return (
     <div className={styles.layout}>
       <Sidebar />
       <div className={styles.mainContent}>
-        <TopBar />
+        <TopBar 
+          searchQuery={searchQuery} 
+          onSearchChange={onSearchChange} 
+          showSearch={showSearch}
+        />
         <motion.main
           className={styles.content}
           initial={{ opacity: 0, y: 15 }}

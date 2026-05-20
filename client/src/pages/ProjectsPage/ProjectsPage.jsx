@@ -3,29 +3,37 @@ import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import FilterPanel from '../../components/FilterPanel/FilterPanel';
-import { getProjects, getCategories, getTechnologies } from '../../services/projects.service';
+import { getProjects, getCategories, getTechnologies, getVacancies } from '../../services/projects.service';
 import styles from './ProjectsPage.module.css';
+import { ChevronDown } from 'lucide-react';
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [technologies, setTechnologies] = useState([]);
+  const [vacancies, setVacancies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
-    tech: []
+    tech: [],
+    vacancy: []
   });
 
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [cats, techs] = await Promise.all([
+        const [cats, techs, vacs] = await Promise.all([
           getCategories(),
-          getTechnologies()
+          getTechnologies(),
+          getVacancies()
         ]);
-        setCategories(cats);
-        setTechnologies(techs);
+        setCategories(Array.isArray(cats) ? cats : cats?.items || []);
+        setTechnologies(Array.isArray(techs) ? techs : techs?.items || []);
+        setVacancies(Array.isArray(vacs) ? vacs : vacs?.items || []);
       } catch (error) {
         console.error("Failed to fetch filters:", error);
       }
@@ -37,12 +45,19 @@ const ProjectsPage = () => {
     const fetchProjects = async () => {
       setIsLoading(true);
       try {
-        const params = {};
+        const params = {
+          sort_by: sortBy,
+          search: searchQuery || undefined
+        };
+        
         if (selectedFilters.category.length > 0) {
-          params.category_id = selectedFilters.category[0]; // Assuming single category for now as per simple API
+          params.category_ids = selectedFilters.category;
         }
         if (selectedFilters.tech.length > 0) {
-          params.skill_ids = selectedFilters.tech;
+          params.tech_ids = selectedFilters.tech;
+        }
+        if (selectedFilters.vacancy.length > 0) {
+          params.vacancy_ids = selectedFilters.vacancy;
         }
         
         const data = await getProjects(params);
@@ -54,8 +69,12 @@ const ProjectsPage = () => {
       }
     };
 
-    fetchProjects();
-  }, [selectedFilters]);
+    const timer = setTimeout(() => {
+      fetchProjects();
+    }, 400); // Debounce search
+
+    return () => clearTimeout(timer);
+  }, [selectedFilters, searchQuery, sortBy]);
 
   const handleFilterChange = (sectionId, values) => {
     setSelectedFilters(prev => ({
@@ -74,19 +93,35 @@ const ProjectsPage = () => {
       id: 'tech',
       title: 'Технології',
       options: technologies.map(t => ({ id: t.id, name: t.name }))
+    },
+    {
+      id: 'vacancy',
+      title: 'Вакансії',
+      options: vacancies.map(v => ({ id: v.id, name: v.name }))
     }
   ];
 
   return (
-    <MainLayout>
+    <MainLayout 
+      searchQuery={searchQuery} 
+      onSearchChange={setSearchQuery}
+    >
       <div className={styles.container}>
         <div className={styles.main}>
           <div className={styles.header}>
             <h1 className={styles.title}>Усі проєкти</h1>
             <div className={styles.controls}>
-              <select className={styles.sortSelect}>
-                <option>Найновіші</option>
-              </select>
+              <div className={styles.sortWrapper}>
+                <select 
+                  className={styles.sortSelect} 
+                  value={sortBy} 
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <option value="newest">Найновіші</option>
+                  <option value="lowest">Старіші</option>
+                </select>
+                <ChevronDown size={16} className={styles.sortChevron} />
+              </div>
               <button className={styles.createBtn} onClick={() => navigate("/create")}>Створити проєкт +</button>
             </div>
           </div>

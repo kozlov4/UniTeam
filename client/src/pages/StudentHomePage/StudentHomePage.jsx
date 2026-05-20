@@ -8,9 +8,11 @@ import {
   getProjects,
   getSpecialtyProjects,
 } from "../../services/projects.service";
+import { useToast } from "../../context/ToastContext";
 import styles from "./StudentHomePage.module.css";
 
 const StudentHomePage = () => {
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const [newProjects, setNewProjects] = useState([]);
   const [suggestedProjects, setSuggestedProjects] = useState([]);

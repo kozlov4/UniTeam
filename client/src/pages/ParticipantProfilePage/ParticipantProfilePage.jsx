@@ -90,6 +90,13 @@ const ParticipantProfilePage = () => {
               <span className={styles.statsLabel}>Проєкти</span>
               <span className={styles.statsValue}>{profile.completed_projects_count} завершені</span>
             </div>
+
+            {profile.bio_description && (
+              <div className={styles.bioSection}>
+                <h3 className={styles.cardTitle}>Про себе</h3>
+                <p className={styles.bioText}>{profile.bio_description}</p>
+              </div>
+            )}
           </div>
 
           <div className={styles.skillsCard}>
