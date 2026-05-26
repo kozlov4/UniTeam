@@ -7,7 +7,7 @@ import ProjectImageUpload from "./components/ProjectImageUpload";
 import TechnologiesSection from "./components/TechnologiesSection";
 import TeamMembersSection from "./components/TeamMembersSection";
 import TeamRequirementsSection from "./components/TeamRequirementsSection";
-import { createProject, getCategories, getTechnologies, uploadImage } from "../../services/projects.service";
+import { createProject, getCategories, getTechnologies, getVacancies, uploadImage } from "../../services/projects.service";
 import { ChevronDown, Search } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 
@@ -32,16 +32,19 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
 
   const [technologies, setTechnologies] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [vacancies, setVacancies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [techs, cats] = await Promise.all([
+        const [techs, cats, vacs] = await Promise.all([
           getTechnologies(),
           getCategories(),
+          getVacancies(),
         ]);
         setTechnologies(Array.isArray(techs) ? techs : techs?.items || []);
         setCategories(Array.isArray(cats) ? cats : cats?.items || []);
+        setVacancies(Array.isArray(vacs) ? vacs : vacs?.items || []);
       } catch (error) {
         showToast(
           "Виникла помилка при завантаженні даних для форми.",
@@ -99,6 +102,7 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
         category_id: parseInt(formData.categoryId),
         image_url: imageUrl,
         tech_ids: formData.technologies.map(t => typeof t === 'object' ? t.id : t),
+        vacancy_ids: formData.teamRequirements.map(v => v.id),
         participant_ids: formData.teamMembers.map(m => m.id),
       };
 
@@ -193,6 +197,7 @@ function CreateProjectModal({ isOpen = true, onClose, onSubmit }) {
               <TeamRequirementsSection 
                 formData={formData} 
                 setFormData={setFormData}
+                vacancies={vacancies}
                 isOpen={activeMenu === 'specialty'}
                 onToggle={() => toggleMenu('specialty')}
               />

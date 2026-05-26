@@ -1,67 +1,10 @@
-.authWrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  background-color: #f8f9ff;
-  gap: 80px;
-}
-
-.imageContainer {
-  position: relative;
-  flex: 1;
-  max-width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.heroImage {
-  width: 100%;
-  border-radius: 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-}
-
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding-bottom: 60px;
-}
-
-.comicBubble {
-  background: white;
-  padding: 12px 24px;
-  border-radius: 20px;
-  font-weight: 800;
-  font-size: 18px;
-  color: #30313a;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 2px solid #30313a;
-  position: relative;
-}
-
-.comicBubble::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 12px 12px 0;
-  border-style: solid;
-  border-color: white transparent transparent;
-}
-
 .card {
   width: 100%;
   max-width: 480px;
   background: white;
-  padding: 48px;
+  padding: 40px;
   border-radius: 40px;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 }
 
 .header {
@@ -107,10 +50,4 @@
 
 .links a:hover {
   text-decoration: underline;
-}
-
-@media (max-width: 1100px) {
-  .imageContainer {
-    display: none;
-  }
 }

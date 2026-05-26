@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import styles from './FilterPanel.module.css';
 import { ChevronDown } from 'lucide-react';
 
-const FilterPanel = ({ title, sections, selectedFilters = {}, onFilterChange, variant = 'default' }) => {
+const FilterPanel = ({ 
+  title, 
+  sections, 
+  selectedFilters = {}, 
+  onFilterChange, 
+  onRangeChange,
+  showMembersFilter = false,
+  variant = 'default' 
+}) => {
   const [openSections, setOpenSections] = useState(
-    sections.reduce((acc, section) => ({ ...acc, [section.id]: true }), {})
+    sections.reduce((acc, section) => ({ ...acc, [section.id]: true }), { members: true })
   );
 
   const toggleSection = (sectionId) => {
@@ -32,6 +40,38 @@ const FilterPanel = ({ title, sections, selectedFilters = {}, onFilterChange, va
     <div className={`${styles.panel} ${styles[variant]}`}>
       <h2 className={styles.title}>{title || 'Фільтр'}</h2>
       
+      {showMembersFilter && (
+        <div className={styles.section}>
+          <div 
+            className={styles.sectionHeader} 
+            onClick={() => toggleSection('members')}
+          >
+            <h3 className={styles.sectionTitle}>Кількість учасників</h3>
+            <ChevronDown 
+              size={18} 
+              className={`${styles.chevron} ${openSections.members ? styles.rotate : ""}`} 
+            />
+          </div>
+          {openSections.members && (
+            <div className={styles.rangeContainer}>
+               <input 
+                 type="range" 
+                 min="1" 
+                 max="100" 
+                 step="1"
+                 className={styles.rangeInput}
+                 value={selectedFilters.max_members || 100}
+                 onChange={(e) => onRangeChange(1, parseInt(e.target.value))}
+               />
+               <div className={styles.rangeLabels}>
+                 <span>1</span>
+                 <span>100+</span>
+               </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {sections.map((section) => (
         <div key={section.id} className={styles.section}>
           <div 

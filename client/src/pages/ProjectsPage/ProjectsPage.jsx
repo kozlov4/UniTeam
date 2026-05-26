@@ -20,7 +20,9 @@ const ProjectsPage = () => {
   const [selectedFilters, setSelectedFilters] = useState({
     category: [],
     tech: [],
-    vacancy: []
+    vacancy: [],
+    min_members: null,
+    max_members: null
   });
 
   useEffect(() => {
@@ -47,7 +49,9 @@ const ProjectsPage = () => {
       try {
         const params = {
           sort_by: sortBy,
-          search: searchQuery || undefined
+          search: searchQuery || undefined,
+          min_members: selectedFilters.min_members || undefined,
+          max_members: selectedFilters.max_members || undefined
         };
         
         if (selectedFilters.category.length > 0) {
@@ -80,6 +84,14 @@ const ProjectsPage = () => {
     setSelectedFilters(prev => ({
       ...prev,
       [sectionId]: values
+    }));
+  };
+
+  const handleRangeChange = (min, max) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      min_members: min,
+      max_members: max
     }));
   };
 
@@ -141,6 +153,8 @@ const ProjectsPage = () => {
           sections={filterSections} 
           selectedFilters={selectedFilters}
           onFilterChange={handleFilterChange}
+          onRangeChange={handleRangeChange}
+          showMembersFilter={true}
         />
       </div>
     </MainLayout>

@@ -17,6 +17,7 @@ const StudentHomePage = () => {
   const [newProjects, setNewProjects] = useState([]);
   const [suggestedProjects, setSuggestedProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,8 +46,20 @@ const StudentHomePage = () => {
     fetchData();
   }, []);
 
+  const filterList = (list) => {
+    if (!searchQuery) return list;
+    return list.filter((p) =>
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (p.goal && p.goal.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  };
+
+  const filteredNew = filterList(newProjects);
+  const filteredSuggested = filterList(suggestedProjects);
+
   return (
-    <MainLayout>
+    <MainLayout searchQuery={searchQuery} onSearchChange={setSearchQuery}>
       <motion.section
         className={styles.hero}
         initial={{ opacity: 0, scale: 0.98 }}
@@ -104,10 +117,10 @@ const StudentHomePage = () => {
         <div className={styles.projectsGrid}>
           {isLoading ? (
             <p>Завантаження...</p>
-          ) : newProjects.length > 0 ? (
-            newProjects.map((p) => <ProjectCard key={p.id} project={p} />)
+          ) : filteredNew.length > 0 ? (
+            filteredNew.map((p) => <ProjectCard key={p.id} project={p} />)
           ) : (
-            <p>Немає нових проєктів</p>
+            <p>Проєктів не знайдено</p>
           )}
         </div>
       </motion.section>
@@ -149,8 +162,8 @@ const StudentHomePage = () => {
         <div className={styles.projectsGrid}>
           {isLoading ? (
             <p>Завантаження...</p>
-          ) : suggestedProjects.length > 0 ? (
-            suggestedProjects.map((p) => <ProjectCard key={p.id} project={p} />)
+          ) : filteredSuggested.length > 0 ? (
+            filteredSuggested.map((p) => <ProjectCard key={p.id} project={p} />)
           ) : (
             <p>Рекомендацій немає</p>
           )}

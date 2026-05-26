@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import styles from "./RegisterPage.module.css";
 import Checkbox from "../../components/Checkbox/Checkbox";
-import { useState } from "react";
+import styles from "./RegisterPage.module.css";
 import { validateEmail, validatePassword } from "../../utils/validators";
 import { register } from "../../services/auth.service";
-
-import imageHero from "../../assets/images/heroAuth.png";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -63,16 +60,7 @@ function RegisterPage() {
   };
 
   return (
-    <div className={styles.authWrapper}>
-      <div className={styles.imageContainer}>
-        <img src={imageHero} alt="Register hero" className={styles.heroImage} />
-        <div className={styles.imageOverlay}>
-          <div className={styles.comicBubble}>
-            СКОРІШЕ! КОМАНДА ЧЕКАЄ!
-          </div>
-        </div>
-      </div>
-      
+    <AuthLayout>
       <section className={styles.card}>
         <div className={styles.header}>
           <h1 className={styles.title}>Реєстрація</h1>
@@ -111,7 +99,7 @@ function RegisterPage() {
           </p>
         </div>
       </section>
-    </div>
+    </AuthLayout>
   );
 }
 

@@ -2,38 +2,28 @@ import React, { useState } from "react";
 import styles from "./TeamRequirementsSection.module.css";
 import { ChevronDown, Trash, Search } from "lucide-react";
 
-function TeamRequirementsSection({ formData, setFormData, isOpen, onToggle }) {
+function TeamRequirementsSection({ formData, setFormData, vacancies = [], isOpen, onToggle }) {
   const [searchTerm, setSearchTerm] = useState("");
   
-  const specialties = [
-    "Прикладна математика",
-    "Інженерія програмного забезпечення",
-    "Комп’ютерні науки",
-    "Системний аналіз",
-    "Кібербезпека",
-    "Інформаційні системи та технології",
-    "Комп’ютерна інженерія"
-  ];
-
-  const handleSelect = (spec) => {
-    if (!formData.teamRequirements.includes(spec)) {
+  const handleSelect = (vacancy) => {
+    if (!formData.teamRequirements.some(v => v.id === vacancy.id)) {
       setFormData({
         ...formData,
-        teamRequirements: [...formData.teamRequirements, spec]
+        teamRequirements: [...formData.teamRequirements, vacancy]
       });
     }
     onToggle(); // Close after select
   };
 
-  const handleRemove = (spec) => {
+  const handleRemove = (vacancyId) => {
     setFormData({
       ...formData,
-      teamRequirements: formData.teamRequirements.filter(s => s !== spec)
+      teamRequirements: formData.teamRequirements.filter(v => v.id !== vacancyId)
     });
   };
 
-  const filteredSpecs = specialties.filter(spec => 
-    spec.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredVacancies = vacancies.filter(v => 
+    v.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -65,16 +55,16 @@ function TeamRequirementsSection({ formData, setFormData, isOpen, onToggle }) {
               />
             </div>
             <div className={styles.optionsList}>
-              {filteredSpecs.map(spec => (
+              {filteredVacancies.map(v => (
                 <div 
-                  key={spec} 
+                  key={v.id} 
                   className={styles.dropdownItem}
-                  onClick={() => handleSelect(spec)}
+                  onClick={() => handleSelect(v)}
                 >
-                  {spec}
+                  {v.name}
                 </div>
               ))}
-              {filteredSpecs.length === 0 && (
+              {filteredVacancies.length === 0 && (
                 <div className={styles.noResults}>Нічого не знайдено</div>
               )}
             </div>
@@ -83,10 +73,10 @@ function TeamRequirementsSection({ formData, setFormData, isOpen, onToggle }) {
       </div>
 
       <div className={styles.tags}>
-        {formData.teamRequirements.map(spec => (
-          <div key={spec} className={styles.tag}>
-            {spec}
-            <button type="button" onClick={() => handleRemove(spec)}>
+        {formData.teamRequirements.map(v => (
+          <div key={v.id} className={styles.tag}>
+            {v.name}
+            <button type="button" onClick={() => handleRemove(v.id)}>
               <Trash size={14} />
             </button>
           </div>
