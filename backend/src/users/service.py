@@ -34,7 +34,7 @@ async def get_participants_list(
 
     if skill_ids:
         query = query.join(user_technologies).where(
-            user_technologies.technology_id.in_(skill_ids)
+            user_technologies.c.technology_id.in_(skill_ids)
         )
 
     query = query.order_by(User.created_at.desc()).limit(limit).offset(offset)
