@@ -183,7 +183,7 @@
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: #eef0ff;
+  background: linear-gradient(to right, #758bfd var(--progress), #eef0ff var(--progress));
   outline: none;
 }
 

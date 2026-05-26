@@ -61,6 +61,7 @@ const FilterPanel = ({
                  step="1"
                  className={styles.rangeInput}
                  value={selectedFilters.max_members || 100}
+                 style={{ '--progress': `${((selectedFilters.max_members || 100) - 1) / (100 - 1) * 100}%` }}
                  onChange={(e) => onRangeChange(1, parseInt(e.target.value))}
                />
                <div className={styles.rangeLabels}>
