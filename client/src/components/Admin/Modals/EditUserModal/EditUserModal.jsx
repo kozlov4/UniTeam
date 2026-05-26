@@ -2,10 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import styles from "./EditUserModal.module.css";
-import { getUser } from "../../../../services/users.service";
+import { getSpecialties, getUser } from "../../../../services/users.service";
 import { getTechnologies } from "../../../../services/project.service";
 import {
-  getSpecialties,
   toggleUserBlock,
   updateStudentProfile,
 } from "../../../../services/admin.service";

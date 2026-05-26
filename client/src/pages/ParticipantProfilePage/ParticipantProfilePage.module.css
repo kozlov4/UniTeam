@@ -117,6 +117,19 @@
   color: #30313a;
 }
 
+.bioSection {
+  margin-top: 32px;
+  text-align: left;
+  width: 100%;
+}
+
+.bioText {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #4f5059;
+  margin-top: 12px;
+}
+
 .skillsCard {
   background-color: #f4f4ff;
   border-radius: 30px;

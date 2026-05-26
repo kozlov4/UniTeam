@@ -18,7 +18,7 @@ export function HomeHeader({ styles }) {
       <Logo />
 
       <nav className={styles.nav}>
-        <Link to="/">Головна</Link>
+        <a href="#hero">Головна</a>
         <a href="#how">Про нас</a>
         <a href="#faq">Питання-відповіді</a>
         <a href="#reviews">Відгуки</a>
@@ -26,56 +26,23 @@ export function HomeHeader({ styles }) {
 
       <div className={styles.actions}>
         <div className={styles.langWrapper}>
-          <motion.button
+          <motion.div
             className={styles.lang}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setLangOpen((prev) => !prev)}
           >
             <img
-              src={selectedLang === "Укр" ? "/ukr_flag.png" : "/gb.png"}
+              src="/ukr_flag.png"
               alt="language"
               className={styles.flag}
             />
-            <span>{selectedLang}</span>
-            <span className={styles.arrow}>▾</span>
-          </motion.button>
-
-          {langOpen && (
-            <motion.div
-              className={styles.langMenu}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <button
-                onClick={() => {
-                  setSelectedLang("Укр");
-                  setLangOpen(false);
-                }}
-              >
-                <img src="/ukr_flag.png" alt="ukr" className={styles.flag} />
-                Укр
-              </button>
-
-              <button
-                onClick={() => {
-                  setSelectedLang("Eng");
-                  setLangOpen(false);
-                }}
-              >
-                <img src="/gb.png" alt="eng" className={styles.flag} />
-                Eng
-              </button>
-            </motion.div>
-          )}
+            <span>Укр</span>
+          </motion.div>
         </div>
 
         <Link
           to={localStorage.getItem("token") ? "/dashboard" : "/login"}
           className={styles.login}
         >
-          {localStorage.getItem("token") ? "Увійти" : "Увійти"}
+          Увійти
         </Link>
       </div>
     </motion.header>

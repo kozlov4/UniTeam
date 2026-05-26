@@ -18,10 +18,10 @@ export function HomeFooter({ styles }) {
 
       <div>
         <h4>Сторінки</h4>
-        <a href="#">Головна</a>
-        <a href="#">Про нас</a>
-        <a href="#">Питання-відповіді</a>
-        <a href="#">Відгуки</a>
+        <a href="#hero">Головна</a>
+        <a href="#how">Про нас</a>
+        <a href="#faq">Питання-відповіді</a>
+        <a href="#reviews">Відгуки</a>
       </div>
 
       <div>

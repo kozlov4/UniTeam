@@ -1,24 +1,21 @@
 import React from "react";
-import { useUserStore } from "../stores/userStore";
 import { Navigate, Outlet } from "react-router-dom";
+import { useUserStore } from "../stores/userStore";
 import { getRoleFromToken } from "../utils/decodeJWT";
 
-const PrivateRoute = () => {
+function AdminRoute() {
   const accessToken = useUserStore((state) => state.accessToken);
-
   const isAuthenticated = !!accessToken;
 
   const role = getRoleFromToken(accessToken);
+
+  const isAdmin = role === "admin";
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  if (role === "admin") {
-    return <Navigate to="/admin/main" replace />;
-  }
+  return isAdmin ? <Outlet /> : <Navigate to="/dashboard" replace />;
+}
 
-  return <Outlet />;
-};
-
-export default PrivateRoute;
+export default AdminRoute;

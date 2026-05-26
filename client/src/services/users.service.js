@@ -15,13 +15,13 @@ export const getCurrentUser = async () => {
   return response.data;
 };
 
-export const getSpecialties = async () => {
-  const response = await apiAxios.get("/users/specialties/");
+export const getUserProfile = async (userId) => {
+  const response = await apiAxios.get(`/users/${userId}/`);
   return response.data;
 };
 
-export const getUserProfile = async (userId) => {
-  const response = await apiAxios.get(`/users/${userId}/`);
+export const getSpecialties = async () => {
+  const response = await apiAxios.get("/users/specialties/");
   return response.data;
 };
 

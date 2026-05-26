@@ -7,9 +7,28 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  height: fit-content;
   position: sticky;
   top: 112px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+/* Custom scrollbar for FilterPanel */
+.panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.panel::-webkit-scrollbar-thumb {
+  background: #eef0ff;
+  border-radius: 10px;
+}
+
+.panel::-webkit-scrollbar-thumb:hover {
+  background: #758bfd;
 }
 
 .warm {
@@ -27,6 +46,29 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 8px;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.sectionHeader:hover .sectionTitle {
+  color: var(--primary-blue);
+}
+
+.chevron {
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }
 
 .sectionTitle {

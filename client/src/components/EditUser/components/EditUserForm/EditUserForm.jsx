@@ -38,6 +38,18 @@ function EditUserForm({ formData, setFormData, specialties = [] }) {
           ))}
         </select>
       </div>
+
+      <div className={styles.inputContainer}>
+        <label className={styles.label}>Про себе</label>
+        <textarea
+          name="bio_description"
+          className={styles.textarea}
+          placeholder="Розкажіть про свій досвід та інтереси"
+          value={formData.bio_description || ""}
+          onChange={handleChange}
+          rows="5"
+        />
+      </div>
     </div>
   );
 }

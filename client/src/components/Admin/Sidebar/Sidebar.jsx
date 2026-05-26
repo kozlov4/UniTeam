@@ -1,12 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { menuAdminItems, footerAdminItems } from "../../../router/navigation";
 import { fadeRight, stagger } from "../../../utils/animations";
 import Logo from "../../Logo/Logo";
 import styles from "./Sidebar.module.css";
+import { useUserStore } from "../../../stores/userStore";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const clearAuth = useUserStore((state) => state.clearAuth);
+  const handleLogout = () => {
+    clearAuth();
+    navigate("/");
+  };
   return (
     <motion.aside
       className={styles.sidebar}
@@ -25,7 +32,11 @@ const Sidebar = () => {
         animate="visible"
       >
         {menuAdminItems.map((item) => (
-          <motion.div key={item.path} variants={fadeRight} whileHover={{ x: 6 }}>
+          <motion.div
+            key={item.path}
+            variants={fadeRight}
+            whileHover={{ x: 6 }}
+          >
             <NavLink
               to={item.path}
               className={({ isActive }) =>
@@ -43,7 +54,15 @@ const Sidebar = () => {
       <div className={styles.footer}>
         {footerAdminItems.map((item) => (
           <motion.div key={item.path}>
-            {item.type === "button" ? (
+            {item.path === "/login" || item.className === "logout" ? (
+              <button
+                className={`${styles.navItemBtn} ${styles.logout}`}
+                onClick={handleLogout}
+              >
+                <item.icon size={22} className={styles.icon} />
+                {item.label}
+              </button>
+            ) : item.type === "button" ? (
               <button
                 className={`${styles.navItemBtn} ${
                   item.className ? styles[item.className] : ""

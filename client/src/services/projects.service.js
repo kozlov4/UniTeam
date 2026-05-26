@@ -30,6 +30,11 @@ export const getTechnologies = async () => {
   return response.data;
 };
 
+export const getVacancies = async () => {
+  const response = await apiAxios.get("/projects/vacancies/");
+  return response.data;
+};
+
 export const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append("file", file);

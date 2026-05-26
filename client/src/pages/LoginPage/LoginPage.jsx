@@ -7,6 +7,7 @@ import styles from "./LoginPage.module.css";
 import { validateEmail, validatePassword } from "../../utils/validators";
 import { login } from "../../services/auth.service";
 import { useUserStore } from "../../stores/userStore";
+import { getRoleFromToken } from "../../utils/decodeJWT";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -38,7 +39,13 @@ function LoginPage() {
     try {
       const userData = await login(formData);
       setAuth(userData?.user, userData.access_token, userData.refresh_token);
-      navigate("/dashboard");
+      const role = getRoleFromToken();
+
+      if (role === "admin") {
+        navigate("/admin/main");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       if (error.response?.status == 401) {
         setServerError("Невірний пароль або пошта");

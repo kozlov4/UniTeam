@@ -5,6 +5,7 @@ import { fadeUp, staggerContainer } from "../../utils/animations";
 export function FacultiesSection({ styles }) {
   return (
     <motion.section
+      id="faculties"
       className={styles.faculties}
       variants={fadeUp}
       initial="hidden"
@@ -39,7 +40,7 @@ export function FacultiesSection({ styles }) {
             </div>
 
             <h3>{item.title}</h3>
-            <p>Lorem ipsum tincidunt porttitor magna in ac dignissim sit nec.</p>
+            <p>{item.desc}</p>
 
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.94 }}>
               Подати заявку
