@@ -82,7 +82,7 @@ async def user_login(
         user.password_hash.encode("utf-8"),
     ):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or pass"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid email or pass"
         )
 
     if user.is_blocked:
